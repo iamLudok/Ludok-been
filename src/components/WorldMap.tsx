@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent, WheelEvent as ReactWheelEvent } from 'react'
 import { svgPaths, MAP_WIDTH, MAP_HEIGHT } from '../lib/geo'
 import type { CountryStatus } from '../types'
@@ -31,6 +31,7 @@ interface Gesture {
 const MIN_SCALE = 1
 const MAX_SCALE = 8
 const TAP_THRESHOLD = 4
+const MAP_ASPECT = MAP_HEIGHT / MAP_WIDTH
 
 const idleGesture: Gesture = {
   mode: 'none',
@@ -52,6 +53,10 @@ function fillFor(status: CountryStatus | undefined): string {
 export default function WorldMap({ statusByCode, onSelect, selected }: Props) {
   const paths = useMemo(() => svgPaths(), [])
   const containerRef = useRef<HTMLDivElement>(null)
+  // Ancho del contenedor: el mapa se ajusta siempre a todo el ancho (nunca se
+  // recorta por los lados), y su alto se deriva de la proporción real del
+  // mundo, centrado verticalmente en el espacio disponible.
+  const [baseWidth, setBaseWidth] = useState(0)
   const [transform, setTransform] = useState<Transform>({ scale: 1, x: 0, y: 0 })
   const transformRef = useRef(transform)
   transformRef.current = transform
@@ -59,23 +64,50 @@ export default function WorldMap({ statusByCode, onSelect, selected }: Props) {
   const pointers = useRef(new Map<number, { x: number; y: number }>())
   const gesture = useRef<Gesture>(idleGesture)
 
-  const clamp = useCallback((t: Transform): Transform => {
-    const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, t.scale))
+  useLayoutEffect(() => {
     const el = containerRef.current
-    if (!el) return { ...t, scale }
-    const rect = el.getBoundingClientRect()
-    const w = rect.width * scale
-    const h = rect.height * scale
-    const minX = Math.min(0, rect.width - w)
-    const minY = Math.min(0, rect.height - h)
-    return {
-      scale,
-      x: Math.min(0, Math.max(minX, t.x)),
-      y: Math.min(0, Math.max(minY, t.y)),
-    }
+    if (!el) return
+    const ro = new ResizeObserver((entries) => setBaseWidth(entries[0].contentRect.width))
+    ro.observe(el)
+    return () => ro.disconnect()
   }, [])
 
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    // React adjunta touchstart como pasivo por defecto, así que preventDefault()
+    // en el JSX no surte efecto. Lo hacemos con un listener nativo: sin esto,
+    // el navegador sintetiza un "click" de compatibilidad después del toque
+    // que cae sobre el backdrop de la ficha recién abierta y la cierra.
+    const stopCompatEvents = (e: TouchEvent) => e.preventDefault()
+    el.addEventListener('touchstart', stopCompatEvents, { passive: false })
+    return () => el.removeEventListener('touchstart', stopCompatEvents)
+  }, [])
+
+  function clamp(t: Transform): Transform {
+    const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, t.scale))
+    const el = containerRef.current
+    if (!el || baseWidth === 0) return { ...t, scale }
+    const rect = el.getBoundingClientRect()
+    const w = baseWidth * scale
+    const h = baseWidth * MAP_ASPECT * scale
+    const x = w <= rect.width ? (rect.width - w) / 2 : Math.min(0, Math.max(rect.width - w, t.x))
+    const y = h <= rect.height ? (rect.height - h) / 2 : Math.min(0, Math.max(rect.height - h, t.y))
+    return { scale, x, y }
+  }
+
+  // Recentra al medir el contenedor por primera vez o al cambiar de tamaño
+  // (p.ej. rotar el móvil).
+  useEffect(() => {
+    if (baseWidth > 0) setTransform((t) => clamp({ ...t, scale: MIN_SCALE }))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [baseWidth])
+
   function onPointerDown(e: ReactPointerEvent<HTMLDivElement>) {
+    // Evita que el navegador sintetice un "click" de compatibilidad tras el
+    // toque: llegaría después de abrir la ficha y, al caer sobre el backdrop
+    // (que cubre toda la pantalla), la cerraría inmediatamente.
+    e.preventDefault()
     e.currentTarget.setPointerCapture(e.pointerId)
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY })
     const t = transformRef.current
@@ -183,6 +215,9 @@ export default function WorldMap({ statusByCode, onSelect, selected }: Props) {
     )
   }
 
+  const svgWidth = baseWidth || 1
+  const svgHeight = svgWidth * MAP_ASPECT
+
   return (
     <div
       ref={containerRef}
@@ -195,13 +230,13 @@ export default function WorldMap({ statusByCode, onSelect, selected }: Props) {
     >
       <svg
         viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
-        width="100%"
-        height="100%"
-        preserveAspectRatio="xMidYMid slice"
+        width={svgWidth}
+        height={svgHeight}
         role="img"
         aria-label="Mapa mundial"
         style={{
           display: 'block',
+          visibility: baseWidth ? 'visible' : 'hidden',
           transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
           transformOrigin: '0 0',
         }}
