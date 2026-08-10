@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ludok Been">
-  <rect width="512" height="512" rx="112" fill="#0f172a"/>
-  <circle cx="256" cy="256" r="150" fill="none" stroke="#334155" stroke-width="14"/>
-  <path d="M106 256h300M256 106v300M154 168c60 40 144 40 204 0M154 344c60-40 144-40 204 0" fill="none" stroke="#334155" stroke-width="10"/>
-  <circle cx="256" cy="256" r="150" fill="none" stroke="#22c55e" stroke-width="14" stroke-dasharray="330 610" stroke-linecap="round" transform="rotate(-90 256 256)"/>
-  <path d="M256 196c-38 0-68 30-68 68 0 50 68 116 68 116s68-66 68-116c0-38-30-68-68-68zm0 94a26 26 0 110-52 26 26 0 010 52z" fill="#22c55e"/>
-</svg>

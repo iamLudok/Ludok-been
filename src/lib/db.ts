@@ -1,59 +1,46 @@
-import Dexie, { type Table } from 'dexie'
-import type { Visit, Settings } from '../types'
+// Único punto donde se toca expo-sqlite. El resto de la lógica pide la base
+// de datos a `dbRef`, para que se pueda ejecutar también en el escritorio.
+import * as SQLite from 'expo-sqlite'
+import { drizzle } from 'drizzle-orm/expo-sqlite'
+import * as schema from './schema'
+import { CREATE_SQL, MIGRATIONS, DB_VERSION } from './schemaSql'
+import { setDb } from './dbRef'
 
-export const SCHEMA_VERSION = 1
-
-export class LudokBeenDB extends Dexie {
-  visits!: Table<Visit, string>
-  settings!: Table<Settings, string>
-
-  constructor() {
-    super('ludok-been')
-    this.version(1).stores({
-      // La clave primaria de visits es el código de país (cca3).
-      // Solo se indexan los campos por los que consultamos/ordenamos.
-      visits: 'code, status, addedAt',
-      settings: 'id',
-    })
-  }
-}
-
-export const db = new LudokBeenDB()
-
-/** Genera un id único (usa crypto.randomUUID cuando está disponible). */
-export function newId(): string {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
-    return crypto.randomUUID()
-  }
-  return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2)
-}
-
-export const DEFAULT_SETTINGS: Settings = {
-  id: 'app',
-  theme: 'system',
-  lastBackup: 0,
-  schemaVersion: SCHEMA_VERSION,
-}
+export { SCHEMA_VERSION } from './version'
 
 /**
- * Lee la configuración SIN escribir. Apto para usar dentro de useLiveQuery
- * (que se ejecuta en una transacción de solo lectura). Si aún no existe la
- * fila, devuelve los valores por defecto en memoria.
+ * `enableChangeListener` es imprescindible: es lo que hace que `useLiveQuery`
+ * de Drizzle se entere de los cambios y vuelva a pintar las pantallas solo.
  */
-export async function readSettings(): Promise<Settings> {
-  return (await db.settings.get('app')) ?? DEFAULT_SETTINGS
+export const sqlite = SQLite.openDatabaseSync('ludok-been.db', {
+  enableChangeListener: true,
+})
+
+export const db = drizzle(sqlite, { schema })
+
+setDb(db)
+
+/**
+ * El esquema se crea de forma SÍNCRONA al importar este módulo, no en un
+ * efecto: si las tablas se crearan en un efecto, la primera vez que se abre la
+ * app recién instalada cualquier consulta hecha antes de que corriera el
+ * efecto fallaría con «no such table».
+ */
+function migrateSync(): void {
+  sqlite.execSync('PRAGMA journal_mode = WAL;')
+  const row = sqlite.getFirstSync<{ user_version: number }>('PRAGMA user_version')
+  const current = row?.user_version ?? 0
+  if (current >= DB_VERSION) return
+
+  sqlite.execSync(CREATE_SQL)
+
+  if (current > 0) {
+    for (const step of MIGRATIONS.slice(current - 1)) {
+      sqlite.execSync(step)
+    }
+  }
+
+  sqlite.execSync(`PRAGMA user_version = ${DB_VERSION}`)
 }
 
-/** Crea la fila de ajustes por defecto si no existe. Llamar al arrancar. */
-export async function ensureSettings(): Promise<Settings> {
-  const existing = await db.settings.get('app')
-  if (existing) return existing
-  await db.settings.put(DEFAULT_SETTINGS)
-  return DEFAULT_SETTINGS
-}
-
-/** Aplica cambios parciales a los ajustes (crea la fila si hace falta). */
-export async function updateSettings(patch: Partial<Omit<Settings, 'id'>>): Promise<void> {
-  const current = (await db.settings.get('app')) ?? DEFAULT_SETTINGS
-  await db.settings.put({ ...current, ...patch, id: 'app' })
-}
+migrateSync()

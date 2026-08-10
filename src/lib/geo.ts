@@ -1,6 +1,6 @@
 // Carga el mapa mundial (topojson de world-atlas) y expone las geometrías ya
 // resueltas a código de país, más ayudantes de proyección compartidos por el
-// mapa SVG y por el render de la imagen a compartir.
+// mapa SVG y por la tarjeta de estadísticas para compartir.
 import { geoEqualEarth, geoPath, type GeoProjection } from 'd3-geo'
 import { feature } from 'topojson-client'
 import type { Feature, Geometry } from 'geojson'

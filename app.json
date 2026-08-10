@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Ludok Been",
+    "slug": "ludok-been",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "ludokbeen",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.ludok.been",
+      "adaptiveIcon": {
+        "backgroundColor": "#0f172a",
+        "foregroundImage": "./assets/android-icon-foreground.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      "expo-sharing",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "backgroundColor": "#0f172a",
+          "imageWidth": 160
+        }
+      ]
+    ]
+  }
+}

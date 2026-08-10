@@ -1,36 +1,39 @@
 // Altas/bajas de países y cálculo de estadísticas.
-import { db } from './db'
+import { eq } from 'drizzle-orm'
+import { getDb } from './dbRef'
+import { visits as visitsTable } from './schema'
 import { getByCca3, WORLD_TOTAL, sovereignByContinent } from './countries'
 import type { CountryStatus, Visit } from '../types'
 
 /** Marca o actualiza el estado de un país. */
-export async function setStatus(
-  code: string,
-  status: CountryStatus,
-  year?: number,
-): Promise<void> {
+export async function setStatus(code: string, status: CountryStatus, year?: number): Promise<void> {
+  const db = getDb()
   const now = Date.now()
-  const existing = await db.visits.get(code)
-  const visit: Visit = {
+  const existing = (await db.select().from(visitsTable).where(eq(visitsTable.code, code)).limit(1))[0]
+  const visit = {
     code,
     status,
-    year: year ?? existing?.year,
+    year: year ?? existing?.year ?? null,
     addedAt: existing?.addedAt ?? now,
     updatedAt: now,
   }
-  await db.visits.put(visit)
+  await db.insert(visitsTable).values(visit).onConflictDoUpdate({ target: visitsTable.code, set: visit })
 }
 
 /** Actualiza solo el año de una visita existente. */
 export async function setYear(code: string, year?: number): Promise<void> {
-  const existing = await db.visits.get(code)
+  const db = getDb()
+  const existing = (await db.select().from(visitsTable).where(eq(visitsTable.code, code)).limit(1))[0]
   if (!existing) return
-  await db.visits.put({ ...existing, year, updatedAt: Date.now() })
+  await db
+    .update(visitsTable)
+    .set({ year: year ?? null, updatedAt: Date.now() })
+    .where(eq(visitsTable.code, code))
 }
 
 /** Quita el país (vuelve a "no marcado"). */
 export async function clearStatus(code: string): Promise<void> {
-  await db.visits.delete(code)
+  await getDb().delete(visitsTable).where(eq(visitsTable.code, code))
 }
 
 export interface ContinentStat {
@@ -50,7 +53,7 @@ export interface Stats {
   byContinent: ContinentStat[]
 }
 
-/** Calcula las estadísticas a partir de las visitas. */
+/** Calcula las estadísticas a partir de las visitas. Pura: no toca la base. */
 export function computeStats(visits: Visit[]): Stats {
   const been = visits.filter((v) => v.status === 'been')
   const want = visits.filter((v) => v.status === 'want')
