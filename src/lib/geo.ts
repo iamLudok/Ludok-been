@@ -1,7 +1,7 @@
 // Carga el mapa mundial (topojson de world-atlas) y expone las geometrías ya
 // resueltas a código de país, más ayudantes de proyección compartidos por el
 // mapa SVG y por la tarjeta de estadísticas para compartir.
-import { geoEqualEarth, geoPath, type GeoProjection } from 'd3-geo'
+import { geoMercator, geoPath, geoContains, type GeoProjection } from 'd3-geo'
 import { feature } from 'topojson-client'
 import type { Feature, Geometry } from 'geojson'
 import topology from 'world-atlas/countries-110m.json'
@@ -39,24 +39,82 @@ export const MAP_COUNTRIES: MapCountry[] = fc.features.map((f) => {
   }
 })
 
-/** Dimensiones de diseño del mapa (relación ~Equal Earth). */
+/**
+ * Dimensiones de diseño del mapa. La relación sale de recortar Mercator entre
+ * las latitudes de abajo: 800 × 535.
+ */
 export const MAP_WIDTH = 800
-export const MAP_HEIGHT = 400
+export const MAP_HEIGHT = 535
 
-/** Proyección Equal Earth ajustada al lienzo del mapa. */
-export function makeProjection(width = MAP_WIDTH, height = MAP_HEIGHT): GeoProjection {
-  return geoEqualEarth().fitSize(
-    [width, height],
-    fc as unknown as Parameters<GeoProjection['fitSize']>[1],
-  )
+/**
+ * Franja de latitudes que se dibuja. Mercator estira infinito hacia los polos,
+ * así que hay que cortar por algún sitio; estos son los límites que usan los
+ * mapas web de toda la vida — deja fuera la Antártida (que saldría deformada y
+ * ocupando media pantalla) y conserva todo lo demás.
+ */
+const CLIP = {
+  type: 'Polygon' as const,
+  coordinates: [
+    [
+      [-180, -58],
+      [180, -58],
+      [180, 84],
+      [-180, 84],
+      [-180, -58],
+    ],
+  ],
 }
+
+/**
+ * Proyección Mercator ajustada al lienzo. Se usa Mercator y no Equal Earth
+ * porque esta dibuja los meridianos curvos y el mundo con forma de óvalo, que
+ * se lee como «un globo aplastado»; Mercator da el rectángulo recto al que
+ * está acostumbrado cualquiera que haya abierto un mapa en el móvil.
+ */
+export function makeProjection(width = MAP_WIDTH, height = MAP_HEIGHT): GeoProjection {
+  const projection = geoMercator().fitSize(
+    [width, height],
+    CLIP as unknown as Parameters<GeoProjection['fitSize']>[1],
+  )
+  // Recorta lo que se salga del lienzo (si no, la Antártida se estira sin fin).
+  projection.clipExtent([
+    [0, 0],
+    [width, height],
+  ])
+  return projection
+}
+
+// Proyección por defecto, calculada una sola vez: la reutilizan tanto
+// `svgPaths()` (con las dimensiones por defecto) como `countryAt()`, para no
+// recalcular el ajuste de encaje (`fitSize`) en cada tap.
+const defaultProjection = makeProjection()
 
 /** Genera las cadenas `d` de cada país para un SVG. */
 export function svgPaths(width = MAP_WIDTH, height = MAP_HEIGHT) {
-  const path = geoPath(makeProjection(width, height))
+  const isDefault = width === MAP_WIDTH && height === MAP_HEIGHT
+  const path = geoPath(isDefault ? defaultProjection : makeProjection(width, height))
   return MAP_COUNTRIES.map((c) => ({
     cca3: c.cca3,
     name: c.name,
     d: path(c.feature) ?? '',
   }))
+}
+
+/**
+ * Código del país bajo un punto en coordenadas del viewBox por defecto
+ * (0..MAP_WIDTH, 0..MAP_HEIGHT), o null si no hay ninguno ahí (mar, hielo…).
+ *
+ * Se usa en vez de `onPress` por país: con ~250 países cubriendo casi todo el
+ * mapa, un segundo dedo del gesto de pellizco casi siempre cae encima de
+ * alguno, y el sistema de touch nativo de RN puede robarle ese puntero al
+ * reconocedor de gestos y corromper el pellizco. Invertir la proyección y
+ * mirar qué país contiene el punto evita depender de eso.
+ */
+export function countryAt(x: number, y: number): string | null {
+  const lonLat = defaultProjection.invert?.([x, y])
+  if (!lonLat) return null
+  for (const c of MAP_COUNTRIES) {
+    if (c.cca3 && geoContains(c.feature, lonLat)) return c.cca3
+  }
+  return null
 }

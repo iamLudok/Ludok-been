@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
-import { View, Text, TextInput, Pressable, SectionList, StyleSheet } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { View, TextInput, Pressable, SectionList, StyleSheet } from 'react-native'
+import { Screen } from '../../src/ui/Screen'
+import { Txt } from '../../src/ui/Text'
 import { usePalette } from '../../src/ui/ThemeProvider'
 import { useVisits } from '../../src/hooks/useVisits'
 import { COUNTRIES } from '../../src/lib/countries'
 import CountrySheet from '../../src/components/CountrySheet'
-import { space, radius } from '../../src/ui/theme'
+import { TransportIcon } from '../../src/ui/TransportIcon'
+import { radius, space } from '../../src/ui/theme'
 import type { Country, Visit } from '../../src/types'
 
 function normalize(s: string): string {
@@ -15,8 +17,6 @@ function normalize(s: string): string {
     .replace(/[̀-ͯ]/g, '')
 }
 
-const STATUS_ICON = { been: '✅', want: '⭐' } as const
-
 interface Section {
   title: string
   data: Country[]
@@ -24,15 +24,11 @@ interface Section {
 
 export default function ListaScreen() {
   const palette = usePalette()
-  const insets = useSafeAreaInsets()
   const { data: visits } = useVisits()
   const [query, setQuery] = useState('')
   const [selected, setSelected] = useState<string | null>(null)
 
-  const visitByCode = useMemo(
-    () => new Map<string, Visit>(visits.map((v) => [v.code, v])),
-    [visits],
-  )
+  const visitByCode = useMemo(() => new Map<string, Visit>(visits.map((v) => [v.code, v])), [visits])
 
   const sections = useMemo<Section[]>(() => {
     const q = normalize(query.trim())
@@ -50,80 +46,106 @@ export default function ListaScreen() {
 
   const current = selected ? visitByCode.get(selected) : undefined
 
-  const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: palette.bg },
-    h1: { fontSize: 22, fontWeight: '700', color: palette.text, padding: space.lg, paddingBottom: space.sm },
-    search: {
-      marginHorizontal: space.lg,
-      marginBottom: space.sm,
-      padding: 10,
-      borderRadius: radius.md,
-      borderWidth: 1,
-      borderColor: palette.border,
-      backgroundColor: palette.surface2,
-      color: palette.text,
-    },
-    sectionHeader: {
-      backgroundColor: palette.bg,
-      paddingHorizontal: space.lg,
-      paddingTop: space.md,
-      paddingBottom: space.xs,
-      fontSize: 15,
-      fontWeight: '600',
-      color: palette.text,
-    },
-    row: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'space-between',
-      paddingVertical: 12,
-      paddingHorizontal: space.lg,
-      borderTopWidth: 1,
-      borderTopColor: palette.border,
-    },
-    rowFirst: { borderTopWidth: 0 },
-    rowText: { color: palette.text, fontWeight: '500' },
-    rowMeta: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-    year: { color: palette.muted },
-    plus: { color: palette.muted },
-  })
-
   return (
-    <View style={[styles.container, { paddingBottom: insets.bottom }]}>
-      <Text style={styles.h1}>Lista</Text>
+    <Screen title="Lista" padded={false}>
       <TextInput
         value={query}
         onChangeText={setQuery}
         placeholder="Buscar país…"
-        placeholderTextColor={palette.muted}
-        style={styles.search}
+        placeholderTextColor={palette.faint}
+        style={[
+          styles.search,
+          { borderColor: palette.line, color: palette.fg, backgroundColor: palette.surface },
+        ]}
       />
       <SectionList
         sections={sections}
         keyExtractor={(item) => item.cca3}
-        renderSectionHeader={({ section }) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-        renderItem={({ item: c, index }) => {
+        stickySectionHeadersEnabled
+        keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ paddingBottom: space.xxl }}
+        renderSectionHeader={({ section }) => (
+          <Txt variant="label" tone="faint" style={[styles.sectionHeader, { backgroundColor: palette.bg }]}>
+            {section.title}
+          </Txt>
+        )}
+        renderItem={({ item: c }) => {
           const v = visitByCode.get(c.cca3)
           return (
             <Pressable
-              style={[styles.row, index === 0 && styles.rowFirst]}
               onPress={() => setSelected(c.cca3)}
+              style={({ pressed }) => [
+                styles.row,
+                { borderBottomColor: palette.line, opacity: pressed ? 0.6 : 1 },
+              ]}
             >
-              <Text style={styles.rowText}>{c.name}</Text>
-              <View style={styles.rowMeta}>
-                {v?.year ? <Text style={styles.year}>{v.year}</Text> : null}
-                {v ? <Text>{STATUS_ICON[v.status]}</Text> : <Text style={styles.plus}>＋</Text>}
-              </View>
+              <Txt variant="body" style={{ flex: 1 }} numberOfLines={1}>
+                {c.name}
+              </Txt>
+              {v?.transports?.length ? (
+                <View style={styles.transports}>
+                  {v.transports.slice(0, 4).map((t) => (
+                    <TransportIcon key={t} value={t} color={palette.faint} size={14} />
+                  ))}
+                  {v.transports.length > 4 && (
+                    <Txt variant="data" tone="faint">
+                      +{v.transports.length - 4}
+                    </Txt>
+                  )}
+                </View>
+              ) : null}
+              {v?.year ? (
+                <Txt variant="data" tone="faint">
+                  {v.year}
+                </Txt>
+              ) : null}
+              {v ? (
+                <View
+                  style={[
+                    styles.mark,
+                    v.status === 'been'
+                      ? { backgroundColor: palette.fg, borderColor: palette.fg }
+                      : { borderColor: palette.warn },
+                  ]}
+                />
+              ) : (
+                <View style={[styles.mark, { borderColor: palette.line }]} />
+              )}
             </Pressable>
           )
         }}
-        contentContainerStyle={{ paddingBottom: space.xl }}
-        stickySectionHeadersEnabled
       />
 
       {selected && (
         <CountrySheet code={selected} current={current} onClose={() => setSelected(null)} />
       )}
-    </View>
+    </Screen>
   )
 }
+
+const styles = StyleSheet.create({
+  search: {
+    marginHorizontal: space.lg,
+    marginBottom: space.sm,
+    borderWidth: 1,
+    borderRadius: radius.md,
+    paddingHorizontal: space.md,
+    paddingVertical: space.md,
+    fontSize: 14,
+  },
+  sectionHeader: {
+    paddingHorizontal: space.lg,
+    paddingTop: space.md,
+    paddingBottom: space.xs,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+    paddingHorizontal: space.lg,
+    paddingVertical: space.md,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  transports: { flexDirection: 'row', alignItems: 'center', gap: 3 },
+  mark: { width: 14, height: 14, borderRadius: radius.pill, borderWidth: 2 },
+})

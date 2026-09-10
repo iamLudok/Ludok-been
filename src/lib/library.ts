@@ -3,9 +3,13 @@ import { eq } from 'drizzle-orm'
 import { getDb } from './dbRef'
 import { visits as visitsTable } from './schema'
 import { getByCca3, WORLD_TOTAL, sovereignByContinent } from './countries'
+import { serializeTransports } from './rows'
 import type { CountryStatus, Visit } from '../types'
 
-/** Marca o actualiza el estado de un país. */
+/**
+ * Marca o actualiza el estado de un país. Los transportes ya marcados se
+ * conservan: no están en el `set`, así que un cambio de estado no los pisa.
+ */
 export async function setStatus(code: string, status: CountryStatus, year?: number): Promise<void> {
   const db = getDb()
   const now = Date.now()
@@ -18,6 +22,26 @@ export async function setStatus(code: string, status: CountryStatus, year?: numb
     updatedAt: now,
   }
   await db.insert(visitsTable).values(visit).onConflictDoUpdate({ target: visitsTable.code, set: visit })
+}
+
+/**
+ * Guarda los medios de transporte de un país. Si el país aún no estaba
+ * marcado, lo crea como visitado: marcar «llegué en avión» a un sitio donde no
+ * has estado no tendría sentido, y así no se pierde lo que acabas de tocar.
+ */
+export async function setTransports(code: string, transports: string[]): Promise<void> {
+  const db = getDb()
+  const now = Date.now()
+  const existing = (await db.select().from(visitsTable).where(eq(visitsTable.code, code)).limit(1))[0]
+  const row = {
+    code,
+    status: existing?.status ?? ('been' as CountryStatus),
+    year: existing?.year ?? null,
+    transports: serializeTransports(transports),
+    addedAt: existing?.addedAt ?? now,
+    updatedAt: now,
+  }
+  await db.insert(visitsTable).values(row).onConflictDoUpdate({ target: visitsTable.code, set: row })
 }
 
 /** Actualiza solo el año de una visita existente. */

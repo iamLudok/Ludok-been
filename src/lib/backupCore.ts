@@ -7,8 +7,9 @@
 import { eq } from 'drizzle-orm'
 import type { BaseSQLiteDatabase } from 'drizzle-orm/sqlite-core'
 import { visits as visitsTable, settings as settingsTable } from './schema'
+import { rowToVisit, visitToRow } from './rows'
 import { SCHEMA_VERSION } from './version'
-import type { BackupFile, Settings, Visit } from '../types'
+import type { BackupFile, Settings } from '../types'
 
 export { SCHEMA_VERSION }
 
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: Settings = {
   theme: 'system',
   lastBackup: 0,
   schemaVersion: SCHEMA_VERSION,
+  autoBackup: false,
 }
 
 export async function readSettings(database: LudokDb): Promise<Settings> {
@@ -45,12 +47,17 @@ export async function writeSettings(database: LudokDb, next: Settings): Promise<
 export async function exportAll(database: LudokDb): Promise<BackupFile> {
   const visitRows = await database.select().from(visitsTable)
   const settings = await readSettings(database)
+  // La contraseña de Nextcloud NO se exporta. Una copia se comparte y se mueve
+  // de sitio, y esa contraseña da permiso de ESCRITURA sobre tus ficheros; la
+  // propia copia acaba subida ahí, así que además viajaría con su propia llave
+  // dentro. Al restaurar en otro móvil hay que volver a escribirla, y punto.
+  const { nextcloudPassword: _omitted, ...safeSettings } = settings
   return {
     app: APP_ID,
     schemaVersion: SCHEMA_VERSION,
     exportedAt: Date.now(),
-    visits: visitRows.map((v) => ({ ...v, year: v.year ?? undefined })) as Visit[],
-    settings,
+    visits: visitRows.map(rowToVisit),
+    settings: safeSettings,
   }
 }
 
@@ -88,10 +95,19 @@ export async function importAll(database: LudokDb, raw: string): Promise<ImportR
   await database.transaction(async (tx: LudokDb) => {
     await tx.delete(visitsTable)
     if (parsed.visits.length) {
-      await tx.insert(visitsTable).values(parsed.visits.map((v) => ({ ...v, year: v.year ?? null })))
+      await tx.insert(visitsTable).values(parsed.visits.map(visitToRow))
     }
     if (parsed.settings) {
-      await writeSettings(tx, { ...parsed.settings, id: 'app', schemaVersion: SCHEMA_VERSION })
+      // La contraseña de Nextcloud no viene en la copia (no se exporta), así
+      // que se mantiene la que ya hubiera en este móvil.
+      const current = await readSettings(tx)
+      await writeSettings(tx, {
+        ...current,
+        ...parsed.settings,
+        nextcloudPassword: current.nextcloudPassword,
+        id: 'app',
+        schemaVersion: SCHEMA_VERSION,
+      })
     }
   })
 

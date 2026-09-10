@@ -17,7 +17,14 @@ import { join } from 'node:path'
 import { rmSync } from 'node:fs'
 import * as schema from '../src/lib/schema'
 import { CREATE_SQL } from '../src/lib/schemaSql'
-import { exportAll, importAll, type LudokDb } from '../src/lib/backupCore'
+import {
+  exportAll,
+  importAll,
+  readSettings,
+  writeSettings,
+  SCHEMA_VERSION,
+  type LudokDb,
+} from '../src/lib/backupCore'
 import type { BackupFile, Visit } from '../src/types'
 
 let failures = 0
@@ -52,8 +59,15 @@ function cleanupTempFiles() {
 /* --- Una copia con la forma EXACTA que exporta la PWA -------------------- */
 
 const visits: Visit[] = [
-  { code: 'ESP', status: 'been', year: 2019, addedAt: 1700000000000, updatedAt: 1700000000000 },
-  { code: 'FRA', status: 'been', addedAt: 1700000100000, updatedAt: 1700000100000 }, // sin año
+  {
+    code: 'ESP',
+    status: 'been',
+    year: 2019,
+    transports: ['plane', 'train', 'camello'], // dos de la lista y uno a mano
+    addedAt: 1700000000000,
+    updatedAt: 1700000000000,
+  },
+  { code: 'FRA', status: 'been', addedAt: 1700000100000, updatedAt: 1700000100000 }, // sin año ni transportes
   { code: 'JPN', status: 'want', addedAt: 1700000200000, updatedAt: 1700000200000 },
 ]
 
@@ -96,6 +110,14 @@ async function main() {
   console.log('\n=== 4. Los huecos siguen siendo huecos (año ausente, no 0/null) ===')
   const fra = out.visits.find((v) => v.code === 'FRA')!
   check('FRA sin año', !('year' in stripUndef(fra)))
+  check('FRA sin transportes (no lista vacía ni null)', !('transports' in stripUndef(fra)))
+
+  console.log('\n=== 4b. Los transportes van y vuelven enteros ===')
+  const esp = out.visits.find((v) => v.code === 'ESP')!
+  eq('ESP conserva los 3 transportes', esp.transports?.length, 3)
+  check('incluido el escrito a mano', esp.transports?.includes('camello') === true)
+  check('y los de la lista', esp.transports?.includes('plane') === true)
+  eq('en el mismo orden', esp.transports?.join(','), 'plane,train,camello')
 
   console.log('\n=== 5. Reemplaza en vez de acumular ===')
   const second: BackupFile = {
@@ -132,8 +154,50 @@ async function main() {
     importAll(await freshDb(), JSON.stringify({ ...pwaBackup, schemaVersion: 99 })),
   )
 
-  console.log('\n=== 8. La versión del formato sigue siendo la de la web ===')
-  eq('schemaVersion exportada', out.schemaVersion, 1)
+  console.log('\n=== 8. Versión del formato y compatibilidad hacia atrás ===')
+  eq('schemaVersion exportada', out.schemaVersion, SCHEMA_VERSION)
+  // Lo que de verdad importa: una copia hecha con una versión anterior tiene
+  // que seguir entrando. Los campos nuevos solo se añadieron, no se cambió
+  // nada de lo que ya había.
+  const dbOld = await freshDb()
+  const v1Backup = {
+    app: 'ludok-been',
+    schemaVersion: 1,
+    exportedAt: 1690000000000,
+    visits: [{ code: 'PRT', status: 'been', year: 2015, addedAt: 1, updatedAt: 1 }],
+    settings: { id: 'app', theme: 'light', lastBackup: 0, schemaVersion: 1 },
+  }
+  const oldRes = await importAll(dbOld, JSON.stringify(v1Backup))
+  eq('una copia v1 se importa igual', oldRes.visits, 1)
+  const oldOut = await exportAll(dbOld)
+  eq('con sus datos intactos', oldOut.visits[0]?.code, 'PRT')
+  eq('y su año', oldOut.visits[0]?.year, 2015)
+  check('sin transportes inventados', oldOut.visits[0]?.transports === undefined)
+
+  console.log('\n=== 9. La contraseña de Nextcloud NO sale en las copias ===')
+  // Una copia se comparte y acaba subida al propio Nextcloud: si llevara
+  // dentro la contraseña que da permiso de escritura allí, sería regalar la
+  // llave junto con la copia.
+  const dbNc = await freshDb()
+  await importAll(dbNc, JSON.stringify(pwaBackup))
+  await writeSettings(dbNc, {
+    ...(await readSettings(dbNc)),
+    nextcloudUrl: 'https://cloud.example.com',
+    nextcloudUser: 'luken',
+    nextcloudPassword: 'SECRETO-QUE-NO-DEBE-SALIR',
+    nextcloudFolder: 'Ludok Been',
+  })
+  const exported = await exportAll(dbNc)
+  const asText = JSON.stringify(exported)
+  check('el texto de la copia no contiene la contraseña', !asText.includes('SECRETO-QUE-NO-DEBE-SALIR'))
+  eq('ni el campo existe', exported.settings?.nextcloudPassword, undefined)
+  eq('la dirección sí se guarda (no es secreta)', exported.settings?.nextcloudUrl, 'https://cloud.example.com')
+  // Y al importar en otro móvil, la contraseña de ESE móvil no se pisa con nada.
+  const dbOtro = await freshDb()
+  await writeSettings(dbOtro, { ...(await readSettings(dbOtro)), nextcloudPassword: 'LA-MIA' })
+  await importAll(dbOtro, JSON.stringify(exported))
+  const restored = await readSettings(dbOtro)
+  eq('no borra la contraseña ya guardada en este móvil', restored.nextcloudPassword, 'LA-MIA')
 
   console.log(
     failures === 0

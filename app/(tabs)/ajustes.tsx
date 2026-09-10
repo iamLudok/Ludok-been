@@ -1,146 +1,128 @@
 import { useState } from 'react'
-import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { ScrollView, View, StyleSheet, Alert } from 'react-native'
+import { Screen, Card } from '../../src/ui/Screen'
+import { Txt } from '../../src/ui/Text'
+import { Button } from '../../src/ui/Button'
+import { Chips } from '../../src/ui/Chips'
 import { usePalette } from '../../src/ui/ThemeProvider'
+import { radius, space } from '../../src/ui/theme'
 import { useSettings } from '../../src/hooks/useSettings'
 import { useVisits } from '../../src/hooks/useVisits'
-import { space, radius } from '../../src/ui/theme'
-import { shareBackup, pickJsonFile, importAll, daysSinceBackup } from '../../src/lib/backup'
 import { updateSettings } from '../../src/lib/settings'
-import type { Settings } from '../../src/types'
+import { shareBackup, pickJsonFile, importAll, daysSinceBackup } from '../../src/lib/backup'
+import { computeStats } from '../../src/lib/library'
+import { NextcloudSettings } from '../../src/components/NextcloudSettings'
 
-type Msg = { kind: 'ok' | 'err'; text: string } | null
+const THEMES = [
+  { key: 'system' as const, label: 'Sistema' },
+  { key: 'dark' as const, label: 'Oscuro' },
+  { key: 'light' as const, label: 'Claro' },
+]
 
-export default function AjustesScreen() {
-  const palette = usePalette()
-  const insets = useSafeAreaInsets()
+export default function SettingsScreen() {
   const settings = useSettings()
+  const palette = usePalette()
   const { data: visits } = useVisits()
-  const [msg, setMsg] = useState<Msg>(null)
   const [busy, setBusy] = useState(false)
 
+  const stats = computeStats(visits)
   const days = daysSinceBackup(settings.lastBackup)
+  const lastBackupText =
+    days === null ? 'nunca' : days === 0 ? 'hoy' : `hace ${days} ${days === 1 ? 'día' : 'días'}`
 
-  async function handleExport() {
+  const doExport = async () => {
     setBusy(true)
-    setMsg(null)
     try {
       await shareBackup()
-      setMsg({ kind: 'ok', text: 'Copia generada.' })
-    } catch {
-      setMsg({ kind: 'err', text: 'No se pudo generar la copia.' })
+    } catch (e) {
+      Alert.alert('No se pudo exportar', e instanceof Error ? e.message : 'Error desconocido')
     } finally {
       setBusy(false)
     }
   }
 
-  async function handleImport() {
+  const doImport = async () => {
     setBusy(true)
-    setMsg(null)
     try {
       const raw = await pickJsonFile()
-      if (raw === null) return // cancelado
-      const res = await importAll(raw)
-      setMsg({ kind: 'ok', text: `Importados ${res.visits} países.` })
-    } catch (err) {
-      setMsg({ kind: 'err', text: err instanceof Error ? err.message : 'Error al importar.' })
+      if (!raw) return
+      // Se pregunta DESPUÉS de elegir el fichero, para que la decisión se tome
+      // sabiendo ya qué copia es.
+      Alert.alert('Importar copia', 'Esto reemplaza todos los países que tienes ahora.', [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Reemplazar', style: 'destructive', onPress: () => runImport(raw) },
+      ])
+    } catch (e) {
+      Alert.alert('No se pudo leer', e instanceof Error ? e.message : 'Error desconocido')
     } finally {
       setBusy(false)
     }
   }
 
-  async function handleTheme(theme: Settings['theme']) {
-    await updateSettings({ theme })
+  const runImport = async (raw: string) => {
+    setBusy(true)
+    try {
+      const res = await importAll(raw)
+      Alert.alert('Importado', `${res.visits} países.`)
+    } catch (e) {
+      Alert.alert('Error al importar', e instanceof Error ? e.message : 'Error desconocido')
+    } finally {
+      setBusy(false)
+    }
   }
 
-  const styles = makeStyles(palette)
-
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: palette.bg }}
-      contentContainerStyle={{ padding: space.lg, paddingBottom: space.lg + insets.bottom }}
-    >
-      <Text style={styles.h1}>Ajustes</Text>
+    <Screen title="Ajustes" padded={false}>
+      <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
+        {/* Copias — lo más importante de la app */}
+        <Card>
+          <Txt variant="title">Copia de seguridad</Txt>
+          <Txt variant="small" tone="muted">
+            Tus datos viven solo en este móvil. Exporta a menudo y guarda el fichero donde quieras.
+          </Txt>
+          <View style={[styles.stat, { borderColor: palette.line }]}>
+            <Row label="Visitados" value={String(stats.been)} />
+            <Row label="Quiero ir" value={String(stats.want)} />
+            <Row label="Del mundo" value={`${stats.percent}%`} />
+            <Row label="Continentes" value={String(stats.continentsVisited)} />
+            <Row label="Última copia" value={lastBackupText} />
+          </View>
+          <Button title="Exportar copia" kind="primary" onPress={doExport} disabled={busy} />
+          <Button title="Importar copia" onPress={doImport} disabled={busy} />
+        </Card>
 
-      <Text style={styles.h2}>Copia de seguridad</Text>
-      <View style={styles.card}>
-        <Text style={styles.muted}>
-          {days === null
-            ? 'Aún no has hecho ninguna copia.'
-            : days === 0
-              ? 'Última copia: hoy.'
-              : `Última copia hace ${days} día${days === 1 ? '' : 's'}.`}{' '}
-          Tienes {visits.length} países guardados.
-        </Text>
+        <NextcloudSettings />
 
-        <View style={styles.row}>
-          <Pressable
-            style={[styles.btn, styles.btnPrimary]}
-            onPress={handleExport}
-            disabled={busy}
-          >
-            <Text style={styles.btnPrimaryText}>⬇️ Exportar copia</Text>
-          </Pressable>
-          <Pressable style={styles.btn} onPress={handleImport} disabled={busy}>
-            <Text style={styles.btnText}>⬆️ Importar copia</Text>
-          </Pressable>
-        </View>
+        {/* Tema */}
+        <Card>
+          <Txt variant="title">Tema</Txt>
+          <Txt variant="small" tone="muted">
+            La app está diseñada en oscuro, pero el claro está cuidado igual.
+          </Txt>
+          <Chips options={THEMES} value={settings.theme} onChange={(theme) => updateSettings({ theme })} />
+        </Card>
 
-        {msg && (
-          <Text style={{ color: msg.kind === 'ok' ? palette.accent : palette.danger, marginTop: space.sm }}>
-            {msg.text}
-          </Text>
-        )}
-
-        <Text style={[styles.muted, { fontSize: 12.5, marginTop: space.sm }]}>
-          Importar reemplaza los datos actuales. Guarda el fichero en un sitio seguro (Nextcloud,
-          Drive, un USB…).
-        </Text>
-      </View>
-
-      <Text style={styles.h2}>Tema</Text>
-      <View style={styles.card}>
-        <View style={styles.row}>
-          {(['system', 'dark', 'light'] as const).map((t) => (
-            <Pressable
-              key={t}
-              style={[styles.btn, settings.theme === t && styles.btnPrimary]}
-              onPress={() => handleTheme(t)}
-            >
-              <Text style={settings.theme === t ? styles.btnPrimaryText : styles.btnText}>
-                {t === 'system' ? 'Sistema' : t === 'dark' ? 'Oscuro' : 'Claro'}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
-      </View>
-    </ScrollView>
+        <Txt variant="small" tone="faint" style={{ textAlign: 'center' }}>
+          Ludok Been · tus datos, tuyos.
+        </Txt>
+      </ScrollView>
+    </Screen>
   )
 }
 
-function makeStyles(palette: ReturnType<typeof usePalette>) {
-  return StyleSheet.create({
-    h1: { fontSize: 22, fontWeight: '700', color: palette.text, marginBottom: space.sm },
-    h2: { fontSize: 16, fontWeight: '600', color: palette.text, marginTop: space.lg, marginBottom: space.sm },
-    muted: { color: palette.muted, fontSize: 14 },
-    card: {
-      backgroundColor: palette.surface,
-      borderWidth: 1,
-      borderColor: palette.border,
-      borderRadius: radius.lg,
-      padding: space.md,
-    },
-    row: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm, marginTop: space.md },
-    btn: {
-      borderWidth: 1,
-      borderColor: palette.border,
-      backgroundColor: palette.surface2,
-      borderRadius: radius.md,
-      paddingVertical: 10,
-      paddingHorizontal: 14,
-    },
-    btnText: { color: palette.text, fontWeight: '600' },
-    btnPrimary: { backgroundColor: palette.accent, borderColor: palette.accent },
-    btnPrimaryText: { color: '#052e16', fontWeight: '700' },
-  })
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <View style={styles.row}>
+      <Txt variant="small" tone="muted">
+        {label}
+      </Txt>
+      <Txt variant="data">{value}</Txt>
+    </View>
+  )
 }
+
+const styles = StyleSheet.create({
+  content: { padding: space.lg, paddingBottom: space.xxl, gap: space.md },
+  stat: { borderRadius: radius.md, borderWidth: StyleSheet.hairlineWidth, padding: space.md, gap: space.xs },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
+})

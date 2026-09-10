@@ -12,6 +12,12 @@ export interface Visit {
   status: CountryStatus
   /** año de la visita (opcional). undefined = sin fecha. */
   year?: number
+  /**
+   * Medios de transporte usados en ese país. Los de la lista de siempre van
+   * por su clave ('plane', 'train'…); cualquier otro valor es uno escrito a
+   * mano y se guarda tal cual. Ausente = no se ha marcado ninguno.
+   */
+  transports?: string[]
   addedAt: number
   updatedAt: number
 }
@@ -21,6 +27,14 @@ export interface Settings {
   theme: 'dark' | 'light' | 'system'
   lastBackup: number
   schemaVersion: number
+  /** Copia automática a un Nextcloud propio (opcional). */
+  nextcloudUrl?: string
+  nextcloudUser?: string
+  /** Contraseña de aplicación de Nextcloud. Nunca se incluye en las copias exportadas. */
+  nextcloudPassword?: string
+  nextcloudFolder?: string
+  autoBackup?: boolean
+  lastAutoBackupAt?: number
 }
 
 /** Metadato estático de país (empaquetado en src/data/countries.json). */

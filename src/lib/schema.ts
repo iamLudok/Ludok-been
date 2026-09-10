@@ -8,6 +8,8 @@ export const visits = sqliteTable('visits', {
   code: text('code').primaryKey(),
   status: text('status').$type<CountryStatus>().notNull(),
   year: integer('year'),
+  /** Lista de transportes serializada como JSON. Ver `rows.ts`. */
+  transports: text('transports'),
   addedAt: integer('addedAt').notNull(),
   updatedAt: integer('updatedAt').notNull(),
 })
@@ -17,6 +19,12 @@ export const settings = sqliteTable('settings', {
   theme: text('theme').$type<'dark' | 'light' | 'system'>().notNull().default('system'),
   lastBackup: integer('lastBackup').notNull().default(0),
   schemaVersion: integer('schemaVersion').notNull(),
+  nextcloudUrl: text('nextcloudUrl'),
+  nextcloudUser: text('nextcloudUser'),
+  nextcloudPassword: text('nextcloudPassword'),
+  nextcloudFolder: text('nextcloudFolder'),
+  autoBackup: integer('autoBackup', { mode: 'boolean' }),
+  lastAutoBackupAt: integer('lastAutoBackupAt'),
 })
 
 export type VisitRow = typeof visits.$inferSelect

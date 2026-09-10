@@ -14,7 +14,8 @@ import * as schema from '../src/lib/schema'
 import { CREATE_SQL } from '../src/lib/schemaSql'
 import { setDb } from '../src/lib/dbRef'
 import type { LudokDb } from '../src/lib/backupCore'
-import { setStatus, setYear, clearStatus, computeStats } from '../src/lib/library'
+import { setStatus, setYear, clearStatus, computeStats, setTransports } from '../src/lib/library'
+import { countByTransport } from '../src/lib/transports'
 import { exportAll } from '../src/lib/backupCore'
 import type { Visit } from '../src/types'
 
@@ -73,6 +74,42 @@ async function main() {
   await clearStatus('ESP')
   out = await exportAll(await currentDb())
   check('ESP ya no está', !out.visits.some((v) => v.code === 'ESP'))
+
+  console.log('\n=== 3b. Transportes ===')
+  await useFreshDb()
+  await setStatus('ESP', 'been', 2019)
+  await setTransports('ESP', ['plane', 'train'])
+  let espOut = (await exportAll(await currentDb())).visits.find((v) => v.code === 'ESP')
+  eq('se guardan', espOut?.transports?.join(','), 'plane,train')
+
+  // Cambiar de estado NO puede llevarse por delante los transportes: son dos
+  // acciones distintas de la misma ficha y es fácil que se pisen.
+  await setStatus('ESP', 'want')
+  espOut = (await exportAll(await currentDb())).visits.find((v) => v.code === 'ESP')
+  eq('sobreviven a un cambio de estado', espOut?.transports?.join(','), 'plane,train')
+  eq('y el estado sí cambia', espOut?.status, 'want')
+
+  // Marcar transporte en un país sin marcar lo crea como visitado.
+  await setTransports('ITA', ['boat'])
+  const itaOut = (await exportAll(await currentDb())).visits.find((v) => v.code === 'ITA')
+  eq('marcar transporte en un país nuevo lo crea', itaOut?.status, 'been')
+  eq('con su transporte', itaOut?.transports?.join(','), 'boat')
+
+  // Vaciar la lista la deja ausente, no como lista vacía.
+  await setTransports('ITA', [])
+  const itaEmpty = (await exportAll(await currentDb())).visits.find((v) => v.code === 'ITA')
+  check('vaciar deja el campo ausente', itaEmpty?.transports === undefined)
+
+  console.log('\n=== 3c. Recuento por transporte ===')
+  const counts = countByTransport([
+    { transports: ['plane', 'train'] },
+    { transports: ['plane'] },
+    { transports: ['plane', 'plane'] }, // repetido: cuenta una vez
+    { transports: undefined },
+  ])
+  eq('avión en 3 países', counts.find((c) => c.value === 'plane')?.count, 3)
+  eq('tren en 1', counts.find((c) => c.value === 'train')?.count, 1)
+  eq('ordenado de más a menos', counts[0]?.value, 'plane')
 
   console.log('\n=== 4. computeStats: solo cuentan los soberanos ===')
   await useFreshDb()

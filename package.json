@@ -11,6 +11,8 @@
     "expo-document-picker": "~57.0.1",
     "expo-file-system": "~57.0.1",
     "expo-linking": "~57.0.4",
+    "expo-navigation-bar": "~57.0.2",
+    "expo-network": "~57.0.1",
     "expo-router": "~57.0.8",
     "expo-sharing": "~57.0.7",
     "expo-splash-screen": "^57.0.5",
@@ -25,7 +27,6 @@
     "react-native-screens": "~4.26.0",
     "react-native-svg": "15.15.4",
     "react-native-url-polyfill": "^4.0.0",
-    "react-native-view-shot": "5.1.0",
     "react-native-worklets": "0.10.1",
     "topojson-client": "^3.1.0",
     "world-atlas": "^2.0.2"
@@ -47,8 +48,9 @@
     "verify:data": "tsx verify/data.ts",
     "verify:library": "tsx verify/library.ts",
     "verify:migration": "tsx verify/migration.ts",
-    "verify": "npm run verify:data && npm run verify:library && npm run verify:migration",
+    "verify": "npm run verify:data && npm run verify:library && npm run verify:migration && npm run verify:map",
     "typecheck": "tsc --noEmit && tsc --noEmit -p verify",
-    "build:apk": "bash scripts/build-apk.sh"
+    "build:apk": "bash scripts/build-apk.sh",
+    "verify:map": "tsx verify/map.ts"
   }
 }
