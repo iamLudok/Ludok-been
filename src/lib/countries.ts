@@ -4,9 +4,16 @@ import type { Country } from '../types'
 
 export const COUNTRIES = raw as Country[]
 
-/** Países soberanos = denominador del "% del mundo". */
-export const SOVEREIGN = COUNTRIES.filter((c) => c.independent)
-export const WORLD_TOTAL = SOVEREIGN.length
+/** cca3 al que cuenta cada país para el "% del mundo": el suyo propio si es
+ * soberano, o `sovereignCode` si es una de varias naciones que comparten un
+ * solo país soberano (p.ej. las 4 del Reino Unido comparten "GBR"). */
+export function sovereignSlot(c: Country): string | undefined {
+  return c.independent ? c.cca3 : c.sovereignCode
+}
+
+/** Nº de países soberanos = denominador del "% del mundo". */
+export const WORLD_TOTAL = new Set(COUNTRIES.map(sovereignSlot).filter((s): s is string => !!s))
+  .size
 
 const byCca3 = new Map(COUNTRIES.map((c) => [c.cca3, c]))
 const byCcn3 = new Map(COUNTRIES.map((c) => [c.ccn3, c]))
@@ -34,7 +41,15 @@ export function continents(): string[] {
 
 /** Nº de países soberanos por continente (denominadores del desglose). */
 export function sovereignByContinent(): Map<string, number> {
+  const slotsByContinent = new Map<string, Set<string>>()
+  for (const c of COUNTRIES) {
+    const slot = sovereignSlot(c)
+    if (!slot) continue
+    const slots = slotsByContinent.get(c.continent) ?? new Set<string>()
+    slots.add(slot)
+    slotsByContinent.set(c.continent, slots)
+  }
   const m = new Map<string, number>()
-  for (const c of SOVEREIGN) m.set(c.continent, (m.get(c.continent) ?? 0) + 1)
+  for (const [continent, slots] of slotsByContinent) m.set(continent, slots.size)
   return m
 }

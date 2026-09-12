@@ -594,6 +594,16 @@
     "independent": true
   },
   {
+    "cca3": "SCT",
+    "cca2": "GB",
+    "ccn3": "",
+    "name": "Escocia",
+    "continent": "Europa",
+    "subregion": "Northern Europe",
+    "independent": false,
+    "sovereignCode": "GBR"
+  },
+  {
     "cca3": "SVK",
     "cca2": "SK",
     "ccn3": "703",
@@ -691,6 +701,16 @@
     "continent": "África",
     "subregion": "Middle Africa",
     "independent": true
+  },
+  {
+    "cca3": "WLS",
+    "cca2": "GB",
+    "ccn3": "",
+    "name": "Gales",
+    "continent": "Europa",
+    "subregion": "Northern Europe",
+    "independent": false,
+    "sovereignCode": "GBR"
   },
   {
     "cca3": "GMB",
@@ -891,6 +911,16 @@
     "independent": true
   },
   {
+    "cca3": "ENG",
+    "cca2": "GB",
+    "ccn3": "",
+    "name": "Inglaterra",
+    "continent": "Europa",
+    "subregion": "Northern Europe",
+    "independent": false,
+    "sovereignCode": "GBR"
+  },
+  {
     "cca3": "IRQ",
     "cca2": "IQ",
     "ccn3": "368",
@@ -916,6 +946,16 @@
     "continent": "Europa",
     "subregion": "Northern Europe",
     "independent": true
+  },
+  {
+    "cca3": "NIR",
+    "cca2": "GB",
+    "ccn3": "",
+    "name": "Irlanda del Norte",
+    "continent": "Europa",
+    "subregion": "Northern Europe",
+    "independent": false,
+    "sovereignCode": "GBR"
   },
   {
     "cca3": "BVT",
@@ -1635,7 +1675,7 @@
     "name": "Palestina",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": false
+    "independent": true
   },
   {
     "cca3": "PAN",
@@ -1708,15 +1748,6 @@
     "continent": "América",
     "subregion": "Caribbean",
     "independent": false
-  },
-  {
-    "cca3": "GBR",
-    "cca2": "GB",
-    "ccn3": "826",
-    "name": "Reino Unido",
-    "continent": "Europa",
-    "subregion": "Northern Europe",
-    "independent": true
   },
   {
     "cca3": "CAF",

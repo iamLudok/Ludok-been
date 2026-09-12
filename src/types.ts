@@ -48,6 +48,13 @@ export interface Country {
   subregion: string
   /** true si es un país soberano (cuenta para el "% del mundo"). */
   independent: boolean
+  /**
+   * Para territorios no soberanos que deben seguir sumando 1 solo país al
+   * "% del mundo" entre varios (p.ej. Inglaterra/Escocia/Gales/Irlanda del
+   * Norte comparten "GBR"): cca3 del país al que cuentan. Ver WORLD_TOTAL y
+   * sovereignByContinent en lib/countries.ts.
+   */
+  sovereignCode?: string
 }
 
 /** Estructura del fichero de copia de seguridad (export/import). */

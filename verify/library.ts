@@ -15,6 +15,7 @@ import { CREATE_SQL } from '../src/lib/schemaSql'
 import { setDb } from '../src/lib/dbRef'
 import type { LudokDb } from '../src/lib/backupCore'
 import { setStatus, setYear, clearStatus, computeStats, setTransports } from '../src/lib/library'
+import { WORLD_TOTAL, sovereignByContinent } from '../src/lib/countries'
 import { countByTransport } from '../src/lib/transports'
 import { exportAll } from '../src/lib/backupCore'
 import type { Visit } from '../src/types'
@@ -125,6 +126,29 @@ async function main() {
   eq('continentsVisited = 1 (solo Europa cuenta, ATA no es soberano)', stats.continentsVisited, 1)
   const europa = stats.byContinent.find((c) => c.continent === 'Europa')
   eq('Europa tiene 2 been (ESP+FRA, no ATA)', europa?.been, 2)
+
+  console.log('\n=== 5. Reino Unido: 4 naciones, pero 1 solo país soberano ===')
+  // Inglaterra/Escocia/Gales/Irlanda del Norte se marcan por separado (y
+  // cuentan por separado en el recuento bruto de "been"), pero para el "%
+  // del mundo" siguen sumando 1 solo país soberano (GBR vía sovereignCode),
+  // igual que antes de partirlo en 4.
+  eq('195 países soberanos (194 + el Reino Unido agrupado)', WORLD_TOTAL, 195)
+  eq('Europa tiene 1 soberano más por el Reino Unido', sovereignByContinent().get('Europa'), 45)
+
+  await useFreshDb()
+  await setStatus('ENG', 'been', 2019)
+  const onlyEngland = computeStats((await exportAll(await currentDb())).visits)
+  eq('been = 1 (Inglaterra cuenta en el recuento bruto)', onlyEngland.been, 1)
+  eq('Europa: 1 soberano visitado (el Reino Unido, vía Inglaterra)', onlyEngland.byContinent.find((c) => c.continent === 'Europa')?.been, 1)
+
+  await setStatus('SCT', 'been', 2022) // Escocia, misma sovereignCode "GBR"
+  const englandAndScotland = computeStats((await exportAll(await currentDb())).visits)
+  eq('been = 2 (Inglaterra y Escocia cuentan por separado)', englandAndScotland.been, 2)
+  eq(
+    'pero Europa sigue en 1 soberano (no se cuenta el Reino Unido dos veces)',
+    englandAndScotland.byContinent.find((c) => c.continent === 'Europa')?.been,
+    1,
+  )
 
   console.log(
     failures === 0

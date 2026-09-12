@@ -5,10 +5,19 @@ import { geoMercator, geoPath, geoContains, type GeoProjection } from 'd3-geo'
 import { feature } from 'topojson-client'
 import type { Feature, Geometry } from 'geojson'
 import topology from 'world-atlas/countries-110m.json'
+import ukNations from '../data/uk-nations.json'
 import { getByCcn3, nameOf } from './countries'
 
 // Territorios de world-atlas sin ISO numérico que sí queremos poder marcar.
 const NAME_FALLBACK: Record<string, string> = { Kosovo: 'UNK' }
+
+// El atlas mundial (resolución 110m) trae el Reino Unido como una sola forma:
+// no distingue Inglaterra/Escocia/Gales/Irlanda del Norte. Como esas 4
+// naciones se cuentan como países separados (ver countries.json), se
+// descarta ese polígono único y se sustituye por las 4 formas propias de
+// `uk-nations.json` (recortadas de Natural Earth 1:50m `admin_0_map_subunits`,
+// dominio público, ver scripts/gen-countries.mjs).
+const UK_ATLAS_ID = '826'
 
 interface AtlasFeature extends Feature<Geometry> {
   id?: string | number
@@ -21,6 +30,17 @@ const fc = feature(
   (topology as unknown as { objects: { countries: never } }).objects.countries,
 ) as unknown as { features: AtlasFeature[] }
 
+const worldFeatures = fc.features.filter((f) => String(f.id) !== UK_ATLAS_ID)
+
+const ukFeatures: AtlasFeature[] = (
+  ukNations as { cca3: string; geometry: Geometry }[]
+).map((n) => ({
+  type: 'Feature',
+  id: n.cca3,
+  properties: { name: nameOf(n.cca3) },
+  geometry: n.geometry,
+}))
+
 export interface MapCountry {
   /** código cca3 resuelto, o null si el territorio no casa con ningún país. */
   cca3: string | null
@@ -28,16 +48,19 @@ export interface MapCountry {
   feature: AtlasFeature
 }
 
-export const MAP_COUNTRIES: MapCountry[] = fc.features.map((f) => {
-  const meta = f.id != null ? getByCcn3(f.id) : undefined
-  const fallback = f.properties?.name ? NAME_FALLBACK[f.properties.name] : undefined
-  const cca3 = meta?.cca3 ?? fallback ?? null
-  return {
-    cca3,
-    name: cca3 ? nameOf(cca3) : (f.properties?.name ?? '—'),
-    feature: f,
-  }
-})
+export const MAP_COUNTRIES: MapCountry[] = [
+  ...worldFeatures.map((f) => {
+    const meta = f.id != null ? getByCcn3(f.id) : undefined
+    const fallback = f.properties?.name ? NAME_FALLBACK[f.properties.name] : undefined
+    const cca3 = meta?.cca3 ?? fallback ?? null
+    return {
+      cca3,
+      name: cca3 ? nameOf(cca3) : (f.properties?.name ?? '—'),
+      feature: f,
+    }
+  }),
+  ...ukFeatures.map((f) => ({ cca3: String(f.id), name: nameOf(String(f.id)), feature: f })),
+]
 
 /**
  * Dimensiones de diseño del mapa. La relación sale de recortar Mercator entre

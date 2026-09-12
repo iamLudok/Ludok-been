@@ -2,7 +2,7 @@
 import { eq } from 'drizzle-orm'
 import { getDb } from './dbRef'
 import { visits as visitsTable } from './schema'
-import { getByCca3, WORLD_TOTAL, sovereignByContinent } from './countries'
+import { getByCca3, WORLD_TOTAL, sovereignByContinent, sovereignSlot } from './countries'
 import { serializeTransports } from './rows'
 import type { CountryStatus, Visit } from '../types'
 
@@ -83,23 +83,28 @@ export function computeStats(visits: Visit[]): Stats {
   const want = visits.filter((v) => v.status === 'want')
 
   const totals = sovereignByContinent()
-  const beenByContinent = new Map<string, number>()
+  // Un set de slots (no un contador) para que, si se visitan varias naciones
+  // que comparten el mismo `sovereignCode` (p.ej. Escocia y Gales), el país
+  // soberano solo sume 1 vez, igual que en sovereignByContinent/WORLD_TOTAL.
+  const beenByContinent = new Map<string, Set<string>>()
   for (const v of been) {
     const c = getByCca3(v.code)
-    // Solo cuentan los soberanos para el % (coherente con WORLD_TOTAL).
-    if (!c?.independent) continue
-    beenByContinent.set(c.continent, (beenByContinent.get(c.continent) ?? 0) + 1)
+    const slot = c ? sovereignSlot(c) : undefined
+    if (!c || !slot) continue
+    const slots = beenByContinent.get(c.continent) ?? new Set<string>()
+    slots.add(slot)
+    beenByContinent.set(c.continent, slots)
   }
 
   const byContinent: ContinentStat[] = [...totals.entries()]
     .map(([continent, total]) => ({
       continent,
       total,
-      been: beenByContinent.get(continent) ?? 0,
+      been: beenByContinent.get(continent)?.size ?? 0,
     }))
     .sort((a, b) => b.been - a.been || a.continent.localeCompare(b.continent, 'es'))
 
-  const beenSovereign = [...beenByContinent.values()].reduce((a, b) => a + b, 0)
+  const beenSovereign = [...beenByContinent.values()].reduce((a, s) => a + s.size, 0)
 
   return {
     been: been.length,
