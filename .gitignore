@@ -41,3 +41,7 @@ yarn-error.*
 /android
 keystore.properties
 *.keystore
+
+# instrucciones locales para agentes de IA
+AGENTS.md
+CLAUDE.md
