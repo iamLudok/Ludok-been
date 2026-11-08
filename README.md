@@ -22,15 +22,12 @@ Your data lives on your phone. No accounts. No servers. No tracking.
 
 ---
 
-<!--
-## Screenshots
-
 <p align="center">
-  <img src="docs/screenshots/map.png" width="230" alt="World map">
-  <img src="docs/screenshots/list.png" width="230" alt="Country list">
-  <img src="docs/screenshots/stats.png" width="230" alt="Stats">
+<img src="docs/screenshots/map.webp" alt="World map with visited countries" width="260">&nbsp;
+<img src="docs/screenshots/stats.webp" alt="Stats: % of the world, transport and continents" width="260">
 </p>
--->
+
+<p align="center"><sub>Map · Stats</sub></p>
 
 ## Table of Contents
 
