@@ -19,6 +19,7 @@ import { WORLD_TOTAL, sovereignByContinent, COUNTRIES, TERRITORIES, getByCca3, t
 import { countByTransport } from '../src/lib/transports'
 import { exportAll, importAll, SCHEMA_VERSION } from '../src/lib/backupCore'
 import type { Visit } from '../src/types'
+import { achievementsOf, longestBorderChain, pendingNotices, USED_CODES, ACHIEVEMENTS } from '../src/lib/achievements'
 import { rarityOf, pointsFromTourists, adventureOf, footprintOf, ranking, LEVELS, MANUAL_POINTS } from '../src/lib/rarity'
 
 let failures = 0
@@ -286,6 +287,45 @@ async function main() {
     eq('el país más grande es Rusia', ranking('area')[0].country.cca3, 'RUS')
     check('el más poblado es India o China', ['IND', 'CHN'].includes(ranking('population')[0].country.cca3))
     check('con territorios, el ranking de rareza es más largo', ranking('rarity', true).length > 195)
+  }
+
+  console.log('\n=== 13. Logros ===')
+  {
+    const byId = (visits: Visit[]) => new Map(achievementsOf(visits).map((a) => [a.id, a]))
+    check('los ids son únicos', new Set(ACHIEVEMENTS.map((a) => a.id)).size === ACHIEVEMENTS.length)
+    check('todos los códigos de los logros existen', USED_CODES.every((c) => !!getByCca3(c)), USED_CODES.filter((c) => !getByCca3(c)).join(' '))
+    check('sin visitas, ninguno desbloqueado', achievementsOf([]).every((a) => !a.unlocked))
+    eq('Gibraltar desbloquea El Peñón', byId(been('GIB')).get('penon')?.unlocked, true)
+    const fantasma = byId(been('x-transnistria')).get('no-existen')!
+    check('un estado de facto basta para «Un país que no existe»', fantasma.unlocked)
+    eq('y enseña 1 de 5', `${fantasma.progress}/${fantasma.total}`, '1/5')
+    eq('3 naciones no son las cuatro', byId(been('ENG', 'SCT', 'WLS')).get('cuatro-naciones')?.unlocked, false)
+    eq('las 4 sí', byId(been('ENG', 'SCT', 'WLS', 'NIR')).get('cuatro-naciones')?.unlocked, true)
+    // Una región cuenta para su país en los logros, igual que en el % del
+    // mundo: Kaliningrado suma Rusia, y con ella Europa.
+    eq('Kaliningrado da Europa', byId(been('x-kaliningrado')).get('continentes')?.progress, 1)
+    eq(
+      'seis continentes con la Antártida',
+      byId(been('ESP', 'MAR', 'JPN', 'USA', 'AUS', 'ATA')).get('continentes')?.unlocked,
+      true,
+    )
+    eq('«quiero ir» no cuenta', byId([{ code: 'GIB', status: 'want', addedAt: 0, updatedAt: 0 }]).get('penon')?.unlocked, false)
+    const tren = been(...['ESP', 'FRA', 'ITA', 'DEU', 'AUT', 'CHE', 'NLD', 'BEL', 'CZE', 'POL']).map((v) => ({ ...v, transports: ['train'] }))
+    eq('10 sitios en tren', byId(tren).get('tren')?.unlocked, true)
+    eq('9 no bastan', byId(tren.slice(1)).get('tren')?.unlocked, false)
+  }
+  {
+    eq('cadena: España-Francia-Italia se tocan', longestBorderChain(new Set(['ESP', 'FRA', 'ITA'])), 3)
+    eq('Islandia no toca a nadie', longestBorderChain(new Set(['ESP', 'FRA', 'ISL'])), 2)
+    eq('dos grupos: cuenta el mayor', longestBorderChain(new Set(['ESP', 'PRT', 'FRA', 'JPN', 'CHN', 'KOR'])), 3)
+    eq('vacío = 0', longestBorderChain(new Set()), 0)
+  }
+  {
+    eq('al actualizar (sin nada guardado) no se avisa de nada', pendingNotices(['penon', 'tren'], null).notify.length, 0)
+    eq('pero se dan por vistos', pendingNotices(['penon', 'tren'], null).nextSeen.join(), 'penon,tren')
+    eq('instalación nueva: se avisa del primero', pendingNotices(['penon'], '[]').notify.join(), 'penon')
+    eq('uno ya visto no se repite', pendingNotices(['penon', 'tren'], '["penon"]').notify.join(), 'tren')
+    eq('una lista rota se trata como vacía', pendingNotices(['penon'], 'no-json').notify.join(), 'penon')
   }
 
   console.log(

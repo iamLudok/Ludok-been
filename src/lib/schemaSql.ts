@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS settings (
   nextcloudPassword TEXT,
   nextcloudFolder TEXT,
   autoBackup INTEGER,
-  lastAutoBackupAt INTEGER
+  lastAutoBackupAt INTEGER,
+  seenAchievements TEXT
 );
 
 CREATE INDEX IF NOT EXISTS visits_status_idx ON visits (status);
@@ -42,6 +43,10 @@ export const MIGRATIONS: string[] = [
   // v2 → v3: medios de transporte por país.
   `
   ALTER TABLE visits ADD COLUMN transports TEXT;
+  `,
+  // v3 → v4: logros ya vistos (para avisar de cada uno una sola vez).
+  `
+  ALTER TABLE settings ADD COLUMN seenAchievements TEXT;
   `,
 ]
 

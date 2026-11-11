@@ -1,6 +1,5 @@
 import { useMemo } from 'react'
-import { ScrollView, View, Pressable, StyleSheet } from 'react-native'
-import { router } from 'expo-router'
+import { ScrollView, View, StyleSheet } from 'react-native'
 import { Screen, Card } from '../../src/ui/Screen'
 import { Txt } from '../../src/ui/Text'
 import { usePalette } from '../../src/ui/ThemeProvider'
@@ -74,15 +73,6 @@ export default function StatsScreen() {
               ))}
             </View>
           )}
-          <Pressable
-            onPress={() => router.push('/ranking')}
-            accessibilityRole="button"
-            style={({ pressed }) => ({ opacity: pressed ? 0.6 : 1 })}
-          >
-            <Txt variant="small" style={{ fontWeight: '600' }}>
-              Ver ranking de países ›
-            </Txt>
-          </Pressable>
         </Card>
 
         <Card>

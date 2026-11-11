@@ -17,7 +17,15 @@
     "name": "Afganistán",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IRN",
+      "PAK",
+      "TKM",
+      "UZB",
+      "TJK",
+      "CHN"
+    ]
   },
   {
     "cca3": "ALA",
@@ -49,7 +57,12 @@
     "name": "Albania",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MNE",
+      "GRC",
+      "MKD"
+    ]
   },
   {
     "cca3": "DEU",
@@ -58,7 +71,18 @@
     "name": "Alemania",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "BEL",
+      "CZE",
+      "DNK",
+      "FRA",
+      "LUX",
+      "NLD",
+      "POL",
+      "CHE"
+    ]
   },
   {
     "cca3": "AND",
@@ -67,7 +91,11 @@
     "name": "Andorra",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "FRA",
+      "ESP"
+    ]
   },
   {
     "cca3": "AGO",
@@ -76,7 +104,13 @@
     "name": "Angola",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "COG",
+      "COD",
+      "ZMB",
+      "NAM"
+    ]
   },
   {
     "cca3": "AIA",
@@ -115,7 +149,16 @@
     "name": "Arabia Saudí",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IRQ",
+      "JOR",
+      "KWT",
+      "OMN",
+      "QAT",
+      "ARE",
+      "YEM"
+    ]
   },
   {
     "cca3": "DZA",
@@ -124,7 +167,15 @@
     "name": "Argelia",
     "continent": "África",
     "subregion": "Northern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "TUN",
+      "LBY",
+      "NER",
+      "MRT",
+      "MLI",
+      "MAR"
+    ]
   },
   {
     "cca3": "ARG",
@@ -133,7 +184,14 @@
     "name": "Argentina",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BOL",
+      "BRA",
+      "CHL",
+      "PRY",
+      "URY"
+    ]
   },
   {
     "cca3": "ARM",
@@ -142,7 +200,13 @@
     "name": "Armenia",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AZE",
+      "GEO",
+      "IRN",
+      "TUR"
+    ]
   },
   {
     "cca3": "ABW",
@@ -171,7 +235,17 @@
     "name": "Austria",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CZE",
+      "DEU",
+      "HUN",
+      "ITA",
+      "LIE",
+      "SVK",
+      "SVN",
+      "CHE"
+    ]
   },
   {
     "cca3": "AZE",
@@ -180,7 +254,14 @@
     "name": "Azerbaiyán",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARM",
+      "GEO",
+      "IRN",
+      "RUS",
+      "TUR"
+    ]
   },
   {
     "cca3": "x-azores",
@@ -219,7 +300,11 @@
     "name": "Bangladesh",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MMR",
+      "IND"
+    ]
   },
   {
     "cca3": "BRB",
@@ -237,7 +322,13 @@
     "name": "Bélgica",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "FRA",
+      "DEU",
+      "LUX",
+      "NLD"
+    ]
   },
   {
     "cca3": "BLZ",
@@ -246,7 +337,11 @@
     "name": "Belice",
     "continent": "América",
     "subregion": "Central America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GTM",
+      "MEX"
+    ]
   },
   {
     "cca3": "BEN",
@@ -255,7 +350,13 @@
     "name": "Benín",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BFA",
+      "NER",
+      "NGA",
+      "TGO"
+    ]
   },
   {
     "cca3": "BMU",
@@ -275,7 +376,14 @@
     "name": "Bielorrusia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "LVA",
+      "LTU",
+      "POL",
+      "RUS",
+      "UKR"
+    ]
   },
   {
     "cca3": "BOL",
@@ -284,7 +392,14 @@
     "name": "Bolivia",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARG",
+      "BRA",
+      "CHL",
+      "PRY",
+      "PER"
+    ]
   },
   {
     "cca3": "BIH",
@@ -293,7 +408,12 @@
     "name": "Bosnia y Herzegovina",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "HRV",
+      "MNE",
+      "SRB"
+    ]
   },
   {
     "cca3": "BWA",
@@ -302,7 +422,13 @@
     "name": "Botswana",
     "continent": "África",
     "subregion": "Southern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "NAM",
+      "ZAF",
+      "ZMB",
+      "ZWE"
+    ]
   },
   {
     "cca3": "BRA",
@@ -311,7 +437,18 @@
     "name": "Brasil",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARG",
+      "BOL",
+      "COL",
+      "GUY",
+      "PRY",
+      "PER",
+      "SUR",
+      "URY",
+      "VEN"
+    ]
   },
   {
     "cca3": "BRN",
@@ -320,7 +457,10 @@
     "name": "Brunei",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MYS"
+    ]
   },
   {
     "cca3": "BGR",
@@ -329,7 +469,14 @@
     "name": "Bulgaria",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GRC",
+      "MKD",
+      "ROU",
+      "SRB",
+      "TUR"
+    ]
   },
   {
     "cca3": "BFA",
@@ -338,7 +485,15 @@
     "name": "Burkina Faso",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BEN",
+      "CIV",
+      "GHA",
+      "MLI",
+      "NER",
+      "TGO"
+    ]
   },
   {
     "cca3": "BDI",
@@ -347,7 +502,12 @@
     "name": "Burundi",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "COD",
+      "RWA",
+      "TZA"
+    ]
   },
   {
     "cca3": "BTN",
@@ -356,7 +516,11 @@
     "name": "Bután",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CHN",
+      "IND"
+    ]
   },
   {
     "cca3": "CPV",
@@ -374,7 +538,12 @@
     "name": "Camboya",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "LAO",
+      "THA",
+      "VNM"
+    ]
   },
   {
     "cca3": "CMR",
@@ -383,7 +552,15 @@
     "name": "Camerún",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CAF",
+      "TCD",
+      "COG",
+      "GNQ",
+      "GAB",
+      "NGA"
+    ]
   },
   {
     "cca3": "CAN",
@@ -392,7 +569,10 @@
     "name": "Canadá",
     "continent": "América",
     "subregion": "North America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "USA"
+    ]
   },
   {
     "cca3": "x-canarias",
@@ -424,7 +604,10 @@
     "name": "Catar",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "SAU"
+    ]
   },
   {
     "cca3": "x-ceuta",
@@ -445,7 +628,15 @@
     "name": "Chad",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CMR",
+      "CAF",
+      "LBY",
+      "NER",
+      "NGA",
+      "SDN"
+    ]
   },
   {
     "cca3": "CZE",
@@ -454,7 +645,13 @@
     "name": "Chequia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "DEU",
+      "POL",
+      "SVK"
+    ]
   },
   {
     "cca3": "CHL",
@@ -463,7 +660,12 @@
     "name": "Chile",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARG",
+      "BOL",
+      "PER"
+    ]
   },
   {
     "cca3": "CHN",
@@ -472,7 +674,23 @@
     "name": "China",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AFG",
+      "BTN",
+      "MMR",
+      "IND",
+      "KAZ",
+      "NPL",
+      "PRK",
+      "KGZ",
+      "LAO",
+      "MNG",
+      "PAK",
+      "RUS",
+      "TJK",
+      "VNM"
+    ]
   },
   {
     "cca3": "CYP",
@@ -501,7 +719,10 @@
     "name": "Ciudad del Vaticano",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ITA"
+    ]
   },
   {
     "cca3": "COL",
@@ -510,7 +731,14 @@
     "name": "Colombia",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BRA",
+      "ECU",
+      "PAN",
+      "PER",
+      "VEN"
+    ]
   },
   {
     "cca3": "COM",
@@ -528,7 +756,14 @@
     "name": "Congo",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AGO",
+      "CMR",
+      "CAF",
+      "COD",
+      "GAB"
+    ]
   },
   {
     "cca3": "COD",
@@ -537,7 +772,18 @@
     "name": "Congo (Rep. Dem.)",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AGO",
+      "BDI",
+      "CAF",
+      "COG",
+      "RWA",
+      "SSD",
+      "TZA",
+      "UGA",
+      "ZMB"
+    ]
   },
   {
     "cca3": "x-corcega",
@@ -558,7 +804,12 @@
     "name": "Corea del Norte",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CHN",
+      "KOR",
+      "RUS"
+    ]
   },
   {
     "cca3": "KOR",
@@ -567,7 +818,10 @@
     "name": "Corea del Sur",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "PRK"
+    ]
   },
   {
     "cca3": "CIV",
@@ -576,7 +830,14 @@
     "name": "Costa de Marfil",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BFA",
+      "GHA",
+      "GIN",
+      "LBR",
+      "MLI"
+    ]
   },
   {
     "cca3": "CRI",
@@ -585,7 +846,11 @@
     "name": "Costa Rica",
     "continent": "América",
     "subregion": "Central America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "NIC",
+      "PAN"
+    ]
   },
   {
     "cca3": "HRV",
@@ -594,7 +859,14 @@
     "name": "Croacia",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BIH",
+      "HUN",
+      "MNE",
+      "SRB",
+      "SVN"
+    ]
   },
   {
     "cca3": "CUB",
@@ -623,7 +895,10 @@
     "name": "Dinamarca",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DEU"
+    ]
   },
   {
     "cca3": "DJI",
@@ -632,7 +907,12 @@
     "name": "Djibouti",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ERI",
+      "ETH",
+      "SOM"
+    ]
   },
   {
     "cca3": "DMA",
@@ -650,7 +930,11 @@
     "name": "Ecuador",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "COL",
+      "PER"
+    ]
   },
   {
     "cca3": "EGY",
@@ -659,7 +943,13 @@
     "name": "Egipto",
     "continent": "África",
     "subregion": "Northern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ISR",
+      "LBY",
+      "PSE",
+      "SDN"
+    ]
   },
   {
     "cca3": "SLV",
@@ -668,7 +958,11 @@
     "name": "El Salvador",
     "continent": "América",
     "subregion": "Central America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GTM",
+      "HND"
+    ]
   },
   {
     "cca3": "ARE",
@@ -677,7 +971,11 @@
     "name": "Emiratos Árabes Unidos",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "OMN",
+      "SAU"
+    ]
   },
   {
     "cca3": "ERI",
@@ -686,7 +984,12 @@
     "name": "Eritrea",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DJI",
+      "ETH",
+      "SDN"
+    ]
   },
   {
     "cca3": "SCT",
@@ -707,7 +1010,14 @@
     "name": "Eslovaquia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "CZE",
+      "HUN",
+      "POL",
+      "UKR"
+    ]
   },
   {
     "cca3": "SVN",
@@ -716,7 +1026,13 @@
     "name": "Eslovenia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "HRV",
+      "ITA",
+      "HUN"
+    ]
   },
   {
     "cca3": "ESP",
@@ -725,7 +1041,13 @@
     "name": "España",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AND",
+      "FRA",
+      "PRT",
+      "MAR"
+    ]
   },
   {
     "cca3": "USA",
@@ -734,7 +1056,11 @@
     "name": "Estados Unidos",
     "continent": "América",
     "subregion": "North America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CAN",
+      "MEX"
+    ]
   },
   {
     "cca3": "EST",
@@ -743,7 +1069,11 @@
     "name": "Estonia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "LVA",
+      "RUS"
+    ]
   },
   {
     "cca3": "ETH",
@@ -752,7 +1082,15 @@
     "name": "Etiopía",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DJI",
+      "ERI",
+      "KEN",
+      "SOM",
+      "SSD",
+      "SDN"
+    ]
   },
   {
     "cca3": "PHL",
@@ -770,7 +1108,12 @@
     "name": "Finlandia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "NOR",
+      "SWE",
+      "RUS"
+    ]
   },
   {
     "cca3": "FJI",
@@ -788,7 +1131,17 @@
     "name": "Francia",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AND",
+      "BEL",
+      "DEU",
+      "ITA",
+      "LUX",
+      "MCO",
+      "ESP",
+      "CHE"
+    ]
   },
   {
     "cca3": "GAB",
@@ -797,7 +1150,12 @@
     "name": "Gabón",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CMR",
+      "COG",
+      "GNQ"
+    ]
   },
   {
     "cca3": "x-galapagos",
@@ -830,7 +1188,10 @@
     "name": "Gambia",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "SEN"
+    ]
   },
   {
     "cca3": "GEO",
@@ -839,7 +1200,13 @@
     "name": "Georgia",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARM",
+      "AZE",
+      "RUS",
+      "TUR"
+    ]
   },
   {
     "cca3": "SGS",
@@ -859,7 +1226,12 @@
     "name": "Ghana",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BFA",
+      "CIV",
+      "TGO"
+    ]
   },
   {
     "cca3": "GIB",
@@ -879,7 +1251,13 @@
     "name": "Grecia",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ALB",
+      "BGR",
+      "TUR",
+      "MKD"
+    ]
   },
   {
     "cca3": "GRD",
@@ -930,7 +1308,13 @@
     "name": "Guatemala",
     "continent": "América",
     "subregion": "Central America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BLZ",
+      "SLV",
+      "HND",
+      "MEX"
+    ]
   },
   {
     "cca3": "GUF",
@@ -961,7 +1345,15 @@
     "name": "Guinea",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CIV",
+      "GNB",
+      "LBR",
+      "MLI",
+      "SEN",
+      "SLE"
+    ]
   },
   {
     "cca3": "GNQ",
@@ -970,7 +1362,11 @@
     "name": "Guinea Ecuatorial",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CMR",
+      "GAB"
+    ]
   },
   {
     "cca3": "GNB",
@@ -979,7 +1375,11 @@
     "name": "Guinea-Bisáu",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GIN",
+      "SEN"
+    ]
   },
   {
     "cca3": "GUY",
@@ -988,7 +1388,12 @@
     "name": "Guyana",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BRA",
+      "SUR",
+      "VEN"
+    ]
   },
   {
     "cca3": "HTI",
@@ -997,7 +1402,10 @@
     "name": "Haití",
     "continent": "América",
     "subregion": "Caribbean",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DOM"
+    ]
   },
   {
     "cca3": "x-hawai",
@@ -1018,7 +1426,12 @@
     "name": "Honduras",
     "continent": "América",
     "subregion": "Central America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GTM",
+      "SLV",
+      "NIC"
+    ]
   },
   {
     "cca3": "HKG",
@@ -1038,7 +1451,16 @@
     "name": "Hungría",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "HRV",
+      "ROU",
+      "SRB",
+      "SVK",
+      "SVN",
+      "UKR"
+    ]
   },
   {
     "cca3": "IND",
@@ -1047,7 +1469,15 @@
     "name": "India",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BGD",
+      "BTN",
+      "MMR",
+      "CHN",
+      "NPL",
+      "PAK"
+    ]
   },
   {
     "cca3": "IDN",
@@ -1056,7 +1486,12 @@
     "name": "Indonesia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "TLS",
+      "MYS",
+      "PNG"
+    ]
   },
   {
     "cca3": "ENG",
@@ -1077,7 +1512,15 @@
     "name": "Irak",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IRN",
+      "JOR",
+      "KWT",
+      "SAU",
+      "SYR",
+      "TUR"
+    ]
   },
   {
     "cca3": "IRN",
@@ -1086,7 +1529,16 @@
     "name": "Iran",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AFG",
+      "ARM",
+      "AZE",
+      "IRQ",
+      "PAK",
+      "TUR",
+      "TKM"
+    ]
   },
   {
     "cca3": "IRL",
@@ -1095,7 +1547,10 @@
     "name": "Irlanda",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GBR"
+    ]
   },
   {
     "cca3": "NIR",
@@ -1320,7 +1775,14 @@
     "name": "Israel",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "EGY",
+      "JOR",
+      "LBN",
+      "PSE",
+      "SYR"
+    ]
   },
   {
     "cca3": "ITA",
@@ -1329,7 +1791,15 @@
     "name": "Italia",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "FRA",
+      "SMR",
+      "SVN",
+      "CHE",
+      "VAT"
+    ]
   },
   {
     "cca3": "JAM",
@@ -1367,7 +1837,14 @@
     "name": "Jordania",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IRQ",
+      "ISR",
+      "PSE",
+      "SAU",
+      "SYR"
+    ]
   },
   {
     "cca3": "x-kaliningrado",
@@ -1388,7 +1865,14 @@
     "name": "Kazajistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CHN",
+      "KGZ",
+      "RUS",
+      "TKM",
+      "UZB"
+    ]
   },
   {
     "cca3": "KEN",
@@ -1397,7 +1881,14 @@
     "name": "Kenia",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ETH",
+      "SOM",
+      "SSD",
+      "TZA",
+      "UGA"
+    ]
   },
   {
     "cca3": "KGZ",
@@ -1406,7 +1897,13 @@
     "name": "Kirguizistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CHN",
+      "KAZ",
+      "TJK",
+      "UZB"
+    ]
   },
   {
     "cca3": "KIR",
@@ -1446,7 +1943,11 @@
     "name": "Kuwait",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IRQ",
+      "SAU"
+    ]
   },
   {
     "cca3": "LAO",
@@ -1455,7 +1956,14 @@
     "name": "Laos",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MMR",
+      "KHM",
+      "CHN",
+      "THA",
+      "VNM"
+    ]
   },
   {
     "cca3": "LSO",
@@ -1464,7 +1972,10 @@
     "name": "Lesotho",
     "continent": "África",
     "subregion": "Southern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ZAF"
+    ]
   },
   {
     "cca3": "LVA",
@@ -1473,7 +1984,13 @@
     "name": "Letonia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BLR",
+      "EST",
+      "LTU",
+      "RUS"
+    ]
   },
   {
     "cca3": "LBN",
@@ -1482,7 +1999,11 @@
     "name": "Líbano",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ISR",
+      "SYR"
+    ]
   },
   {
     "cca3": "LBR",
@@ -1491,7 +2012,12 @@
     "name": "Liberia",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GIN",
+      "CIV",
+      "SLE"
+    ]
   },
   {
     "cca3": "LBY",
@@ -1500,7 +2026,15 @@
     "name": "Libia",
     "continent": "África",
     "subregion": "Northern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DZA",
+      "TCD",
+      "EGY",
+      "NER",
+      "SDN",
+      "TUN"
+    ]
   },
   {
     "cca3": "LIE",
@@ -1509,7 +2043,11 @@
     "name": "Liechtenstein",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "CHE"
+    ]
   },
   {
     "cca3": "LTU",
@@ -1518,7 +2056,13 @@
     "name": "Lituania",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BLR",
+      "LVA",
+      "POL",
+      "RUS"
+    ]
   },
   {
     "cca3": "LUX",
@@ -1527,7 +2071,12 @@
     "name": "Luxemburgo",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BEL",
+      "FRA",
+      "DEU"
+    ]
   },
   {
     "cca3": "MAC",
@@ -1547,7 +2096,13 @@
     "name": "Macedonia del Norte",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ALB",
+      "BGR",
+      "GRC",
+      "SRB"
+    ]
   },
   {
     "cca3": "MDG",
@@ -1577,7 +2132,12 @@
     "name": "Malasia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BRN",
+      "IDN",
+      "THA"
+    ]
   },
   {
     "cca3": "MWI",
@@ -1586,7 +2146,12 @@
     "name": "Malawi",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MOZ",
+      "TZA",
+      "ZMB"
+    ]
   },
   {
     "cca3": "MDV",
@@ -1604,7 +2169,16 @@
     "name": "Mali",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DZA",
+      "BFA",
+      "GIN",
+      "CIV",
+      "MRT",
+      "NER",
+      "SEN"
+    ]
   },
   {
     "cca3": "MLT",
@@ -1622,7 +2196,11 @@
     "name": "Marruecos",
     "continent": "África",
     "subregion": "Northern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DZA",
+      "ESP"
+    ]
   },
   {
     "cca3": "MTQ",
@@ -1651,7 +2229,12 @@
     "name": "Mauritania",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DZA",
+      "MLI",
+      "SEN"
+    ]
   },
   {
     "cca3": "MYT",
@@ -1683,7 +2266,12 @@
     "name": "México",
     "continent": "América",
     "subregion": "North America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BLZ",
+      "GTM",
+      "USA"
+    ]
   },
   {
     "cca3": "FSM",
@@ -1701,7 +2289,11 @@
     "name": "Moldavia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ROU",
+      "UKR"
+    ]
   },
   {
     "cca3": "MCO",
@@ -1710,7 +2302,10 @@
     "name": "Mónaco",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "FRA"
+    ]
   },
   {
     "cca3": "MNG",
@@ -1719,7 +2314,11 @@
     "name": "Mongolia",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CHN",
+      "RUS"
+    ]
   },
   {
     "cca3": "x-monte-athos",
@@ -1740,7 +2339,13 @@
     "name": "Montenegro",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ALB",
+      "BIH",
+      "HRV",
+      "SRB"
+    ]
   },
   {
     "cca3": "MSR",
@@ -1760,7 +2365,15 @@
     "name": "Mozambique",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MWI",
+      "ZAF",
+      "SWZ",
+      "TZA",
+      "ZMB",
+      "ZWE"
+    ]
   },
   {
     "cca3": "MMR",
@@ -1769,7 +2382,14 @@
     "name": "Myanmar",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BGD",
+      "CHN",
+      "IND",
+      "LAO",
+      "THA"
+    ]
   },
   {
     "cca3": "x-nagorno-karabaj",
@@ -1790,7 +2410,13 @@
     "name": "Namibia",
     "continent": "África",
     "subregion": "Southern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AGO",
+      "BWA",
+      "ZAF",
+      "ZMB"
+    ]
   },
   {
     "cca3": "NRU",
@@ -1808,7 +2434,11 @@
     "name": "Nepal",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CHN",
+      "IND"
+    ]
   },
   {
     "cca3": "NIC",
@@ -1817,7 +2447,11 @@
     "name": "Nicaragua",
     "continent": "América",
     "subregion": "Central America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CRI",
+      "HND"
+    ]
   },
   {
     "cca3": "NER",
@@ -1826,7 +2460,16 @@
     "name": "Níger",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DZA",
+      "BEN",
+      "BFA",
+      "TCD",
+      "LBY",
+      "MLI",
+      "NGA"
+    ]
   },
   {
     "cca3": "NGA",
@@ -1835,7 +2478,13 @@
     "name": "Nigeria",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BEN",
+      "CMR",
+      "TCD",
+      "NER"
+    ]
   },
   {
     "cca3": "NIU",
@@ -1855,7 +2504,12 @@
     "name": "Noruega",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "FIN",
+      "SWE",
+      "RUS"
+    ]
   },
   {
     "cca3": "NCL",
@@ -1884,7 +2538,12 @@
     "name": "Omán",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "SAU",
+      "ARE",
+      "YEM"
+    ]
   },
   {
     "cca3": "x-osetia-sur",
@@ -1916,7 +2575,11 @@
     "name": "Países Bajos",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BEL",
+      "DEU"
+    ]
   },
   {
     "cca3": "PAK",
@@ -1925,7 +2588,13 @@
     "name": "Pakistán",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AFG",
+      "CHN",
+      "IND",
+      "IRN"
+    ]
   },
   {
     "cca3": "PLW",
@@ -1943,7 +2612,12 @@
     "name": "Palestina",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ISR",
+      "EGY",
+      "JOR"
+    ]
   },
   {
     "cca3": "PAN",
@@ -1952,7 +2626,11 @@
     "name": "Panamá",
     "continent": "América",
     "subregion": "Central America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "COL",
+      "CRI"
+    ]
   },
   {
     "cca3": "PNG",
@@ -1961,7 +2639,10 @@
     "name": "Papúa Nueva Guinea",
     "continent": "Oceanía",
     "subregion": "Melanesia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IDN"
+    ]
   },
   {
     "cca3": "PRY",
@@ -1970,7 +2651,12 @@
     "name": "Paraguay",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARG",
+      "BOL",
+      "BRA"
+    ]
   },
   {
     "cca3": "PER",
@@ -1979,7 +2665,14 @@
     "name": "Perú",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BOL",
+      "BRA",
+      "CHL",
+      "COL",
+      "ECU"
+    ]
   },
   {
     "cca3": "PCN",
@@ -2010,7 +2703,16 @@
     "name": "Polonia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BLR",
+      "CZE",
+      "DEU",
+      "LTU",
+      "RUS",
+      "SVK",
+      "UKR"
+    ]
   },
   {
     "cca3": "PRT",
@@ -2019,7 +2721,10 @@
     "name": "Portugal",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ESP"
+    ]
   },
   {
     "cca3": "PRI",
@@ -2039,7 +2744,10 @@
     "name": "Reino Unido",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IRL"
+    ]
   },
   {
     "cca3": "CAF",
@@ -2048,7 +2756,15 @@
     "name": "República Centroafricana",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CMR",
+      "TCD",
+      "COD",
+      "COG",
+      "SSD",
+      "SDN"
+    ]
   },
   {
     "cca3": "DOM",
@@ -2057,7 +2773,10 @@
     "name": "República Dominicana",
     "continent": "América",
     "subregion": "Caribbean",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "HTI"
+    ]
   },
   {
     "cca3": "REU",
@@ -2077,7 +2796,13 @@
     "name": "Ruanda",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BDI",
+      "COD",
+      "TZA",
+      "UGA"
+    ]
   },
   {
     "cca3": "ROU",
@@ -2086,7 +2811,14 @@
     "name": "Rumania",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BGR",
+      "HUN",
+      "MDA",
+      "SRB",
+      "UKR"
+    ]
   },
   {
     "cca3": "RUS",
@@ -2095,7 +2827,23 @@
     "name": "Rusia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AZE",
+      "BLR",
+      "CHN",
+      "EST",
+      "FIN",
+      "GEO",
+      "KAZ",
+      "PRK",
+      "LVA",
+      "LTU",
+      "MNG",
+      "NOR",
+      "POL",
+      "UKR"
+    ]
   },
   {
     "cca3": "ESH",
@@ -2154,7 +2902,10 @@
     "name": "San Marino",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ITA"
+    ]
   },
   {
     "cca3": "MAF",
@@ -2223,7 +2974,14 @@
     "name": "Senegal",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GMB",
+      "GIN",
+      "GNB",
+      "MLI",
+      "MRT"
+    ]
   },
   {
     "cca3": "SRB",
@@ -2232,7 +2990,16 @@
     "name": "Serbia",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BIH",
+      "BGR",
+      "HRV",
+      "HUN",
+      "MKD",
+      "MNE",
+      "ROU"
+    ]
   },
   {
     "cca3": "SYC",
@@ -2250,7 +3017,11 @@
     "name": "Sierra Leone",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "GIN",
+      "LBR"
+    ]
   },
   {
     "cca3": "SGP",
@@ -2279,7 +3050,14 @@
     "name": "Siria",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IRQ",
+      "ISR",
+      "JOR",
+      "LBN",
+      "TUR"
+    ]
   },
   {
     "cca3": "x-socotra",
@@ -2300,7 +3078,12 @@
     "name": "Somalia",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DJI",
+      "ETH",
+      "KEN"
+    ]
   },
   {
     "cca3": "x-somalilandia",
@@ -2320,7 +3103,10 @@
     "name": "Sri Lanka",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IND"
+    ]
   },
   {
     "cca3": "SWZ",
@@ -2329,7 +3115,11 @@
     "name": "Suazilandia",
     "continent": "África",
     "subregion": "Southern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MOZ",
+      "ZAF"
+    ]
   },
   {
     "cca3": "ZAF",
@@ -2338,7 +3128,15 @@
     "name": "Sudáfrica",
     "continent": "África",
     "subregion": "Southern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BWA",
+      "LSO",
+      "MOZ",
+      "NAM",
+      "SWZ",
+      "ZWE"
+    ]
   },
   {
     "cca3": "SDN",
@@ -2347,7 +3145,16 @@
     "name": "Sudán",
     "continent": "África",
     "subregion": "Northern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CAF",
+      "TCD",
+      "EGY",
+      "ERI",
+      "ETH",
+      "LBY",
+      "SSD"
+    ]
   },
   {
     "cca3": "SSD",
@@ -2356,7 +3163,15 @@
     "name": "Sudán del Sur",
     "continent": "África",
     "subregion": "Middle Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "CAF",
+      "COD",
+      "ETH",
+      "KEN",
+      "SDN",
+      "UGA"
+    ]
   },
   {
     "cca3": "SWE",
@@ -2365,7 +3180,11 @@
     "name": "Suecia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "FIN",
+      "NOR"
+    ]
   },
   {
     "cca3": "CHE",
@@ -2374,7 +3193,14 @@
     "name": "Suiza",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AUT",
+      "FRA",
+      "ITA",
+      "LIE",
+      "DEU"
+    ]
   },
   {
     "cca3": "SUR",
@@ -2383,7 +3209,11 @@
     "name": "Surinam",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BRA",
+      "GUY"
+    ]
   },
   {
     "cca3": "SJM",
@@ -2403,7 +3233,13 @@
     "name": "Tailandia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "MMR",
+      "KHM",
+      "LAO",
+      "MYS"
+    ]
   },
   {
     "cca3": "TWN",
@@ -2422,7 +3258,17 @@
     "name": "Tanzania",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BDI",
+      "COD",
+      "KEN",
+      "MWI",
+      "MOZ",
+      "RWA",
+      "UGA",
+      "ZMB"
+    ]
   },
   {
     "cca3": "TJK",
@@ -2431,7 +3277,13 @@
     "name": "Tayikistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AFG",
+      "CHN",
+      "KGZ",
+      "UZB"
+    ]
   },
   {
     "cca3": "IOT",
@@ -2486,7 +3338,10 @@
     "name": "Timor Oriental",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "IDN"
+    ]
   },
   {
     "cca3": "TGO",
@@ -2495,7 +3350,12 @@
     "name": "Togo",
     "continent": "África",
     "subregion": "Western Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BEN",
+      "BFA",
+      "GHA"
+    ]
   },
   {
     "cca3": "TKL",
@@ -2544,7 +3404,11 @@
     "name": "Túnez",
     "continent": "África",
     "subregion": "Northern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "DZA",
+      "LBY"
+    ]
   },
   {
     "cca3": "TKM",
@@ -2553,7 +3417,13 @@
     "name": "Turkmenistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AFG",
+      "IRN",
+      "KAZ",
+      "UZB"
+    ]
   },
   {
     "cca3": "TUR",
@@ -2562,7 +3432,17 @@
     "name": "Turquía",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARM",
+      "AZE",
+      "BGR",
+      "GEO",
+      "GRC",
+      "IRN",
+      "IRQ",
+      "SYR"
+    ]
   },
   {
     "cca3": "TUV",
@@ -2580,7 +3460,16 @@
     "name": "Ucrania",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BLR",
+      "HUN",
+      "MDA",
+      "POL",
+      "ROU",
+      "RUS",
+      "SVK"
+    ]
   },
   {
     "cca3": "UGA",
@@ -2589,7 +3478,14 @@
     "name": "Uganda",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "COD",
+      "KEN",
+      "RWA",
+      "SSD",
+      "TZA"
+    ]
   },
   {
     "cca3": "URY",
@@ -2598,7 +3494,11 @@
     "name": "Uruguay",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "ARG",
+      "BRA"
+    ]
   },
   {
     "cca3": "UZB",
@@ -2607,7 +3507,14 @@
     "name": "Uzbekistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AFG",
+      "KAZ",
+      "KGZ",
+      "TJK",
+      "TKM"
+    ]
   },
   {
     "cca3": "VUT",
@@ -2625,7 +3532,12 @@
     "name": "Venezuela",
     "continent": "América",
     "subregion": "South America",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BRA",
+      "COL",
+      "GUY"
+    ]
   },
   {
     "cca3": "VNM",
@@ -2634,7 +3546,12 @@
     "name": "Vietnam",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "KHM",
+      "CHN",
+      "LAO"
+    ]
   },
   {
     "cca3": "WLF",
@@ -2654,7 +3571,11 @@
     "name": "Yemen",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "OMN",
+      "SAU"
+    ]
   },
   {
     "cca3": "ZMB",
@@ -2663,7 +3584,17 @@
     "name": "Zambia",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "AGO",
+      "BWA",
+      "COD",
+      "MWI",
+      "MOZ",
+      "NAM",
+      "TZA",
+      "ZWE"
+    ]
   },
   {
     "cca3": "x-zanzibar",
@@ -2684,6 +3615,12 @@
     "name": "Zimbabue",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "kind": "country"
+    "kind": "country",
+    "borders": [
+      "BWA",
+      "MOZ",
+      "ZAF",
+      "ZMB"
+    ]
   }
 ]

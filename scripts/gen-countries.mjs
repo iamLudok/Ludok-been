@@ -136,7 +136,12 @@ const base = countries.map((c) => {
   }
   // `world-countries` no cuenta Palestina como soberana; la ONU sí la trata
   // como estado observador, igual que a la Santa Sede.
-  if (c.independent === true || c.cca3 === 'PSE') return { ...common, kind: 'country' }
+  if (c.independent === true || c.cca3 === 'PSE') {
+    // Fronteras terrestres entre países, para el logro de la cadena de
+    // fronteras. Solo hacia otros países (no hacia territorios: Kosovo).
+    const borders = (c.borders || []).filter((b) => countries.find((x) => x.cca3 === b)?.independent === true || b === 'PSE')
+    return { ...common, kind: 'country', ...(borders.length ? { borders } : {}) }
+  }
   const t = ISO_TERRITORIES[c.cca3]
   if (!t) throw new Error(`Territorio sin clasificar: ${c.cca3} (${name}). Añádelo a ISO_TERRITORIES.`)
   return { ...common, kind: 'territory', type: t.type, ...(t.parent ? { parent: t.parent } : {}) }

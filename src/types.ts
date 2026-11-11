@@ -35,6 +35,12 @@ export interface Settings {
   nextcloudFolder?: string
   autoBackup?: boolean
   lastAutoBackupAt?: number
+  /**
+   * Logros de los que ya se ha avisado, como lista JSON de ids (tal cual va
+   * en la columna). Ausente = ninguno: al actualizar, la app no te avisa de
+   * golpe de todo lo que ya tenías (ver `achievements.ts`).
+   */
+  seenAchievements?: string | null
 }
 
 /**
@@ -75,6 +81,8 @@ export interface Country {
   sovereignCode?: string
   /** Ya no existe como tal (Nagorno Karabaj): solo lo tiene quien fue. */
   defunct?: boolean
+  /** Solo países: los países con los que tiene frontera terrestre. */
+  borders?: string[]
 }
 
 /** Estructura del fichero de copia de seguridad (export/import). */

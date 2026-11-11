@@ -25,6 +25,9 @@ export const DEFAULT_SETTINGS: Settings = {
   lastBackup: 0,
   schemaVersion: SCHEMA_VERSION,
   autoBackup: false,
+  // Lista vacía y no ausente: una instalación nueva SÍ debe recibir el aviso
+  // de su primer logro (ver `pendingNotices` en achievements.ts).
+  seenAchievements: '[]',
 }
 
 export async function readSettings(database: LudokDb): Promise<Settings> {

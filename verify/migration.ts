@@ -176,6 +176,38 @@ async function main() {
 
   for (const suffix of ['', '-wal', '-shm']) rmSync(path3 + suffix, { force: true })
 
+  console.log('\n=== 7. Subida de v3 a v4 (el móvil con transportes, antes de los logros) ===')
+  const V3_SQL = V2_SQL.replace('year INTEGER,', 'year INTEGER, transports TEXT,')
+  const path4 = join(tmpdir(), `ludok-been-migration-v3-${process.pid}.db`)
+  rmSync(path4, { force: true })
+  const client4 = createClient({ url: `file:${path4}` })
+  await client4.executeMultiple(V3_SQL)
+  await client4.execute(`PRAGMA user_version = 3`)
+  await client4.execute(
+    'INSERT INTO settings (id, theme, lastBackup, schemaVersion, nextcloudUrl) VALUES (?, ?, ?, ?, ?)',
+    ['app', 'light', 1700000000000, 2, 'https://cloud.example.com'],
+  )
+  await client4.execute(
+    'INSERT INTO visits (code, status, year, transports, addedAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)',
+    ['x-canarias', 'been', 2021, '["plane"]', 1700000000000, 1700000000000],
+  )
+  const row4 = await client4.execute('PRAGMA user_version')
+  const current4 = Number(row4.rows[0]?.user_version ?? 0)
+  check('arranca en v3', current4 === 3)
+  await client4.executeMultiple(CREATE_SQL)
+  for (const step of MIGRATIONS.slice(current4 - 1)) await client4.executeMultiple(step)
+  await client4.execute(`PRAGMA user_version = ${DB_VERSION}`)
+  const visits4 = await client4.execute('SELECT * FROM visits')
+  eq('la visita sigue ahí', visits4.rows[0]?.code, 'x-canarias')
+  eq('con sus transportes', visits4.rows[0]?.transports, '["plane"]')
+  const settings4 = await client4.execute('SELECT * FROM settings WHERE id = ?', ['app'])
+  eq('el tema no se toca', settings4.rows[0]?.theme, 'light')
+  check('hay columna de logros, vacía', 'seenAchievements' in (settings4.rows[0] ?? {}) && settings4.rows[0]?.seenAchievements == null)
+  await client4.execute('UPDATE settings SET seenAchievements = ? WHERE id = ?', ['["peñon"]', 'app'])
+  const after4 = await client4.execute('SELECT seenAchievements FROM settings WHERE id = ?', ['app'])
+  eq('y se puede escribir', after4.rows[0]?.seenAchievements, '["peñon"]')
+  for (const suffix of ['', '-wal', '-shm']) rmSync(path4 + suffix, { force: true })
+
   console.log(
     failures === 0
       ? '\n✅ TODO CORRECTO — el esquema se crea de forma idempotente\n'

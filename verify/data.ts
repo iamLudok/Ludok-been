@@ -199,6 +199,22 @@ async function main() {
   const restored = await readSettings(dbOtro)
   eq('no borra la contraseña ya guardada en este móvil', restored.nextcloudPassword, 'LA-MIA')
 
+  console.log('\n=== 10. Los logros vistos viajan en la copia ===')
+  // Si no viajaran, al restaurar en un móvil nuevo te avisaría otra vez de
+  // todos los logros que ya tenías.
+  const dbLogros = await freshDb()
+  await writeSettings(dbLogros, { ...(await readSettings(dbLogros)), seenAchievements: '["peñon","naciones"]' })
+  const conLogros = await exportAll(dbLogros)
+  eq('salen en la copia', conLogros.settings?.seenAchievements, '["peñon","naciones"]')
+  const dbNuevo = await freshDb()
+  await importAll(dbNuevo, JSON.stringify(conLogros))
+  eq('y vuelven al importar', (await readSettings(dbNuevo)).seenAchievements, '["peñon","naciones"]')
+  // Una copia de antes de los logros (v2) se sigue importando.
+  const v2 = { ...conLogros, schemaVersion: 2, settings: { ...conLogros.settings!, seenAchievements: undefined } }
+  const dbV2 = await freshDb()
+  await importAll(dbV2, JSON.stringify(v2))
+  check('una copia v2 sin logros se importa', (await exportAll(dbV2)).visits.length === conLogros.visits.length)
+
   console.log(
     failures === 0
       ? '\n✅ TODO CORRECTO — los datos entran y salen sin perder nada\n'

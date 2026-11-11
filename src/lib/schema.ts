@@ -25,6 +25,8 @@ export const settings = sqliteTable('settings', {
   nextcloudFolder: text('nextcloudFolder'),
   autoBackup: integer('autoBackup', { mode: 'boolean' }),
   lastAutoBackupAt: integer('lastAutoBackupAt'),
+  /** Logros ya vistos, como lista JSON de ids. Ver `achievements.ts`. */
+  seenAchievements: text('seenAchievements'),
 })
 
 export type VisitRow = typeof visits.$inferSelect

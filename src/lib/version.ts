@@ -3,5 +3,10 @@
  *
  * v1 → v2: ajustes de Nextcloud y medios de transporte por país. Los dos son
  * campos añadidos: una copia v1 se sigue importando sin problema.
+ *
+ * v2 → v3: logros ya vistos (`seenAchievements` en los ajustes). Campo
+ * añadido: las copias v1 y v2 se siguen importando. Se sube la versión para
+ * que una app vieja rechace con aviso una copia nueva, en vez de importarla
+ * perdiendo en silencio lo que no entiende.
  */
-export const SCHEMA_VERSION = 2
+export const SCHEMA_VERSION = 3
