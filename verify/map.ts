@@ -14,13 +14,28 @@ import {
   centerZoomTransform,
   contentToScreen,
   screenToContent,
-  originCompensatedTranslate,
   wrapTranslateX,
-  tiledTranslateX,
-  OVERSAMPLE,
+  zoomAround,
+  touchUpdate,
+  fitBoundsTransform,
+  FRAME_MAX_SCALE,
   MIN_SCALE,
   MAX_SCALE,
+  type Finger,
+  type TouchAnchor,
+  type Transform,
 } from '../src/lib/mapTransform'
+import {
+  MAP_SITES,
+  MAP_WIDTH,
+  MAP_HEIGHT,
+  siteAt,
+  siteOf,
+  shapeAt,
+  needsMarker,
+  hostCode,
+} from '../src/lib/geo'
+import { COUNTRIES } from '../src/lib/countries'
 
 let failures = 0
 function check(label: string, ok: boolean, detail = '') {
@@ -48,7 +63,7 @@ function nearMod(label: string, actual: number, expected: number, period: number
 // Pantalla tipo Pixel 7a y el mapa recortado de la app.
 const W = 412
 const H = 700
-const ASPECT = 535 / 800
+const ASPECT = MAP_HEIGHT / MAP_WIDTH
 
 async function main() {
   console.log('\n=== 1. Vista inicial ===')
@@ -216,37 +231,6 @@ async function main() {
     centerZoomTransform.length === 5,
   )
 
-  console.log('\n=== 5. Corrección del origen central de React Native ===')
-  // RN escala respecto al centro de la vista; la matemática de arriba asume
-  // esquina. Se simula lo que hace RN y se comprueba que sale lo mismo, en
-  // todo el rango de zoom (que es donde antes se colaba el salto).
-  const canvasW = W * OVERSAMPLE
-  const canvasH = W * ASPECT * OVERSAMPLE
-  /** Lo que hace React Native: p' = C + (p - C) * k + t */
-  const rn = (p: number, canvas: number, translate: number, k: number) => {
-    const c = canvas / 2
-    return c + (p - c) * k + translate
-  }
-  for (const s of [MIN_SCALE, 1.5, 2.4, 3.7, MAX_SCALE]) {
-    const t = clampTransform(s, -300, -50, W, H, ASPECT)
-    const k = t.scale / OVERSAMPLE
-    const tx = originCompensatedTranslate(t.x, canvasW, k)
-    const ty = originCompensatedTranslate(t.y, canvasH, k)
-    let ok = true
-    for (const content of [0, W / 4, W / 2, W]) {
-      // El punto del contenido está en `content * OVERSAMPLE` dentro del lienzo.
-      if (Math.abs(rn(content * OVERSAMPLE, canvasW, tx, k) - contentToScreen(content, t.scale, t.x)) > 0.01) {
-        ok = false
-      }
-    }
-    for (const content of [0, W * ASPECT]) {
-      if (Math.abs(rn(content * OVERSAMPLE, canvasH, ty, k) - contentToScreen(content, t.scale, t.y)) > 0.01) {
-        ok = false
-      }
-    }
-    check(`a escala ${s}: el mapa cae exactamente donde dice la matemática`, ok)
-  }
-
   console.log('\n=== 6b. Envolver el paneo horizontal ===')
   check('un valor ya dentro de rango no se toca', Math.abs(wrapTranslateX(50, 1000) - 50) < 0.001)
   check('el resultado siempre cabe en medio período', Math.abs(wrapTranslateX(12345, 1000)) <= 500.001)
@@ -254,51 +238,254 @@ async function main() {
   near('y también hacia el otro lado', wrapTranslateX(300, 1000), wrapTranslateX(300 - 1000, 1000))
   check('con período 0 (contenedor sin medir aún) no revienta', wrapTranslateX(999, 0) === 999)
 
-  console.log('\n=== 6c. El mosaico: cada una de las 3 copias cae donde toca ===')
-  // WorldMap.tsx dibuja el mapa tres veces seguidas (izquierda/centro/derecha)
-  // para poder dar la vuelta sin fin. `tiledTranslateX` es la corrección que
-  // hace que ese lienzo triple, más ancho y con su propio centro, siga
-  // colocando cada copia exactamente donde le toca.
-  //
-  // La propiedad a comprobar: la copia n-ésima de un punto del contenido debe
-  // caer un período (`containerW * scale`) más allá que la copia central —
-  // es lo que hace que las tres copias, puestas una junto a otra, formen una
-  // franja continua y sin costuras.
-  for (const s of [MIN_SCALE, 1.7, 3.2, MAX_SCALE]) {
-    const t = clampTransform(s, -137, -40, W, H, ASPECT)
-    const k = t.scale / OVERSAMPLE
-    const canvasWidth = W * OVERSAMPLE // ancho de UNA copia
-    const canvas3Width = 3 * canvasWidth // ancho del lienzo con las tres
-    const tx3 = tiledTranslateX(t.x, W, t.scale, canvas3Width, k)
-    /** Lo que hace React Native sobre el lienzo triple: p' = C + (p - C) * k + t */
-    const rn3 = (p: number) => {
-      const c = canvas3Width / 2
-      return c + (p - c) * k + tx3
+  console.log('\n=== 7. Dedos en crudo: secuencias reales ===')
+  // `touchUpdate` es el gesto de verdad. Se simulan secuencias como las que
+  // rompían el pellizco antes: un segundo dedo a mitad de arrastre, levantar
+  // uno de los dos, el tope de zoom. La propiedad que se exige siempre: al
+  // cambiar los dedos, el mapa NO se mueve en ese instante.
+  const base7 = clampTransform(4, -900, -400, W, H, ASPECT)
+  /** Ejecuta una secuencia y devuelve la transformación tras cada evento. */
+  const play = (events: Finger[][], from: Transform = base7) => {
+    let anchor: TouchAnchor | null = null
+    let t = from
+    const out: Transform[] = []
+    for (const fingers of events) {
+      const r = touchUpdate(anchor, fingers, t, W, H, ASPECT)
+      anchor = r.anchor
+      t = r.t
+      out.push(t)
     }
+    return out
+  }
+  const f = (id: number, x: number, y: number): Finger => ({ id, x, y })
+  const same = (a: Transform, b: Transform) =>
+    Math.abs(a.scale - b.scale) < 1e-9 &&
+    Math.abs(wrapTranslateX(a.x - b.x, W * a.scale)) < 1e-6 &&
+    Math.abs(a.y - b.y) < 1e-6
+
+  {
+    const r = play([[f(1, 100, 300)], [f(1, 150, 330)]])
+    nearMod('1 dedo: arrastra justo lo que mueves en X', r[1].x - base7.x, 50, W * base7.scale)
+    near('y en Y', r[1].y - base7.y, 30)
+  }
+  {
+    // Arrastrando con uno, se apoya un segundo dedo lejos: ni salto ni zoom.
+    const r = play([[f(1, 100, 300)], [f(1, 140, 310)], [f(1, 140, 310), f(2, 300, 500)]])
+    check('segundo dedo a mitad de arrastre: el mapa no salta', same(r[2], r[1]))
+  }
+  {
+    // Pellizco simétrico: los dedos se separan el doble alrededor del mismo centro.
+    const cx = 200
+    const cy = 350
+    const anchorX = screenToContent(cx, base7.scale, base7.x)
+    const anchorY = screenToContent(cy, base7.scale, base7.y)
+    const r = play([
+      [f(1, cx - 50, cy), f(2, cx + 50, cy)],
+      [f(1, cx - 100, cy), f(2, cx + 100, cy)],
+    ])
+    near('pellizco ×2: la escala se dobla', r[1].scale, base7.scale * 2)
+    nearMod('el punto bajo el centro de los dedos no se mueve (X)', contentToScreen(anchorX, r[1].scale, r[1].x), cx, W * r[1].scale)
+    near('ni en Y', contentToScreen(anchorY, r[1].scale, r[1].y), cy)
+  }
+  {
+    // Soltar uno de los dos (primero el de id más bajo, que es el caso que
+    // más se complica si se cuentan los dedos por posición) y seguir.
+    const r = play([
+      [f(1, 150, 300), f(2, 250, 300)],
+      [f(1, 120, 300), f(2, 280, 300)],
+      [f(2, 280, 300)],
+      [f(2, 320, 340)],
+    ])
+    check('al levantar un dedo el mapa no salta', same(r[2], r[1]))
+    near('y luego el que queda arrastra justo su recorrido (X)', wrapTranslateX(r[3].x - r[2].x, W * r[2].scale), 40)
+    near('(Y)', r[3].y - r[2].y, 40)
+    near('sin tocar el zoom', r[3].scale, r[2].scale)
+  }
+  {
+    // Un tercer dedo no cambia nada: solo cuentan los dos primeros.
+    const r = play([
+      [f(1, 150, 300), f(2, 250, 300)],
+      [f(1, 150, 300), f(2, 250, 300), f(3, 50, 50)],
+      [f(1, 150, 300), f(2, 250, 300), f(3, 90, 90)],
+    ])
+    check('un tercer dedo no mueve el mapa', same(r[1], r[0]) && same(r[2], r[0]))
+  }
+  {
+    // Pellizcar muchísimo: topa en MAX_SCALE y el centro sigue bajo los dedos.
+    const anchorX = screenToContent(200, base7.scale, base7.x)
+    // Por pasos de 20 dp, como un dedo de verdad (de un salto sería un
+    // dedo «teletransportado», ver más abajo).
+    const steps: Finger[][] = []
+    for (let d = 5; d <= 200; d += 20) steps.push([f(1, 200 - d, 350), f(2, 200 + d, 350)])
+    const r = play(steps)
+    const last = r[r.length - 1]
+    near('pellizco enorme: se queda en el tope', last.scale, MAX_SCALE)
+    nearMod('y el centro sigue bajo los dedos', contentToScreen(anchorX, last.scale, last.x), 200, W * last.scale)
+  }
+  {
+    // Sin dedos: no hay ancla y no cambia nada.
+    const r = touchUpdate(null, [], base7, W, H, ASPECT)
+    check('sin dedos no hay ancla ni cambio', r.anchor === null && same(r.t, base7))
+  }
+  {
+    // Recorrido largo poniendo y quitando dedos: en CADA cambio de dedos el
+    // mapa se queda quieto. Es la causa raíz del fallo de antes, en general.
+    const seq: Finger[][] = [
+      [f(1, 100, 100)],
+      [f(1, 130, 120)],
+      [f(1, 130, 120), f(2, 300, 400)],
+      [f(1, 120, 110), f(2, 330, 450)],
+      [f(2, 330, 450)],
+      [f(2, 300, 420)],
+      [f(2, 300, 420), f(3, 100, 600)],
+      [f(2, 310, 410), f(3, 60, 650)],
+      [f(3, 60, 650)],
+    ]
+    const r = play(seq)
     let ok = true
-    for (const content of [0, W / 3, W / 2, W]) {
-      for (const n of [-1, 0, 1]) {
-        // Píxel dentro del lienzo triple para la copia `n` de este punto: la
-        // copia -1 ocupa el primer tercio, la 0 el segundo, la 1 el último.
-        const canvasPixel = (n + 1) * canvasWidth + content * OVERSAMPLE
-        const expected = contentToScreen(content, t.scale, t.x) + n * (W * t.scale)
-        if (Math.abs(rn3(canvasPixel) - expected) > 0.01) ok = false
-      }
+    for (let i = 1; i < seq.length; i++) {
+      const changed = seq[i].map((x) => x.id).join() !== seq[i - 1].map((x) => x.id).join()
+      if (changed && !same(r[i], r[i - 1])) ok = false
     }
-    check(`a escala ${s}: las tres copias caen exactamente donde dice la matemática`, ok)
+    check('en un recorrido largo, ningún cambio de dedos mueve el mapa', ok)
   }
 
-  console.log('\n=== 6. El lienzo no cambia de tamaño nunca ===')
-  // Esto es lo que provocaba el salto al levantar los dedos: si el tamaño del
-  // lienzo dependiera del zoom, cambiaría a mitad de interacción.
-  check('OVERSAMPLE es una constante', typeof OVERSAMPLE === 'number' && OVERSAMPLE >= 1)
-  const canvasAt = (s: number) => {
-    const t = clampTransform(s, 0, 0, W, H, ASPECT)
-    void t
-    return W * OVERSAMPLE
+  {
+    // Un dedo «teletransportado» (la pantalla confunde dos dedos juntos, o
+    // reutiliza un id): el mapa no da el salto, y después sigue con
+    // normalidad desde la posición nueva.
+    const r = play([
+      [f(1, 150, 300), f(2, 250, 300)],
+      [f(1, 145, 300), f(2, 255, 300)],
+      [f(1, 145, 300), f(2, 600, 50)],
+      [f(1, 145, 300), f(2, 610, 50)],
+    ])
+    check('un dedo teletransportado no hace saltar el mapa', same(r[2], r[1]))
+    check('y el siguiente movimiento normal sí se aplica', !same(r[3], r[2]))
   }
-  check('mismo lienzo a escala 1 y a escala máxima', canvasAt(MIN_SCALE) === canvasAt(MAX_SCALE))
+  {
+    // Gesto nuevo con un ancla vieja del anterior y el MISMO id de dedo:
+    // `touchUpdate` por sí solo no puede saberlo (lo resuelve WorldMap
+    // poniendo el ancla a null al primer dedo); aquí se comprueba que con
+    // el ancla limpia no hay salto.
+    const fresh = touchUpdate(null, [f(1, 380, 650)], base7, W, H, ASPECT)
+    check('primer dedo de un gesto nuevo: el mapa no se mueve', same(fresh.t, base7))
+  }
 
+  console.log('\n=== 8. Zoom animado (botones, doble toque) ===')
+  for (const [px, py, fac] of [[W / 2, H / 2, 1.6], [50, 600, 2], [380, 90, 1 / 1.6]] as const) {
+    const s0 = clampTransform(5, -2000, -600, W, H, ASPECT)
+    const ax = screenToContent(px, s0.scale, s0.x)
+    const ay = screenToContent(py, s0.scale, s0.y)
+    const z = zoomAround(s0, px, py, fac, W, H, ASPECT)
+    near(`(${px},${py}) ×${fac.toFixed(2)}: el punto se queda en X, EXACTO (sin dar la vuelta)`, contentToScreen(ax, z.scale, z.x), px)
+    const contentH = W * ASPECT * z.scale
+    const atEdge = Math.abs(z.y) < 1e-6 || Math.abs(z.y - (H - contentH)) < 1e-6
+    if (atEdge) check('Y contra el borde del mapa, correcto', true)
+    else near('y en Y', contentToScreen(ay, z.scale, z.y), py)
+  }
+
+  console.log('\n=== 9. Encuadrar el país seleccionado ===')
+  // El hueco libre es la mitad de arriba (la ficha tapa la de abajo).
+  const areaTop = 0
+  const areaBottom = H * 0.45
+  const PAD = 24
+  const toContent = (b: number[]) => b.map((v) => (v * W) / MAP_WIDTH) as [number, number, number, number]
+  for (const code of ['ESP', 'VAT', 'NZL', 'JPN', 'CHL', 'ISL', 'TUV', 'BRA']) {
+    const site = siteOf(code)
+    if (!site) {
+      check(`${code}: tiene sitio en el mapa`, false)
+      continue
+    }
+    const box = toContent(site.frame)
+    for (const from of [initialTransform(W, H, ASPECT), clampTransform(20, -5000, -2000, W, H, ASPECT)]) {
+      const t = fitBoundsTransform(box, from, areaTop, areaBottom, PAD, W, areaBottom, ASPECT)
+      // X sin envolver: el país puede estar en la copia de al lado, que se
+      // ve idéntica. Se lleva a la copia que cae en pantalla.
+      const tx = wrapTranslateX(t.x, W * t.scale)
+      const shift = W * t.scale * Math.round((W / 2 - contentToScreen((box[0] + box[2]) / 2, t.scale, tx)) / (W * t.scale))
+      const sx0 = contentToScreen(box[0], t.scale, tx) + shift
+      const sx1 = contentToScreen(box[2], t.scale, tx) + shift
+      const sy0 = contentToScreen(box[1], t.scale, t.y)
+      const sy1 = contentToScreen(box[3], t.scale, t.y)
+      // Abajo del todo del mapa (Chile, Nueva Zelanda) no se puede subir más
+      // de lo que deja el borde: ahí basta con que quede lo más arriba posible.
+      const contentH = W * ASPECT * t.scale
+      const yClamped = Math.abs(t.y - Math.min(0, areaBottom - contentH)) < 1e-6 || Math.abs(t.y) < 1e-6
+      check(
+        `${code} desde ×${from.scale.toFixed(1)}: entra entero en el hueco`,
+        sx0 >= -0.5 && sx1 <= W + 0.5 && (yClamped || (sy0 >= areaTop - 0.5 && sy1 <= areaBottom + 0.5)),
+        `x ${sx0.toFixed(0)}..${sx1.toFixed(0)} y ${sy0.toFixed(0)}..${sy1.toFixed(0)}`,
+      )
+      check(`${code}: no se acerca más del tope de encuadre`, t.scale <= Math.max(FRAME_MAX_SCALE, from.scale) + 1e-9)
+      // Va a la copia más cercana: el centro del país no queda a más de
+      // media vuelta de donde estaba.
+      const before = contentToScreen((box[0] + box[2]) / 2, from.scale, from.x)
+      const k = (W / 2 - before) / (W * from.scale)
+      check(`${code}: va a la copia más cercana`, Math.abs(k - Math.round(k)) <= 0.5 + 1e-9)
+    }
+  }
+  {
+    // Ya estabas más cerca que el tope de encuadre y el país cabe: la
+    // cámara no se aleja. Andorra a ×30 sigue cabiendo de sobra.
+    const box = toContent(siteOf('AND')!.frame)
+    const zoomedIn = clampTransform(30, -9000, -4000, W, H, ASPECT)
+    const again = fitBoundsTransform(box, zoomedIn, areaTop, areaBottom, PAD, W, areaBottom, ASPECT)
+    near('si el país ya cabe, se mantiene el zoom', again.scale, 30)
+    const far = fitBoundsTransform(box, initialTransform(W, H, ASPECT), areaTop, areaBottom, PAD, W, areaBottom, ASPECT)
+    near('y desde lejos se acerca justo hasta el tope', far.scale, FRAME_MAX_SCALE)
+  }
+
+  console.log('\n=== 10. Todos los países se pueden tocar ===')
+  // La queja de partida: el Vaticano no se podía tocar. Se exige para todos
+  // los sitios de la lista que exista un punto de la pantalla que los abra,
+  // a vista de mundo y con zoom, con las mismas reglas que usa el mapa.
+  const init10 = initialTransform(W, H, ASPECT)
+  for (const scale of [init10.scale, 12, MAX_SCALE]) {
+    const ppu = (scale * W) / MAP_WIDTH
+    const unreachable: string[] = []
+    const hidden: string[] = []
+    for (const c of COUNTRIES) {
+      if (c.cca3 === 'ATA') continue // la Antártida queda fuera del recorte de Mercator
+      const site = siteOf(c.cca3)
+      if (!site) {
+        unreachable.push(`${c.name} (sin sitio)`)
+        continue
+      }
+      const hit = (x: number, y: number) => siteAt(x, y, ppu) === c.cca3
+      let ok = hit(site.anchor[0], site.anchor[1])
+      if (!ok) {
+        // Formas cóncavas (Croacia, Chile…) o enclaves cuyo punto aún no se
+        // enseña: se busca un punto que lo abra con una rejilla sobre su caja.
+        const [x0, y0, x1, y1] = site.frame
+        for (let i = 1; i < 20 && !ok; i++) {
+          for (let j = 1; j < 20 && !ok; j++) {
+            ok = hit(x0 + ((x1 - x0) * i) / 20, y0 + ((y1 - y0) * j) / 20)
+          }
+        }
+      }
+      // A vista de mundo, un enclave cuyo país anfitrión aún se ve pequeño
+      // (Andorra, Liechtenstein, el Vaticano) se alcanza acercándose: es lo
+      // que se pide a escala 12 y al máximo, justo debajo.
+      if (!ok && scale === init10.scale && hostCode(c.cca3)) hidden.push(c.name)
+      else if (!ok) unreachable.push(c.name)
+    }
+    if (hidden.length) console.log(`        (a vista de mundo hay que acercarse para: ${hidden.join(', ')})`)
+    check(
+      `a escala ×${scale.toFixed(1)}: ${COUNTRIES.length - 1 - unreachable.length - hidden.length} de ${COUNTRIES.length - 1} se pueden tocar directamente`,
+      unreachable.length === 0,
+      unreachable.join(', '),
+    )
+  }
+  check('el Vaticano lleva marcador incluso con el zoom al máximo', needsMarker(siteOf('VAT')!, (MAX_SCALE * W) / MAP_WIDTH))
+  {
+    // Tocar el centro de Italia a vista de mundo abre Italia, no el Vaticano.
+    const ppu = (init10.scale * W) / MAP_WIDTH
+    const ita = siteOf('ITA')!
+    check('tocar el centro de Italia abre Italia', siteAt(ita.anchor[0], ita.anchor[1], ppu) === 'ITA')
+  }
+  check('el mar no es ningún país', shapeAt(MAP_WIDTH * 0.35, MAP_HEIGHT * 0.55) === null)
+  check('todos los sitios caen dentro del lienzo', MAP_SITES.every((s) => s.anchor[0] >= 0 && s.anchor[0] <= MAP_WIDTH && s.anchor[1] >= 0 && s.anchor[1] <= MAP_HEIGHT))
   console.log(
     failures === 0
       ? '\n✅ TODO CORRECTO — el zoom ancla donde tocas\n'

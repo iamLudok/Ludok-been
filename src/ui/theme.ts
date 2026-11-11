@@ -6,6 +6,10 @@
  * aparece con significado: `danger` para borrar y `warn` para los avisos de
  * copia de seguridad y para «quiero ir» (lo único que en Been necesita
  * distinguirse de un vistazo de lo ya visitado).
+ *
+ * La excepción es el MAPA, que es el contenido (como la carátula en Ludok
+ * Time): lo visitado va en el morado del icono de la app. Los tonos se han
+ * elegido para dar al menos 3:1 contra el país sin marcar en los dos temas.
  */
 
 export interface Palette {
@@ -36,6 +40,14 @@ export interface Palette {
   mapEmpty: string
   /** Frontera entre países. */
   mapStroke: string
+  /** Mar, el fondo del mapa. */
+  mapSea: string
+  /** País visitado en el mapa (morado de marca). */
+  mapBeen: string
+  /** País en «quiero ir» en el mapa. */
+  mapWant: string
+  /** Borde y halo del país seleccionado. */
+  mapSelected: string
 }
 
 /** La identidad elegida: negro de sala de cine, interfaz monocroma. */
@@ -54,6 +66,12 @@ export const dark: Palette = {
   scrim: 'rgba(0,0,0,0.55)',
   mapEmpty: '#2c2c35',
   mapStroke: '#0a0a0c',
+  mapSea: '#0d0d12',
+  // #7A45C4 (el del icono) da 2,3:1 sobre `mapEmpty` y se pierde; aclarado
+  // lo justo llega a 3,7:1 sin dejar de ser el mismo morado.
+  mapBeen: '#9b6be0',
+  mapWant: '#d9a34a',
+  mapSelected: '#f3f1ec',
 }
 
 /**
@@ -75,6 +93,10 @@ export const light: Palette = {
   scrim: 'rgba(0,0,0,0.35)',
   mapEmpty: '#d5d2cc',
   mapStroke: '#f6f5f3',
+  mapSea: '#ecebe7',
+  mapBeen: '#7a45c4',
+  mapWant: '#8a5c12',
+  mapSelected: '#16151a',
 }
 
 /** Escala de espaciado (múltiplos de 4, sin valores a ojo). */
@@ -92,6 +114,22 @@ export const radius = {
   md: 8,
   lg: 14,
   pill: 999,
+} as const
+
+/**
+ * Medidas del mapa en dp de pantalla. Se dibujan dentro de un lienzo que
+ * escala con el zoom, así que el componente las divide por la escala para
+ * que se vean siempre igual de grandes.
+ */
+export const mapMarks = {
+  /** Radio del punto de un país diminuto. */
+  dot: 3.5,
+  /** Aro de contraste alrededor del punto. */
+  dotRing: 1.5,
+  /** Borde del país seleccionado. */
+  selected: 2,
+  /** Halo alrededor del seleccionado. */
+  halo: 9,
 } as const
 
 /** Escala tipográfica. `data` se usa donde hay cifras que deben cuadrar. */

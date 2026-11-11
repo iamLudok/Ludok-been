@@ -37,7 +37,7 @@ const list = countries
   .map((c) => (c.cca3 === 'PSE' ? { ...c, independent: true } : c))
   // El Reino Unido se trata como 4 naciones separadas (Inglaterra, Escocia,
   // Gales, Irlanda del Norte) para el conteo de países visitados: se pueden
-  // marcar por separado en la Lista y en el mapa (ver src/lib/geo.ts, que
+  // marcar por separado en la Lista y en el mapa (ver scripts/gen-map.mjs, que
   // sustituye el único polígono de world-atlas por las 4 formas de
   // src/data/uk-nations.json). Ninguna cuenta por sí sola como soberana
   // (`independent: false`); `sovereignCode: "GBR"` hace que el Reino Unido

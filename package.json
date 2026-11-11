@@ -5,7 +5,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
-    "d3-geo": "^3.1.1",
+    "@shopify/react-native-skia": "2.6.2",
     "drizzle-orm": "^0.45.2",
     "expo": "~57.0.8",
     "expo-build-properties": "~57.0.20",
@@ -29,9 +29,7 @@
     "react-native-screens": "~4.26.0",
     "react-native-svg": "15.15.4",
     "react-native-url-polyfill": "^4.0.0",
-    "react-native-worklets": "0.10.1",
-    "topojson-client": "^3.1.0",
-    "world-atlas": "^2.0.2"
+    "react-native-worklets": "0.10.1"
   },
   "devDependencies": {
     "@libsql/client": "^0.17.4",
@@ -39,8 +37,11 @@
     "@types/node": "^26.1.1",
     "@types/react": "~19.2.2",
     "@types/topojson-client": "^3.1.5",
+    "d3-geo": "^3.1.1",
+    "topojson-client": "^3.1.0",
     "tsx": "^4.23.1",
     "typescript": "~6.0.3",
+    "world-atlas": "^2.0.2",
     "world-countries": "^5.1.0"
   },
   "scripts": {
@@ -53,6 +54,7 @@
     "verify": "npm run verify:data && npm run verify:library && npm run verify:migration && npm run verify:map",
     "typecheck": "tsc --noEmit && tsc --noEmit -p verify",
     "build:apk": "bash scripts/build-apk.sh",
-    "verify:map": "tsx verify/map.ts"
+    "verify:map": "tsx verify/map.ts",
+    "gen:map": "node scripts/gen-map.mjs"
   }
 }

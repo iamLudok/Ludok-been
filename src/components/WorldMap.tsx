@@ -1,292 +1,561 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { View, Pressable, StyleSheet, type LayoutChangeEvent } from 'react-native'
-import Svg, { G, Path } from 'react-native-svg'
+import {
+  Canvas,
+  Fill,
+  Group,
+  Path,
+  Picture,
+  Points,
+  Skia,
+  FillType,
+  PaintStyle,
+  createPicture,
+  type SkPath,
+} from '@shopify/react-native-skia'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import {
+  useSharedValue,
+  useDerivedValue,
+  withTiming,
+  withDecay,
+  cancelAnimation,
+  Easing,
+} from 'react-native-reanimated'
 import { scheduleOnRN } from 'react-native-worklets'
-import { svgPaths, countryAt, MAP_WIDTH, MAP_HEIGHT } from '../lib/geo'
+import {
+  MAP_SHAPES,
+  MAP_SITES,
+  MAP_WIDTH,
+  MAP_HEIGHT,
+  siteAt,
+  siteOf,
+  markerVisible,
+  pxPerUnit,
+} from '../lib/geo'
 import {
   initialTransform,
-  panTransform,
-  centerZoomTransform,
+  touchUpdate,
+  zoomAround,
+  fitBoundsTransform,
   screenToContent,
-  originCompensatedTranslate,
-  tiledTranslateX,
-  OVERSAMPLE,
+  wrapTranslateX,
   MIN_SCALE,
   MAX_SCALE,
+  type Finger,
+  type TouchAnchor,
 } from '../lib/mapTransform'
 import { usePalette } from '../ui/ThemeProvider'
 import { Txt } from '../ui/Text'
-import { radius, space } from '../ui/theme'
+import { mapMarks, radius, space } from '../ui/theme'
+import type { Palette } from '../ui/theme'
 import type { CountryStatus } from '../types'
 
 interface Props {
   /** estado actual por país (cca3 → estado). */
   statusByCode: Map<string, CountryStatus>
-  onSelect?: (cca3: string) => void
+  /** País tocado, o null si se tocó el mar (para cerrar la ficha). */
+  onSelect?: (cca3: string | null) => void
   selected?: string | null
+  /** Alto que tapa la ficha por abajo: la cámara encuadra en lo que queda. */
+  bottomInset?: number
+  /** Alto que tapan los avisos flotantes de arriba. */
+  topInset?: number
 }
 
 const MAP_ASPECT = MAP_HEIGHT / MAP_WIDTH
-/** Movimiento máximo (px) para que un toque cuente como tap y no como arrastre. */
+/** Movimiento máximo (dp) para que un toque cuente como tap y no como arrastre. */
 const TAP_THRESHOLD = 10
+/** Un toque más largo que esto ya no es un tap (es el dedo apoyado pensando). */
+const TAP_MAX_MS = 400
 /** Cuánto amplía o reduce cada pulsación de los botones +/-. */
 const ZOOM_STEP = 1.6
+/** Por debajo de esta velocidad (dp/s) al soltar no hay inercia. */
+const FLING_MIN_SPEED = 250
+/** Margen alrededor del país al encuadrarlo. */
+const FRAME_PADDING = space.xl
+/** Las tres copias del mapa en horizontal, para dar la vuelta sin fin. */
+const TILES = [-1, 0, 1] as const
 
-export default function WorldMap({ statusByCode, onSelect, selected }: Props) {
+/**
+ * Los caminos de Skia de cada forma, construidos UNA vez por arranque de la
+ * app. Son ~93.000 vértices: rehacerlos en cada render se notaría.
+ *
+ * Par-impar porque los agujeros (San Marino dentro de Italia) vienen como un
+ * anillo más, sin orientación garantizada.
+ */
+let pathCache: { code: string | null; path: SkPath }[] | null = null
+function shapePaths() {
+  if (pathCache) return pathCache
+  pathCache = MAP_SHAPES.map((s) => {
+    // PathBuilder y no mutar un SkPath: desde Skia 2.6 los caminos son
+    // inmutables y `SkPath.moveTo()` y compañía están obsoletos.
+    const b = Skia.PathBuilder.Make()
+    for (const r of s.rings) {
+      b.moveTo(r[0], r[1])
+      for (let i = 2; i < r.length; i += 2) b.lineTo(r[i], r[i + 1])
+      b.close()
+    }
+    b.setFillType(FillType.EvenOdd)
+    return { code: s.code, path: b.detach() }
+  })
+  return pathCache
+}
+
+function fillFor(status: CountryStatus | undefined, palette: Palette): string {
+  if (status === 'been') return palette.mapBeen
+  if (status === 'want') return palette.mapWant
+  return palette.mapEmpty
+}
+
+/**
+ * Una copia del mapa, GRABADA como imagen vectorial (`SkPicture`): todos los
+ * países con su relleno y su frontera.
+ *
+ * Grabada una vez y no como un nodo de Skia por país, a propósito: con
+ * nodos, cada fotograma del gesto recorría desde JavaScript ~1.460 nodos
+ * (243 países × relleno y frontera × 3 copias) y el pellizco no iba fino.
+ * Grabada, cada fotograma son 3 dibujos que se reproducen en nativo. Sigue
+ * siendo vectorial (nítida a cualquier zoom), y Skia descarta de golpe una
+ * copia entera cuando cae fuera de la pantalla, y cada país que cae fuera
+ * dentro de la que sí se ve.
+ *
+ * Las fronteras van con grosor 0, que en Skia es «una línea de un píxel
+ * físico a cualquier zoom»: la frontera fina de los mapas de verdad.
+ *
+ * Se vuelve a grabar solo cuando cambia lo marcado o el tema.
+ */
+function recordTile(statusByCode: Map<string, CountryStatus>, palette: Palette) {
+  const shapes = shapePaths()
+  const paints = new Map<string, ReturnType<typeof Skia.Paint>>()
+  const fillPaint = (color: string) => {
+    let p = paints.get(color)
+    if (!p) {
+      p = Skia.Paint()
+      p.setAntiAlias(true)
+      p.setColor(Skia.Color(color))
+      paints.set(color, p)
+    }
+    return p
+  }
+  const border = Skia.Paint()
+  border.setAntiAlias(true)
+  border.setStyle(PaintStyle.Stroke)
+  border.setStrokeWidth(0)
+  border.setColor(Skia.Color(palette.mapStroke))
+  return createPicture(
+    (canvas) => {
+      for (const s of shapes) {
+        canvas.drawPath(s.path, fillPaint(fillFor(s.code ? statusByCode.get(s.code) : undefined, palette)))
+      }
+      for (const s of shapes) canvas.drawPath(s.path, border)
+    },
+    // Con margen: Fiyi y Rusia tocan los bordes del lienzo, y la frontera
+    // sobresale medio píxel.
+    Skia.XYWHRect(-10, -10, MAP_WIDTH + 20, MAP_HEIGHT + 20),
+  )
+}
+
+export default function WorldMap({ statusByCode, onSelect, selected, bottomInset = 0, topInset = 0 }: Props) {
   const palette = usePalette()
-  const paths = useMemo(() => svgPaths(), [])
   const [size, setSize] = useState({ width: 0, height: 0 })
-  // Espejo en React del zoom actual: SOLO para pintar los botones +/- como
-  // deshabilitados en los límites. El valor que de verdad manda para dibujar
-  // el mapa sigue siendo el shared value de abajo.
-  const [currentScale, setCurrentScale] = useState(1)
+  // Espejo en React de la escala, SOLO para lo que no puede calcularse en
+  // cada fotograma: qué países llevan marcador y si los botones +/- están en
+  // su tope. Se pone al día al terminar cada gesto o animación.
+  const [settledScale, setSettledScale] = useState(1)
 
-  const containerWidth = useSharedValue(0)
-  const containerHeight = useSharedValue(0)
-  // El tamaño del lienzo también vive en shared values, no solo en el estado
-  // de React: así el estilo animado no depende de nada que cambie por un
-  // re-render, que es de donde salían los saltos.
-  //
-  // El mapa se dibuja TRES veces seguidas en horizontal (izquierda, centro,
-  // derecha) para poder dar la vuelta sin fin al arrastrar — por eso
-  // `canvasW` es el ancho de las TRES copias juntas, no de una sola.
-  const canvasW = useSharedValue(0)
-  const canvasH = useSharedValue(0)
-
+  const containerW = useSharedValue(0)
+  const containerH = useSharedValue(0)
+  const inset = useSharedValue(0)
   const scale = useSharedValue(1)
   const translateX = useSharedValue(0)
   const translateY = useSharedValue(0)
 
-  // Estado al empezar el arrastre.
-  const startX = useSharedValue(0)
-  const startY = useSharedValue(0)
+  // Estado del gesto de dedos (ver `touchUpdate`).
+  const anchor = useSharedValue<TouchAnchor | null>(null)
+  const downAt = useSharedValue(0)
+  const downX = useSharedValue(0)
+  const downY = useSharedValue(0)
   const moved = useSharedValue(false)
-  // Desplazamiento que el gesto de arrastre YA acumulaba en el momento de
-  // activarse. Ver el comentario de `panGesture`.
-  const startPanTX = useSharedValue(0)
-  const startPanTY = useSharedValue(0)
+  const maxFingers = useSharedValue(0)
+  // Para la inercia: última posición y velocidad estimada con un dedo.
+  const lastX = useSharedValue(0)
+  const lastY = useSharedValue(0)
+  const lastT = useSharedValue(0)
+  const velX = useSharedValue(0)
+  const velY = useSharedValue(0)
+
+  // Lo que se ve del mapa: el alto del contenedor menos lo que tapa la ficha.
+  // Toda la matemática de acotar usa ESTE alto, no el total: así, con la
+  // ficha abierta, se puede subir el sur de Chile hasta verlo por encima.
+  const viewH = useDerivedValue(() => Math.max(1, containerH.value - inset.value))
 
   function onLayout(e: LayoutChangeEvent) {
     const { width, height } = e.nativeEvent.layout
     if (width === size.width && height === size.height) return
     setSize({ width, height })
-    containerWidth.value = width
-    containerHeight.value = height
-    canvasW.value = width * OVERSAMPLE * 3
-    canvasH.value = width * MAP_ASPECT * OVERSAMPLE
+    containerW.value = width
+    containerH.value = height
     const init = initialTransform(width, height, MAP_ASPECT)
     scale.value = init.scale
     translateX.value = init.x
     translateY.value = init.y
-    setCurrentScale(init.scale)
+    setSettledScale(init.scale)
   }
 
-  /**
-   * Qué país hay bajo un punto, en coordenadas del contenido sin transformar.
-   * Corre en el hilo de JS: `countryAt` invierte la proyección y prueba contra
-   * ~180 países, no es apto para un worklet.
-   *
-   * Como el paneo da la vuelta, `contentX` puede caer fuera de
-   * [0, containerWidth) — puede tocarse en cualquiera de las tres copias
-   * dibujadas. Se envuelve a la copia canónica antes de convertir a
-   * coordenadas del mapa, o `countryAt` fallaría (o acertaría el país
-   * equivocado) para toques en la copia izquierda o derecha.
-   */
-  function handleTap(contentX: number, contentY: number) {
-    if (!onSelect || containerWidth.value === 0) return
-    const cw = containerWidth.value
-    const wrappedX = ((contentX % cw) + cw) % cw
-    const ratio = MAP_WIDTH / cw
-    const cca3 = countryAt(wrappedX * ratio, contentY * ratio)
-    if (cca3) onSelect(cca3)
+  useEffect(() => {
+    inset.value = bottomInset
+  }, [bottomInset, inset])
+
+  /** Lleva la cámara a un destino con una animación suave. */
+  function animateTo(t: { scale: number; x: number; y: number }, duration = 350) {
+    const cfg = { duration, easing: Easing.out(Easing.cubic) }
+    scale.value = withTiming(t.scale, cfg)
+    translateX.value = withTiming(t.x, cfg)
+    translateY.value = withTiming(t.y, cfg)
+    // El espejo en React se pone ya con el valor final: los marcadores
+    // aparecen mientras la cámara llega, en vez de saltar al final.
+    setSettledScale(t.scale)
   }
 
-  /**
-   * Ampliar/reducir con los botones, centrado siempre en el centro de la
-   * pantalla — nada de gestos: sin dedos que coordinar no hay estado de
-   * gesto que se pueda desincronizar. Corre en el hilo de JS (es la
-   * respuesta a un `onPress` normal), así que puede leer y escribir los
-   * shared values directamente.
-   */
-  function zoomBy(factor: number) {
-    const next = centerZoomTransform(
+  // Encuadrar el país seleccionado en el hueco que deja la ficha. Se repite
+  // cuando la ficha mide su alto (llega un instante después de abrirse).
+  useEffect(() => {
+    if (!selected || size.width === 0) return
+    const site = siteOf(selected)
+    if (!site) return
+    const k = size.width / MAP_WIDTH
+    const box = site.frame.map((v) => v * k) as [number, number, number, number]
+    const visibleH = Math.max(1, size.height - bottomInset)
+    const t = fitBoundsTransform(
+      box,
       { scale: scale.value, x: translateX.value, y: translateY.value },
-      factor,
-      containerWidth.value,
-      containerHeight.value,
+      Math.min(topInset, visibleH / 3),
+      visibleH,
+      FRAME_PADDING,
+      size.width,
+      visibleH,
       MAP_ASPECT,
     )
-    scale.value = withTiming(next.scale, { duration: 200 })
-    translateX.value = withTiming(next.x, { duration: 200 })
-    translateY.value = withTiming(next.y, { duration: 200 })
-    setCurrentScale(next.scale)
+    animateTo(t, 450)
+    // `animateTo` y los shared values son estables; solo importa qué país y
+    // cuánto hueco queda.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected, bottomInset, size.width, size.height])
+
+  /**
+   * Qué hay bajo un toque. Corre en el hilo de JS: recorre ~250 sitios y
+   * hace punto-en-polígono, no es trabajo para un worklet.
+   *
+   * Como el mapa da la vuelta, el punto puede caer en cualquiera de las tres
+   * copias: se lleva a la copia central antes de buscar.
+   */
+  function handleTap(contentX: number, contentY: number, atScale: number) {
+    if (!onSelect || size.width === 0) return
+    const ratio = MAP_WIDTH / size.width
+    const mx = (((contentX * ratio) % MAP_WIDTH) + MAP_WIDTH) % MAP_WIDTH
+    const my = contentY * ratio
+    onSelect(siteAt(mx, my, pxPerUnit(atScale, size.width)))
+  }
+
+  function zoomBy(factor: number) {
+    const w = containerW.value
+    const h = viewH.value
+    animateTo(
+      zoomAround(
+        { scale: scale.value, x: translateX.value, y: translateY.value },
+        w / 2,
+        h / 2,
+        factor,
+        w,
+        h,
+        MAP_ASPECT,
+      ),
+      220,
+    )
   }
 
   /**
-   * Arrastrar con un dedo, para moverte por el mapa. El zoom ya no es un
-   * gesto (son los botones +/- de abajo), así que este es el ÚNICO gesto que
-   * queda en el mapa: sin pellizco con el que coordinarse.
+   * Aplica un paso del gesto con la lista de dedos de ahora.
    *
-   * `maxPointers(1)` se mantiene aunque ya no haya pellizco: si apoyas un
-   * segundo dedo sin querer, es mejor que el arrastre se cancele a que
-   * intente seguir con dos punteros y vuelva a dar saltos raros.
-   *
-   * Detalle importante que sigue aplicando: `translationX/Y` se miden desde
-   * que apoyaste el dedo, y por eso se guarda el valor de partida y se resta
-   * en vez de usarlo tal cual.
+   * SOLO con un dedo. El pellizco se probó (con `touchUpdate` leyendo dos
+   * dedos) y en el móvil se sentía raro, así que el zoom va únicamente con
+   * los botones +/-. Con dos o más dedos el mapa se queda quieto: se suelta
+   * el ancla y, al volver a quedar uno, se ancla de nuevo donde esté, sin
+   * salto.
    */
-  const panGesture = Gesture.Pan()
-    .maxPointers(1)
-    .minDistance(1)
-    .onBegin((e) => {
-      // Se guarda YA, no en `onStart`: un toque limpio (sin nada de
-      // desplazamiento) puede no llegar nunca a `onStart` — ver el
-      // comentario largo en `onFinalize`, más abajo — y sin esto
-      // `handleTap` usaría un `translateX/Y` desactualizado de la vez
-      // anterior.
-      startX.value = translateX.value
-      startY.value = translateY.value
-      startPanTX.value = e.translationX
-      startPanTY.value = e.translationY
-      moved.value = false
+  function step(fingers: Finger[]) {
+    'worklet'
+    const r = touchUpdate(
+      anchor.value,
+      fingers.length === 1 ? fingers : [],
+      { scale: scale.value, x: translateX.value, y: translateY.value },
+      containerW.value,
+      viewH.value,
+      MAP_ASPECT,
+    )
+    anchor.value = r.anchor
+    scale.value = r.t.scale
+    translateX.value = r.t.x
+    translateY.value = r.t.y
+  }
+
+  /**
+   * UN solo gesto que lee los dedos en crudo: arrastre, inercia y toque
+   * salen de aquí. Ver `touchUpdate` en mapTransform.ts para el porqué (en
+   * corto: con dos gestos, cada uno con su propio «desde dónde mido», el
+   * mapa saltaba al poner o quitar un dedo).
+   */
+  const gesture = Gesture.Manual()
+    .onTouchesDown((e, manager) => {
+      const fingers = e.allTouches as Finger[]
+      // ¿Es el primer dedo de un gesto nuevo? Se mira por los dedos y no por
+      // `anchor === null`: si el gesto anterior acabó sin que llegara su
+      // último «levantar» (lo corta el sistema), quedaba un ancla vieja, y
+      // si el dedo nuevo reutilizaba el mismo id, el mapa saltaba desde
+      // donde estaba aquel dedo.
+      if (fingers.length === e.changedTouches.length) {
+        anchor.value = null
+        // Primer dedo: para en seco cualquier animación (inercia, encuadre),
+        // como cuando pones la mano sobre un mapa que se desliza.
+        cancelAnimation(scale)
+        cancelAnimation(translateX)
+        cancelAnimation(translateY)
+        const f = e.changedTouches[0]
+        downAt.value = Date.now()
+        downX.value = f.x
+        downY.value = f.y
+        lastX.value = f.x
+        lastY.value = f.y
+        lastT.value = Date.now()
+        velX.value = 0
+        velY.value = 0
+        moved.value = false
+        maxFingers.value = 0
+      }
+      maxFingers.value = Math.max(maxFingers.value, fingers.length)
+      step(fingers)
+      manager.activate()
     })
-    .onUpdate((e) => {
-      const dx = e.translationX - startPanTX.value
-      const dy = e.translationY - startPanTY.value
-      if (!moved.value && Math.hypot(dx, dy) > TAP_THRESHOLD) {
+    .onTouchesMove((e) => {
+      const fingers = e.allTouches as Finger[]
+      if (fingers.length === 1) {
+        const f = fingers[0]
+        if (!moved.value && Math.hypot(f.x - downX.value, f.y - downY.value) > TAP_THRESHOLD) {
+          moved.value = true
+        }
+        const now = Date.now()
+        const dt = now - lastT.value
+        if (dt > 0) {
+          // Media móvil: un solo evento suelto no decide la inercia.
+          velX.value = 0.2 * velX.value + 0.8 * (((f.x - lastX.value) / dt) * 1000)
+          velY.value = 0.2 * velY.value + 0.8 * (((f.y - lastY.value) / dt) * 1000)
+        }
+        lastX.value = f.x
+        lastY.value = f.y
+        lastT.value = now
+      } else {
         moved.value = true
       }
-      const next = panTransform(
-        { scale: scale.value, x: startX.value, y: startY.value },
-        e.translationX,
-        e.translationY,
-        startPanTX.value,
-        startPanTY.value,
-        containerWidth.value,
-        containerHeight.value,
-        MAP_ASPECT,
-      )
-      translateX.value = next.x
-      translateY.value = next.y
+      step(fingers)
     })
-    // `onFinalize` y no `onEnd`: un toque limpio, sin nada de desplazamiento
-    // de por medio, puede no llegar nunca a activarse como gesto (no supera
-    // el umbral de `minDistance`). Cuando eso pasa, el gesto termina en
-    // FAILED en vez de en END, y `onEnd` NO se llama —solo se llama si el
-    // gesto llegó a estar activo— así que un toque así no hacía nada. Este
-    // era justo el fallo: «al clickar en un país, no hace nada».
-    // `onFinalize` sí se llama siempre, haya o no llegado a activarse.
-    .onFinalize((e) => {
-      // Apenas se movió: era un toque, no un arrastre.
-      if (moved.value) return
-      const contentX = screenToContent(e.x, scale.value, translateX.value)
-      const contentY = screenToContent(e.y, scale.value, translateY.value)
-      scheduleOnRN(handleTap, contentX, contentY)
+    .onTouchesUp((e, manager) => {
+      // En Android, el evento de levantar un dedo puede traerlo todavía en
+      // `allTouches`; los que quedan son los que NO acaban de levantarse.
+      const lifted = new Set(e.changedTouches.map((t) => t.id))
+      const remaining = (e.allTouches as Finger[]).filter((t) => !lifted.has(t.id))
+      step(remaining)
+      if (remaining.length > 0) {
+        // Al volver a quedar un dedo, la velocidad que había no vale.
+        velX.value = 0
+        velY.value = 0
+        lastT.value = Date.now()
+        return
+      }
+      manager.end()
+      const now = Date.now()
+      if (!moved.value && maxFingers.value === 1 && now - downAt.value < TAP_MAX_MS) {
+        const s = scale.value
+        scheduleOnRN(
+          handleTap,
+          screenToContent(downX.value, s, translateX.value),
+          screenToContent(downY.value, s, translateY.value),
+          s,
+        )
+        return
+      }
+      // Inercia: solo si el dedo seguía moviéndose al soltar.
+      const speed = Math.hypot(velX.value, velY.value)
+      if (now - lastT.value < 80 && speed > FLING_MIN_SPEED) {
+        const s = scale.value
+        const h = containerW.value * MAP_ASPECT * s
+        translateX.value = withDecay({ velocity: velX.value, deceleration: 0.996 })
+        if (h > viewH.value) {
+          translateY.value = withDecay({
+            velocity: velY.value,
+            deceleration: 0.996,
+            clamp: [viewH.value - h, 0],
+          })
+        }
+      }
+      scheduleOnRN(setSettledScale, scale.value)
     })
+    .onTouchesCancelled((_e, manager) => {
+      anchor.value = null
+      manager.end()
+      scheduleOnRN(setSettledScale, scale.value)
+    })
+    // Acabe como acabe el gesto (incluso si el sistema lo cancela sin pasar
+    // por los eventos de dedos), no se deja un ancla vieja para el siguiente.
+    .onFinalize(() => {
+      anchor.value = null
+    })
+
+  // Escala del lienzo: unidades del mapa → dp de pantalla.
+  const k = useDerivedValue(() => (scale.value * containerW.value) / MAP_WIDTH)
 
   /**
-   * El SVG se dibuja OVERSAMPLE veces más grande de lo que se ve, así que se
-   * encoge esa misma cantidad. Y como React Native escala respecto al CENTRO
-   * de la vista, el desplazamiento se corrige para que cuadre con la
-   * convención «desde la esquina» que usa toda la matemática (ver
-   * `mapTransform.ts`, probado en `verify/map.ts`).
-   *
-   * En X hay una corrección extra: el lienzo tiene las tres copias del mapa
-   * (para poder dar la vuelta), así que además de la compensación de
-   * siempre hay que tener en cuenta que el lienzo empieza una copia antes de
-   * donde la matemática considera el origen. Los dos ajustes van juntos en
-   * `tiledTranslateX`.
+   * La transformación de todo el mapa. X se envuelve AQUÍ, al dibujar, y no
+   * en el valor guardado: así las animaciones (inercia, encuadre) pueden
+   * llevar X tan lejos como quieran sin que se vea ninguna costura.
    */
-  const animatedStyle = useAnimatedStyle(() => {
-    const k = scale.value / OVERSAMPLE
-    return {
-      transform: [
-        {
-          translateX: tiledTranslateX(
-            translateX.value,
-            containerWidth.value,
-            scale.value,
-            canvasW.value,
-            k,
-          ),
-        },
-        { translateY: originCompensatedTranslate(translateY.value, canvasH.value, k) },
-        { scale: k },
-      ],
+  const mapTransform = useDerivedValue(() => [
+    { translateX: wrapTranslateX(translateX.value, containerW.value * scale.value) },
+    { translateY: translateY.value },
+    { scale: k.value },
+  ])
+  // Medidas que deben verse siempre igual en pantalla, a cualquier zoom.
+  const haloWidth = useDerivedValue(() => mapMarks.halo / k.value)
+  const selectedWidth = useDerivedValue(() => mapMarks.selected / k.value)
+
+  const tilePicture = useMemo(() => recordTile(statusByCode, palette), [statusByCode, palette])
+
+  const selectedShape = useMemo(
+    () => (selected ? shapePaths().find((s) => s.code === selected) : undefined),
+    [selected],
+  )
+
+  // Marcadores de los países diminutos, por estado. Se recalcula solo al
+  // terminar un gesto (`settledScale`), no en cada fotograma.
+  const markers = useMemo(() => {
+    const ppu = size.width ? pxPerUnit(settledScale, size.width) : 0
+    const groups = { been: [] as number[], want: [] as number[], empty: [] as number[], all: [] as number[] }
+    let selectedAnchor: number[] = []
+    if (!ppu) return { ...groups, selectedAnchor }
+    for (const s of MAP_SITES) {
+      if (!markerVisible(s, ppu)) continue
+      const st = statusByCode.get(s.code)
+      const g = st === 'been' ? groups.been : st === 'want' ? groups.want : groups.empty
+      g.push(s.anchor[0], s.anchor[1])
+      groups.all.push(s.anchor[0], s.anchor[1])
+      if (s.code === selected) selectedAnchor = [s.anchor[0], s.anchor[1]]
     }
-  })
+    return { ...groups, selectedAnchor }
+  }, [settledScale, size.width, statusByCode, selected])
 
-  function fillFor(status: CountryStatus | undefined): string {
-    if (status === 'been') return palette.on
-    if (status === 'want') return palette.warn
-    return palette.mapEmpty
+  /**
+   * Los marcadores se dibujan en coordenadas de PANTALLA, fuera del lienzo
+   * que escala: así miden siempre lo mismo. Sus posiciones se recalculan en
+   * cada fotograma en el hilo de la interfaz, y se descartan los que caen
+   * fuera para no mandar a dibujar cientos de puntos invisibles.
+   */
+  function useScreenPoints(flat: number[]) {
+    return useDerivedValue(() => {
+      const kk = k.value
+      const x0 = wrapTranslateX(translateX.value, containerW.value * scale.value)
+      const y0 = translateY.value
+      const w = containerW.value
+      const h = containerH.value
+      const out: { x: number; y: number }[] = []
+      for (let i = 0; i < flat.length; i += 2) {
+        for (let t = -1; t <= 1; t++) {
+          const x = (flat[i] + t * MAP_WIDTH) * kk + x0
+          const y = flat[i + 1] * kk + y0
+          if (x > -20 && x < w + 20 && y > -20 && y < h + 20) out.push({ x, y })
+        }
+      }
+      return out
+    }, [flat])
   }
+  const ringPts = useScreenPoints(markers.all)
+  const beenPts = useScreenPoints(markers.been)
+  const wantPts = useScreenPoints(markers.want)
+  const emptyPts = useScreenPoints(markers.empty)
+  const selectedPts = useScreenPoints(markers.selectedAnchor)
 
-  // Ancho de las tres copias juntas — ver el comentario en `canvasW` más arriba.
-  const canvasWidth = size.width * OVERSAMPLE * 3
-  const canvasHeight = size.width * MAP_ASPECT * OVERSAMPLE
-  const canZoomIn = currentScale < MAX_SCALE - 1e-6
-  const canZoomOut = currentScale > MIN_SCALE + 1e-6
-
-  const styles = StyleSheet.create({
-    controls: {
-      position: 'absolute',
-      right: space.lg,
-      bottom: space.lg,
-      gap: 1,
-      borderRadius: radius.md,
-      overflow: 'hidden',
-      borderWidth: StyleSheet.hairlineWidth,
-    },
-    btn: {
-      width: 44,
-      height: 44,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    sep: { height: StyleSheet.hairlineWidth },
-  })
+  const canZoomIn = settledScale < MAX_SCALE - 1e-6
+  const canZoomOut = settledScale > MIN_SCALE + 1e-6
+  const selectedFill = selected ? fillFor(statusByCode.get(selected), palette) : palette.mapEmpty
 
   return (
     <View style={{ flex: 1 }}>
-      <GestureDetector gesture={panGesture}>
+      <GestureDetector gesture={gesture}>
         <View style={{ flex: 1, overflow: 'hidden' }} onLayout={onLayout}>
           {size.width > 0 && (
-            <Animated.View style={[{ width: canvasWidth, height: canvasHeight }, animatedStyle]}>
-              <Svg
-                width={canvasWidth}
-                height={canvasHeight}
-                viewBox={`${-MAP_WIDTH} 0 ${MAP_WIDTH * 3} ${MAP_HEIGHT}`}
-              >
-                {/* Tres copias del mapa una junto a otra (izquierda, centro,
-                    derecha), para dar la vuelta sin fin al arrastrar. Ver
-                    `tiledTranslateX` en mapTransform.ts. */}
-                {[-1, 0, 1].map((tile) => (
-                  <G key={tile} transform={`translate(${tile * MAP_WIDTH} 0)`}>
-                    {paths.map((p, i) => {
-                      const status = p.cca3 ? statusByCode.get(p.cca3) : undefined
-                      const isSelected = p.cca3 != null && p.cca3 === selected
-                      return (
+            <Canvas style={{ flex: 1 }}>
+              <Fill color={palette.mapSea} />
+              <Group transform={mapTransform}>
+                {TILES.map((tile) => (
+                  <Group key={tile} transform={[{ translateX: tile * MAP_WIDTH }]}>
+                    <Picture picture={tilePicture} />
+                    {selectedShape && (
+                      <>
+                        {/* Halo, el país otra vez encima (para que el halo
+                            quede solo por fuera) y un borde nítido. */}
                         <Path
-                          key={p.cca3 ?? `x${i}`}
-                          d={p.d}
-                          fill={fillFor(status)}
-                          stroke={isSelected ? palette.fg : palette.mapStroke}
-                          strokeWidth={isSelected ? 1.6 : 0.3}
+                          path={selectedShape.path}
+                          style="stroke"
+                          strokeWidth={haloWidth}
+                          strokeJoin="round"
+                          color={palette.mapSelected}
+                          opacity={0.22}
                         />
-                      )
-                    })}
-                  </G>
+                        <Path path={selectedShape.path} color={selectedFill} />
+                        <Path
+                          path={selectedShape.path}
+                          style="stroke"
+                          strokeWidth={selectedWidth}
+                          strokeJoin="round"
+                          color={palette.mapSelected}
+                        />
+                      </>
+                    )}
+                  </Group>
                 ))}
-              </Svg>
-            </Animated.View>
+              </Group>
+              {/* El seleccionado, con un aro claro más grande por debajo. */}
+              {markers.selectedAnchor.length > 0 && (
+                <Points
+                  points={selectedPts}
+                  mode="points"
+                  strokeWidth={2 * (mapMarks.dot + mapMarks.dotRing * 2)}
+                  strokeCap="round"
+                  color={palette.mapSelected}
+                />
+              )}
+              {/* Puntos de los países diminutos: un aro del color del mar
+                  para separarlos de lo que tengan debajo, y el relleno. */}
+              <Points
+                points={ringPts}
+                mode="points"
+                strokeWidth={2 * (mapMarks.dot + mapMarks.dotRing)}
+                strokeCap="round"
+                color={palette.mapStroke}
+              />
+              <Points points={emptyPts} mode="points" strokeWidth={2 * mapMarks.dot} strokeCap="round" color={palette.faint} />
+              <Points points={wantPts} mode="points" strokeWidth={2 * mapMarks.dot} strokeCap="round" color={palette.mapWant} />
+              <Points points={beenPts} mode="points" strokeWidth={2 * mapMarks.dot} strokeCap="round" color={palette.mapBeen} />
+            </Canvas>
           )}
         </View>
       </GestureDetector>
 
-      <View style={[styles.controls, { backgroundColor: palette.surface, borderColor: palette.line }]}>
+      <View
+        style={[
+          styles.controls,
+          { backgroundColor: palette.surface, borderColor: palette.line, bottom: bottomInset + space.lg },
+        ]}
+      >
         <Pressable
           onPress={() => zoomBy(ZOOM_STEP)}
           disabled={!canZoomIn}
@@ -310,3 +579,21 @@ export default function WorldMap({ statusByCode, onSelect, selected }: Props) {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  controls: {
+    position: 'absolute',
+    right: space.lg,
+    gap: 1,
+    borderRadius: radius.md,
+    overflow: 'hidden',
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  btn: {
+    width: 44,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sep: { height: StyleSheet.hairlineWidth },
+})

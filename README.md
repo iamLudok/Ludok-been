@@ -62,7 +62,9 @@ entirely on your phone**.
 
 ## Features
 
-- 🗺️ **Interactive world map**: tap a country to mark it, pinch to zoom, drag to move around. The map wraps horizontally, so you can keep scrolling past the Pacific.
+- 🗺️ **Interactive world map**: tap a country to mark it, drag to move around (with inertia), and zoom with the + and − buttons. The map wraps horizontally, so you can keep scrolling past the Pacific. It's drawn with Skia, so it stays sharp up to 60× zoom.
+- 📍 **Tiny countries are tappable**: countries too small to hit with a finger (Vatican City, Monaco, Tuvalu…) get a dot on the map.
+- 🎯 **Selected country stands out**: tapping a country frames it above its card, with a highlighted outline, and the map stays usable underneath.
 - ✅ **Two states per country**: **Visited** or **Want to go**, with an optional year.
 - 🚆 **How you got around**: mark the transport you used in each country (plane, train, car, bus, boat, motorbike, bike, on foot) or type your own.
 - 📋 **List**: every country grouped by continent, with search.
@@ -182,17 +184,19 @@ code that runs on the phone**:
 npm run verify:data       # backup round trip (export/import), password never exported
 npm run verify:library    # rules: visit status, year, transports, stats
 npm run verify:migration  # the schema is created idempotently
-npm run verify:map        # pinch, pan and zoom maths
+npm run verify:map        # pan, zoom and camera maths; every country is tappable
 ```
 
 The data tests run against a desktop SQLite through **libsql**, which, like `expo-sqlite`, supports
 async transactions. The logic gets its database from [`src/lib/dbRef.ts`](src/lib/dbRef.ts) instead
 of creating it, and [`src/lib/db.ts`](src/lib/db.ts) is the **only** file that touches `expo-sqlite`.
 
-The map test checks the property that defines a correct pinch: **the point of the map under your
-fingers doesn't move**. That bug is invisible when reading the code and slow to test by hand
-(build, install, pinch), so it's tested on the pure functions in
-[`src/lib/mapTransform.ts`](src/lib/mapTransform.ts).
+The map test checks that zooming keeps **the point at the centre of the screen in place**, that
+the map doesn't jump when a finger is added or lifted, and that the camera frames the selected
+country. Those bugs are invisible when reading the code and slow to test by hand (build, install,
+drag), so they're tested on the pure functions in [`src/lib/mapTransform.ts`](src/lib/mapTransform.ts),
+replaying finger sequences. It also checks that **every country can be tapped**, at world view and
+zoomed in.
 
 ---
 
@@ -204,14 +208,15 @@ Ludok-been/
 │   └── (tabs)/             ← Map, List, Stats, Settings
 ├── src/
 │   ├── lib/                ← Data and logic (SQLite, Drizzle, backups, Nextcloud, map maths)
-│   ├── data/               ← Country metadata and UK nation shapes (generated, committed)
+│   ├── data/               ← Country metadata and projected map geometry (generated, committed)
 │   ├── ui/                 ← Design tokens and base components
 │   ├── components/         ← WorldMap, CountrySheet, BackupBanner, NextcloudSettings
 │   └── hooks/              ← Reactive queries (Drizzle's useLiveQuery)
 ├── verify/                 ← Tests (Node, not shipped in the APK)
 ├── scripts/
 │   ├── build-apk.sh        ← Builds and signs the release APK
-│   └── gen-countries.mjs   ← Regenerates src/data/countries.json
+│   ├── gen-countries.mjs   ← Regenerates src/data/countries.json
+│   └── gen-map.mjs         ← Regenerates src/data/map.json (projected geometry)
 ├── assets/                 ← Icon and splash screen
 ├── app.json                ← Expo configuration
 └── package.json
@@ -226,15 +231,19 @@ and committed, so the app doesn't depend on it at runtime. To regenerate it:
 
 ```bash
 npm run gen:countries
+npm run gen:map          # after changing countries.json or the UK nation shapes
 ```
+
+[`src/data/map.json`](src/data/map.json) holds the map geometry **already projected** to screen
+coordinates, so the app ships neither d3 nor the atlas and hit-testing is plain point-in-polygon.
 
 ---
 
 ## Data Sources & Credits
 
 - **Country metadata** (names, codes, continents) comes from [mledoze/countries](https://github.com/mledoze/countries) (`world-countries`), licensed under the [Open Database License (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1-0/). The derived file [`src/data/countries.json`](src/data/countries.json) is distributed under the same license.
-- **Map geometry** comes from [Natural Earth](https://www.naturalearthdata.com/) (public domain), through [world-atlas](https://github.com/topojson/world-atlas). The UK nation shapes in [`src/data/uk-nations.json`](src/data/uk-nations.json) are cut from Natural Earth's 1:50m map subunits.
-- Map rendering uses [d3-geo](https://github.com/d3/d3-geo) and [topojson-client](https://github.com/topojson/topojson-client).
+- **Map geometry** comes from [Natural Earth](https://www.naturalearthdata.com/) 1:50m (public domain), through [world-atlas](https://github.com/topojson/world-atlas). The UK nation shapes in [`src/data/uk-nations.json`](src/data/uk-nations.json) are cut from Natural Earth's 1:50m map subunits.
+- The geometry is projected at build time with [d3-geo](https://github.com/d3/d3-geo) and [topojson-client](https://github.com/topojson/topojson-client), and drawn on the phone with [React Native Skia](https://github.com/Shopify/react-native-skia).
 
 ---
 

@@ -7,21 +7,12 @@
 // APK y probarlo a mano.
 
 export const MIN_SCALE = 1
-export const MAX_SCALE = 10
-
 /**
- * Cuántas veces más grande que su tamaño en pantalla se dibuja el SVG.
- *
- * Es una constante y no un valor que se ajuste según el zoom: cambiarlo sobre
- * la marcha obliga a re-medir la vista animada a mitad de interacción, y el
- * tamaño nuevo y la transformación nueva no llegan a la pantalla en el mismo
- * fotograma — el mapa daba un salto justo al levantar los dedos. Fijo, el
- * lienzo no cambia nunca de tamaño y no hay salto posible.
- *
- * 2× es el equilibrio: cuadruplica los píxeles del lienzo (asumible), y a 8×
- * eran 64 veces y por eso iba a tirones.
+ * 60× deja ver el Vaticano entero en pantalla. Con el SVG de antes el tope
+ * era 10× porque Android lo pintaba como imagen y a partir de ahí se veía
+ * borroso; Skia dibuja vectorial a cualquier zoom.
  */
-export const OVERSAMPLE = 2
+export const MAX_SCALE = 60
 
 export interface Transform {
   scale: number
@@ -206,57 +197,202 @@ export function centerZoomTransform(
 }
 
 /**
- * React Native escala las vistas respecto a su CENTRO, no a su esquina.
- *
- * Toda la matemática de arriba asume esquina superior izquierda (pantalla =
- * contenido × escala + desplazamiento), así que hay que corregir el
- * desplazamiento que se le pasa al estilo. Se hace con esta cuenta en vez de
- * con `transformOrigin` porque esa propiedad no está garantizada por la vía
- * de `useAnimatedStyle`, y si se ignora en silencio el mapa hace zoom hacia
- * un sitio distinto del que estás tocando — que es justo el fallo que se
- * arrastraba.
- *
- * @param logicalTranslate desplazamiento en la convención "desde la esquina"
- * @param canvasSize       tamaño de la vista animada en ese eje
- * @param k                escala que se le pasa al estilo
+ * Desplazamiento vertical acotado para una escala dada: el mismo criterio que
+ * `clampTransform`, pero sin tocar X. Lo usan las animaciones de cámara, que
+ * necesitan X SIN envolver (ver `zoomAround`).
  */
-export function originCompensatedTranslate(
-  logicalTranslate: number,
-  canvasSize: number,
-  k: number,
-): number {
+export function clampY(scale: number, y: number, containerW: number, containerH: number, aspect: number): number {
   'worklet'
-  return logicalTranslate - (canvasSize / 2) * (1 - k)
+  const h = containerW * aspect * scale
+  return h <= containerH ? (containerH - h) / 2 : Math.min(0, Math.max(containerH - h, y))
 }
 
 /**
- * Desplazamiento final en X para el estilo animado, cuando el mapa se dibuja
- * TRES veces seguidas (para poder dar la vuelta sin fin, ver `WorldMap.tsx`).
+ * Ampliar/reducir alrededor de un punto de la pantalla, para ANIMARLO (botones
+ * +/-, doble toque).
  *
- * Combina dos correcciones en una, porque si se aplican por separado es fácil
- * dejarse alguna o hacerlo en el orden que no es:
- *
- * 1. El lienzo, con las tres copias, empieza UNA COPIA ANTES de donde nuestra
- *    matemática considera el origen (para tener la copia de la izquierda de
- *    sobra). Eso desplaza todo lo dibujado exactamente `containerW * scale`
- *    px hacia la izquierda respecto a lo que se espera, y hay que
- *    compensarlo restando esa cantidad.
- * 2. Encima de eso, la corrección de siempre por cómo React Native escala
- *    las vistas desde su centro (`originCompensatedTranslate`).
- *
- * La demostración de que el orden es «restar la copia, LUEGO compensar el
- * centro» y no al revés está en `verify/map.ts`: se simula el render real
- * para un punto de cada una de las tres copias y se comprueba que cae
- * exactamente donde dice `contentToScreen`.
+ * Es la misma cuenta que `pinchTransform`, con una diferencia a propósito: X
+ * no se envuelve. Si el destino se envolviera, podría quedar una vuelta
+ * entera más allá del origen, y la animación recorrería el mundo entero de
+ * lado a lado para llegar a un sitio que se ve idéntico. Sin envolver, el
+ * destino es el más cercano; al dibujar ya se envuelve (`wrapTranslateX`).
  */
-export function tiledTranslateX(
-  translateX: number,
+export function zoomAround(
+  current: Transform,
+  px: number,
+  py: number,
+  factor: number,
   containerW: number,
-  scale: number,
-  canvasWidth: number,
-  k: number,
-): number {
+  containerH: number,
+  aspect: number,
+): Transform {
   'worklet'
-  const tileWidth = containerW * scale
-  return originCompensatedTranslate(translateX - tileWidth, canvasWidth, k)
+  const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, current.scale * factor))
+  const anchorX = screenToContent(px, current.scale, current.x)
+  const anchorY = screenToContent(py, current.scale, current.y)
+  return {
+    scale,
+    x: px - anchorX * scale,
+    y: clampY(scale, py - anchorY * scale, containerW, containerH, aspect),
+  }
+}
+
+/** Un dedo apoyado en la pantalla, en coordenadas de la vista del mapa. */
+export interface Finger {
+  id: number
+  x: number
+  y: number
+}
+
+/**
+ * Estado del gesto de dedos: la transformación y los dedos que había cuando
+ * se fijó el ancla. Todo movimiento se mide contra este momento.
+ */
+export interface TouchAnchor {
+  t: Transform
+  fingers: Finger[]
+  /** Dónde estaban los dedos en el evento anterior (ver `MAX_FINGER_STEP`). */
+  last: Finger[]
+}
+
+/**
+ * Lo máximo (dp) que puede moverse un dedo de un evento al siguiente. Entre
+ * dos eventos pasan ~8-16 ms: ni un barrido rápido llega a tanto. Más que
+ * esto no es un dedo moviéndose, es la pantalla confundiendo dos dedos muy
+ * juntos o un identificador reutilizado.
+ * Tomarlo por movimiento real hacía saltar el mapa.
+ */
+export const MAX_FINGER_STEP = 200
+
+/** Los dedos que cuentan: como mucho dos, siempre los mismos (por id). */
+export function activeFingers(all: Finger[]): Finger[] {
+  'worklet'
+  const sorted = all.slice().sort((a, b) => a.id - b.id)
+  return sorted.slice(0, 2)
+}
+
+function sameFingers(a: Finger[], b: Finger[]): boolean {
+  'worklet'
+  if (a.length !== b.length) return false
+  for (let i = 0; i < a.length; i++) if (a[i].id !== b[i].id) return false
+  return true
+}
+
+/**
+ * Un paso del gesto de dedos: con el ancla y los dedos de ahora, la
+ * transformación nueva.
+ *
+ * Es UN SOLO gesto que lee los dedos en crudo, y no un arrastre y un
+ * pellizco simultáneos como antes. Con dos gestos, cada uno tenía su propio
+ * «desde dónde mido»: al poner o quitar un dedo, uno se activaba tarde con
+ * el recorrido del otro ya acumulado, y el mapa saltaba. Aquí la regla es
+ * una: **cada vez que cambia qué dedos hay, se vuelve a anclar** en la
+ * transformación actual. En ese instante el resultado es exactamente la
+ * transformación actual, así que no hay salto posible por construcción.
+ *
+ * - 1 dedo: arrastre.
+ * - 2 dedos: pellizco (zoom anclado al punto medio) más arrastre del punto medio.
+ */
+export function touchUpdate(
+  anchor: TouchAnchor | null,
+  fingers: Finger[],
+  current: Transform,
+  containerW: number,
+  containerH: number,
+  aspect: number,
+): { anchor: TouchAnchor | null; t: Transform } {
+  'worklet'
+  const now = activeFingers(fingers)
+  if (now.length === 0) return { anchor: null, t: current }
+  if (!anchor || !sameFingers(anchor.fingers, now)) {
+    return { anchor: { t: current, fingers: now, last: now }, t: current }
+  }
+  for (let i = 0; i < now.length; i++) {
+    if (Math.hypot(now[i].x - anchor.last[i].x, now[i].y - anchor.last[i].y) > MAX_FINGER_STEP) {
+      // Un dedo «teletransportado»: se vuelve a anclar aquí en vez de
+      // mover el mapa todo ese trecho de golpe.
+      return { anchor: { t: current, fingers: now, last: now }, t: current }
+    }
+  }
+  const next = { t: anchor.t, fingers: anchor.fingers, last: now }
+  const start = anchor.t
+  if (now.length === 1) {
+    const a = anchor.fingers[0]
+    return {
+      anchor: next,
+      t: panTransform(start, now[0].x, now[0].y, a.x, a.y, containerW, containerH, aspect),
+    }
+  }
+  const [a0, a1] = anchor.fingers
+  const [f0, f1] = now
+  const startDist = Math.hypot(a1.x - a0.x, a1.y - a0.y)
+  const dist = Math.hypot(f1.x - f0.x, f1.y - f0.y)
+  // Dos dedos casi en el mismo punto: la razón entre distancias se dispara
+  // con cualquier temblor. Se trata como arrastre puro.
+  const gestureScale = startDist < 8 ? 1 : dist / startDist
+  return {
+    anchor: next,
+    t: pinchTransform(
+      start,
+      (a0.x + a1.x) / 2,
+      (a0.y + a1.y) / 2,
+      (f0.x + f1.x) / 2,
+      (f0.y + f1.y) / 2,
+      gestureScale,
+      containerW,
+      containerH,
+      aspect,
+    ),
+  }
+}
+
+/**
+ * Hasta dónde se acerca la cámara al encuadrar un país. Sin tope, tocar el
+ * Vaticano pondría el zoom al máximo y perderías toda referencia de dónde
+ * estás.
+ */
+export const FRAME_MAX_SCALE = 12
+
+/**
+ * Transformación que encuadra una caja del contenido en una franja de la
+ * pantalla (de `areaTop` a `areaBottom`: el hueco que deja la ficha del país).
+ *
+ * - Si ya estabas más cerca de lo necesario y la caja cabe, no se aleja: que
+ *   la cámara se mueva lo mínimo.
+ * - X sin envolver y hacia la copia del país más cercana a lo que ves, por el
+ *   mismo motivo que en `zoomAround`.
+ */
+export function fitBoundsTransform(
+  box: [number, number, number, number],
+  current: Transform,
+  areaTop: number,
+  areaBottom: number,
+  padding: number,
+  containerW: number,
+  containerH: number,
+  aspect: number,
+): Transform {
+  'worklet'
+  const [x0, y0, x1, y1] = box
+  const availW = Math.max(1, containerW - 2 * padding)
+  const availH = Math.max(1, areaBottom - areaTop - 2 * padding)
+  const bw = Math.max(x1 - x0, 1e-6)
+  const bh = Math.max(y1 - y0, 1e-6)
+  const fit = Math.min(availW / bw, availH / bh, FRAME_MAX_SCALE)
+  const fitsNow = bw * current.scale <= availW && bh * current.scale <= availH
+  const wanted = current.scale > fit && fitsNow ? current.scale : fit
+  const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, wanted))
+
+  const centerX = containerW / 2
+  const centerY = (areaTop + areaBottom) / 2
+  // De las copias del país (una por vuelta al mundo), la que ahora mismo
+  // está más cerca del centro de la pantalla.
+  const cx = (x0 + x1) / 2
+  const k = Math.round((centerX - current.x - cx * current.scale) / (containerW * current.scale))
+  const nearestCx = cx + k * containerW
+  return {
+    scale,
+    x: centerX - nearestCx * scale,
+    y: clampY(scale, centerY - ((y0 + y1) / 2) * scale, containerW, containerH, aspect),
+  }
 }

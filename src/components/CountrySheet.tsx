@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Modal, View, TextInput, Pressable, ScrollView, StyleSheet } from 'react-native'
+import { Modal, View, TextInput, Pressable, ScrollView, StyleSheet, BackHandler } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { usePalette } from '../ui/ThemeProvider'
 import { Txt } from '../ui/Text'
@@ -22,10 +22,18 @@ interface Props {
   code: string
   current?: Visit
   onClose: () => void
+  /**
+   * Incrustada sobre el mapa en vez de en un `Modal` con velo. Así el mapa
+   * sigue a la vista (con el país encuadrado y resaltado encima de la
+   * ficha) y se puede tocar otro país sin cerrarla antes.
+   */
+  inline?: boolean
+  /** Alto de la ficha incrustada, para que el mapa encuadre por encima. */
+  onHeight?: (height: number) => void
 }
 
 /** Hoja inferior con las acciones para un país (estado, año, transportes). */
-export default function CountrySheet({ code, current, onClose }: Props) {
+export default function CountrySheet({ code, current, onClose, inline, onHeight }: Props) {
   const palette = usePalette()
   const insets = useSafeAreaInsets()
   const [year, setYear] = useState<string>(current?.year ? String(current.year) : '')
@@ -72,134 +80,160 @@ export default function CountrySheet({ code, current, onClose }: Props) {
     await setTransports(code, removeTransport(marked, value))
   }
 
+  // Sin `Modal` no hay `onRequestClose`: el botón atrás de Android cerraría
+  // la pantalla entera en vez de la ficha.
+  useEffect(() => {
+    if (!inline) return
+    const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+      onClose()
+      return true
+    })
+    return () => sub.remove()
+  }, [inline, onClose])
+
   const field = [
     styles.input,
     { borderColor: palette.line, color: palette.fg, backgroundColor: palette.surface2 },
   ]
 
+  const sheetStyle = [
+    styles.sheet,
+    {
+      backgroundColor: palette.surface,
+      borderColor: palette.line,
+      paddingBottom: space.lg + (inline ? 0 : insets.bottom),
+    },
+  ]
+  const content = (
+    <>
+      <View style={[styles.handle, { backgroundColor: palette.surface2 }]} />
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <Txt variant="title">{nameOf(code)}</Txt>
+
+        <View style={styles.row}>
+          <Txt variant="small" tone="muted" style={{ flex: 1 }}>
+            Año (opcional)
+          </Txt>
+          <TextInput
+            value={year}
+            onChangeText={setYear}
+            placeholder="p.ej. 2023"
+            placeholderTextColor={palette.faint}
+            keyboardType="numeric"
+            style={[...field, { width: 110 }]}
+          />
+        </View>
+
+        <View style={styles.actions}>
+          <Button
+            title="Visitado"
+            kind={current?.status === 'been' ? 'primary' : 'secondary'}
+            onPress={() => choose('been')}
+          />
+          <Button
+            title="Quiero ir"
+            kind={current?.status === 'want' ? 'warn' : 'secondary'}
+            onPress={() => choose('want')}
+          />
+          {current && <Button title="Quitar" kind="danger" onPress={remove} />}
+        </View>
+
+        <View style={[styles.divider, { backgroundColor: palette.line }]} />
+
+        <Txt variant="label" tone="faint">
+          Cómo te moviste
+        </Txt>
+        <View style={styles.transportGrid}>
+          {TRANSPORTS.map((t) => {
+            const on = marked.includes(t.key)
+            return (
+              <Pressable
+                key={t.key}
+                onPress={() => toggle(t.key)}
+                accessibilityRole="button"
+                accessibilityState={{ selected: on }}
+                accessibilityLabel={t.label}
+                style={({ pressed }) => [
+                  styles.chip,
+                  {
+                    backgroundColor: on ? palette.fg : 'transparent',
+                    borderColor: on ? palette.fg : palette.line,
+                    opacity: pressed ? 0.6 : 1,
+                  },
+                ]}
+              >
+                <TransportIcon value={t.key} color={on ? palette.onFg : palette.muted} size={15} />
+                <Txt
+                  variant="small"
+                  style={{ color: on ? palette.onFg : palette.muted, fontWeight: '600' }}
+                >
+                  {t.label}
+                </Txt>
+              </Pressable>
+            )
+          })}
+        </View>
+
+        {customs.length > 0 && (
+          <View style={styles.transportGrid}>
+            {customs.map((value) => (
+              <Pressable
+                key={value}
+                onPress={() => dropCustom(value)}
+                accessibilityRole="button"
+                accessibilityLabel={`Quitar ${transportLabel(value)}`}
+                style={({ pressed }) => [
+                  styles.chip,
+                  { backgroundColor: palette.fg, borderColor: palette.fg, opacity: pressed ? 0.6 : 1 },
+                ]}
+              >
+                <TransportIcon value={value} color={palette.onFg} size={15} />
+                <Txt variant="small" style={{ color: palette.onFg, fontWeight: '600' }}>
+                  {value} ×
+                </Txt>
+              </Pressable>
+            ))}
+          </View>
+        )}
+
+        <View style={styles.row}>
+          <TextInput
+            value={custom}
+            onChangeText={setCustom}
+            onSubmitEditing={addCustom}
+            returnKeyType="done"
+            placeholder="Otro (helicóptero, camello…)"
+            placeholderTextColor={palette.faint}
+            autoCapitalize="sentences"
+            style={[...field, { flex: 1 }]}
+          />
+          <Button title="Añadir" small onPress={addCustom} disabled={!custom.trim()} />
+        </View>
+      </ScrollView>
+    </>
+  )
+
+  if (inline) {
+    return (
+      <View
+        style={[sheetStyle, styles.inline]}
+        onLayout={(e) => onHeight?.(e.nativeEvent.layout.height)}
+      >
+        {content}
+      </View>
+    )
+  }
+
   return (
     <Modal transparent animationType="slide" onRequestClose={onClose}>
       <Pressable style={[styles.backdrop, { backgroundColor: palette.scrim }]} onPress={onClose}>
-        <Pressable
-          style={[
-            styles.sheet,
-            {
-              backgroundColor: palette.surface,
-              borderColor: palette.line,
-              paddingBottom: space.lg + insets.bottom,
-            },
-          ]}
-          onPress={(e) => e.stopPropagation()}
-        >
-          <View style={[styles.handle, { backgroundColor: palette.surface2 }]} />
-          <ScrollView
-            style={styles.scroll}
-            contentContainerStyle={styles.scrollContent}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-          <Txt variant="title">{nameOf(code)}</Txt>
-
-          <View style={styles.row}>
-            <Txt variant="small" tone="muted" style={{ flex: 1 }}>
-              Año (opcional)
-            </Txt>
-            <TextInput
-              value={year}
-              onChangeText={setYear}
-              placeholder="p.ej. 2023"
-              placeholderTextColor={palette.faint}
-              keyboardType="numeric"
-              style={[...field, { width: 110 }]}
-            />
-          </View>
-
-          <View style={styles.actions}>
-            <Button
-              title="Visitado"
-              kind={current?.status === 'been' ? 'primary' : 'secondary'}
-              onPress={() => choose('been')}
-            />
-            <Button
-              title="Quiero ir"
-              kind={current?.status === 'want' ? 'warn' : 'secondary'}
-              onPress={() => choose('want')}
-            />
-            {current && <Button title="Quitar" kind="danger" onPress={remove} />}
-          </View>
-
-          <View style={[styles.divider, { backgroundColor: palette.line }]} />
-
-          <Txt variant="label" tone="faint">
-            Cómo te moviste
-          </Txt>
-          <View style={styles.transportGrid}>
-            {TRANSPORTS.map((t) => {
-              const on = marked.includes(t.key)
-              return (
-                <Pressable
-                  key={t.key}
-                  onPress={() => toggle(t.key)}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: on }}
-                  accessibilityLabel={t.label}
-                  style={({ pressed }) => [
-                    styles.chip,
-                    {
-                      backgroundColor: on ? palette.fg : 'transparent',
-                      borderColor: on ? palette.fg : palette.line,
-                      opacity: pressed ? 0.6 : 1,
-                    },
-                  ]}
-                >
-                  <TransportIcon value={t.key} color={on ? palette.onFg : palette.muted} size={15} />
-                  <Txt
-                    variant="small"
-                    style={{ color: on ? palette.onFg : palette.muted, fontWeight: '600' }}
-                  >
-                    {t.label}
-                  </Txt>
-                </Pressable>
-              )
-            })}
-          </View>
-
-          {customs.length > 0 && (
-            <View style={styles.transportGrid}>
-              {customs.map((value) => (
-                <Pressable
-                  key={value}
-                  onPress={() => dropCustom(value)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Quitar ${transportLabel(value)}`}
-                  style={({ pressed }) => [
-                    styles.chip,
-                    { backgroundColor: palette.fg, borderColor: palette.fg, opacity: pressed ? 0.6 : 1 },
-                  ]}
-                >
-                  <TransportIcon value={value} color={palette.onFg} size={15} />
-                  <Txt variant="small" style={{ color: palette.onFg, fontWeight: '600' }}>
-                    {value} ×
-                  </Txt>
-                </Pressable>
-              ))}
-            </View>
-          )}
-
-          <View style={styles.row}>
-            <TextInput
-              value={custom}
-              onChangeText={setCustom}
-              onSubmitEditing={addCustom}
-              returnKeyType="done"
-              placeholder="Otro (helicóptero, camello…)"
-              placeholderTextColor={palette.faint}
-              autoCapitalize="sentences"
-              style={[...field, { flex: 1 }]}
-            />
-            <Button title="Añadir" small onPress={addCustom} disabled={!custom.trim()} />
-          </View>
-          </ScrollView>
+        <Pressable style={sheetStyle} onPress={(e) => e.stopPropagation()}>
+          {content}
         </Pressable>
       </Pressable>
     </Modal>
@@ -216,6 +250,10 @@ const styles = StyleSheet.create({
     // Deja siempre ver algo de mapa por arriba, aunque la ficha crezca.
     maxHeight: '85%',
   },
+  // Encima del mapa, pegada abajo. La barra de pestañas ya deja el hueco de
+  // la barra de gestos, así que aquí no se suma `insets.bottom`.
+  // Con el 60 % como mucho queda sitio para el país encuadrado por encima.
+  inline: { position: 'absolute', left: 0, right: 0, bottom: 0, borderBottomWidth: 0, maxHeight: '60%' },
   scroll: { flexGrow: 0 },
   scrollContent: { gap: space.md, paddingBottom: space.xs },
   handle: { width: 40, height: 4, borderRadius: 2, alignSelf: 'center', marginBottom: space.md },

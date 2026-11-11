@@ -57,6 +57,10 @@ Don't edit [`src/data/countries.json`](src/data/countries.json) by hand: change
 [`scripts/gen-countries.mjs`](scripts/gen-countries.mjs) and run `npm run gen:countries`. That file
 is derived from an ODbL-licensed database, so it stays under the ODbL.
 
+Then run `npm run gen:map` to regenerate the projected map geometry in
+[`src/data/map.json`](src/data/map.json), and `npm run verify:map`: it fails if any country ends up
+with no shape and no dot on the map.
+
 ## Pull Requests
 
 - Keep each PR focused on one change.
