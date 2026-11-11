@@ -4,12 +4,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { usePalette } from '../../src/ui/ThemeProvider'
 import { Txt } from '../../src/ui/Text'
 import { useVisits } from '../../src/hooks/useVisits'
-import { computeStats } from '../../src/lib/library'
+import { computeStats, mapStatuses } from '../../src/lib/library'
 import WorldMap from '../../src/components/WorldMap'
 import CountrySheet from '../../src/components/CountrySheet'
 import BackupBanner from '../../src/components/BackupBanner'
 import { radius, space } from '../../src/ui/theme'
-import type { CountryStatus } from '../../src/types'
 
 /** Alto aproximado de la píldora de resumen, para no encuadrar debajo de ella. */
 const PILL_HEIGHT = 32
@@ -21,10 +20,9 @@ export default function MapaScreen() {
   const [selected, setSelected] = useState<string | null>(null)
   const [sheetHeight, setSheetHeight] = useState(0)
 
-  const statusByCode = useMemo(
-    () => new Map<string, CountryStatus>(visits.map((v) => [v.code, v.status])),
-    [visits],
-  )
+  // Con las regiones sumando a su país: si fuiste a Escocia, el Reino Unido
+  // se ve visitado (ver `mapStatuses`).
+  const statusByCode = useMemo(() => mapStatuses(visits), [visits])
   const stats = useMemo(() => computeStats(visits), [visits])
   const current = selected ? visits.find((v) => v.code === selected) : undefined
   // Estable: la ficha lo usa como dependencia de su manejador del botón atrás.
@@ -44,7 +42,11 @@ export default function MapaScreen() {
       <View style={[styles.overlay, { top: insets.top + space.md }]} pointerEvents="box-none">
         <View style={[styles.pill, { backgroundColor: palette.surface, borderColor: palette.line }]}>
           <Txt variant="data">
-            {stats.been} · {stats.percent}% del mundo
+            {stats.been} {stats.been === 1 ? 'país' : 'países'}
+            {stats.territories.been > 0
+              ? ` · ${stats.territories.been} ${stats.territories.been === 1 ? 'territorio' : 'territorios'}`
+              : ''}
+            {` · ${stats.percent}%`}
           </Txt>
         </View>
         <BackupBanner />
@@ -57,6 +59,8 @@ export default function MapaScreen() {
           onClose={close}
           inline
           onHeight={setSheetHeight}
+          visits={visits}
+          onOpen={setSelected}
         />
       )}
     </View>

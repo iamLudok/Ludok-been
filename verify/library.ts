@@ -14,10 +14,10 @@ import * as schema from '../src/lib/schema'
 import { CREATE_SQL } from '../src/lib/schemaSql'
 import { setDb } from '../src/lib/dbRef'
 import type { LudokDb } from '../src/lib/backupCore'
-import { setStatus, setYear, clearStatus, computeStats, setTransports } from '../src/lib/library'
-import { WORLD_TOTAL, sovereignByContinent } from '../src/lib/countries'
+import { setStatus, setYear, clearStatus, computeStats, setTransports, mapStatuses } from '../src/lib/library'
+import { WORLD_TOTAL, sovereignByContinent, COUNTRIES, TERRITORIES, getByCca3, territoriesOf, contextOf } from '../src/lib/countries'
 import { countByTransport } from '../src/lib/transports'
-import { exportAll } from '../src/lib/backupCore'
+import { exportAll, importAll, SCHEMA_VERSION } from '../src/lib/backupCore'
 import type { Visit } from '../src/types'
 
 let failures = 0
@@ -112,43 +112,121 @@ async function main() {
   eq('tren en 1', counts.find((c) => c.value === 'train')?.count, 1)
   eq('ordenado de más a menos', counts[0]?.value, 'plane')
 
-  console.log('\n=== 4. computeStats: solo cuentan los soberanos ===')
+  console.log('\n=== 4. computeStats: los países cuentan como países, los territorios aparte ===')
   await useFreshDb()
   await setStatus('ESP', 'been', 2019) // soberano, Europa
   await setStatus('FRA', 'been', 2018) // soberano, Europa
-  await setStatus('ATA', 'been') // Antártida: no soberano, no debe contar
+  await setStatus('ATA', 'been') // Antártida: territorio, no suma países
   await setStatus('JPN', 'want') // por ir, no cuenta como "been"
   const visits = (await exportAll(await currentDb())).visits
   const stats = computeStats(visits)
-  eq('been = 3 (cuenta también el no soberano en el recuento bruto)', stats.been, 3)
+  eq('been = 2 países (ESP y FRA; la Antártida es territorio)', stats.been, 2)
+  eq('territorios visitados = 1 (la Antártida)', stats.territories.been, 1)
   eq('want = 1', stats.want, 1)
   check('percent > 0', stats.percent > 0)
-  eq('continentsVisited = 1 (solo Europa cuenta, ATA no es soberano)', stats.continentsVisited, 1)
+  eq('continentsVisited = 1 (solo Europa cuenta, ATA no es país)', stats.continentsVisited, 1)
   const europa = stats.byContinent.find((c) => c.continent === 'Europa')
   eq('Europa tiene 2 been (ESP+FRA, no ATA)', europa?.been, 2)
 
-  console.log('\n=== 5. Reino Unido: 4 naciones, pero 1 solo país soberano ===')
-  // Inglaterra/Escocia/Gales/Irlanda del Norte se marcan por separado (y
-  // cuentan por separado en el recuento bruto de "been"), pero para el "%
-  // del mundo" siguen sumando 1 solo país soberano (GBR vía sovereignCode),
-  // igual que antes de partirlo en 4.
-  eq('195 países soberanos (194 + el Reino Unido agrupado)', WORLD_TOTAL, 195)
-  eq('Europa tiene 1 soberano más por el Reino Unido', sovereignByContinent().get('Europa'), 45)
+  console.log('\n=== 5. Reino Unido: es un país, y sus 4 naciones son territorios que le suman ===')
+  // Inglaterra/Escocia/Gales/Irlanda del Norte se marcan por separado, como
+  // territorios, pero para el «% del mundo» suman 1 solo país: el Reino
+  // Unido (GBR vía sovereignCode).
+  eq('195 países (193 de la ONU + Vaticano + Palestina)', WORLD_TOTAL, 195)
+  eq('el Reino Unido vuelve a ser un país', getByCca3('GBR')?.kind, 'country')
+  eq('Europa tiene 45 países', sovereignByContinent().get('Europa'), 45)
 
   await useFreshDb()
   await setStatus('ENG', 'been', 2019)
   const onlyEngland = computeStats((await exportAll(await currentDb())).visits)
-  eq('been = 1 (Inglaterra cuenta en el recuento bruto)', onlyEngland.been, 1)
+  eq('been = 1 país (el Reino Unido, vía Inglaterra)', onlyEngland.been, 1)
   eq('Europa: 1 soberano visitado (el Reino Unido, vía Inglaterra)', onlyEngland.byContinent.find((c) => c.continent === 'Europa')?.been, 1)
 
   await setStatus('SCT', 'been', 2022) // Escocia, misma sovereignCode "GBR"
   const englandAndScotland = computeStats((await exportAll(await currentDb())).visits)
-  eq('been = 2 (Inglaterra y Escocia cuentan por separado)', englandAndScotland.been, 2)
+  eq('Inglaterra y Escocia: sigue siendo 1 país', englandAndScotland.been, 1)
+  eq('y 2 territorios', englandAndScotland.territories.been, 2)
   eq(
     'pero Europa sigue en 1 soberano (no se cuenta el Reino Unido dos veces)',
     englandAndScotland.byContinent.find((c) => c.continent === 'Europa')?.been,
     1,
   )
+
+  console.log('\n=== 6. Territorios: cuáles suman a su país y cuáles no ===')
+  await useFreshDb()
+  await setStatus('GIB', 'been')
+  let st = computeStats((await exportAll(await currentDb())).visits)
+  eq('Gibraltar no suma el Reino Unido', st.been, 0)
+  eq('pero es 1 territorio', st.territories.been, 1)
+  await setStatus('x-transnistria', 'been')
+  st = computeStats((await exportAll(await currentDb())).visits)
+  eq('Transnistria no suma Moldavia', st.been, 0)
+  await setStatus('x-canarias', 'been')
+  st = computeStats((await exportAll(await currentDb())).visits)
+  eq('Canarias sí suma España', st.been, 1)
+  eq('3 territorios en total', st.territories.been, 3)
+  await setStatus('ESP', 'been')
+  st = computeStats((await exportAll(await currentDb())).visits)
+  eq('Canarias + España: España cuenta una sola vez', st.been, 1)
+  eq('el total de territorios es el de la lista', st.territories.total, TERRITORIES.length)
+  await setStatus('MTQ', 'been')
+  st = computeStats((await exportAll(await currentDb())).visits)
+  eq('Martinica (ultramar) no suma Francia', st.been, 1)
+
+  console.log('\n=== 7. Colores del mapa ===')
+  const statuses = mapStatuses([
+    { code: 'SCT', status: 'been', addedAt: 0, updatedAt: 0 },
+    { code: 'GIB', status: 'been', addedAt: 0, updatedAt: 0 },
+    { code: 'x-pais-vasco', status: 'been', addedAt: 0, updatedAt: 0 },
+    { code: 'ESP', status: 'want', addedAt: 0, updatedAt: 0 },
+    { code: 'x-tibet', status: 'want', addedAt: 0, updatedAt: 0 },
+  ])
+  eq('Escocia pinta el Reino Unido como visitado', statuses.get('GBR'), 'been')
+  eq('Gibraltar no pinta nada más (dependencia)', statuses.get('DNK'), undefined)
+  eq('País Vasco visitado gana a «quiero ir» de España', statuses.get('ESP'), 'been')
+  eq('un «quiero ir» de una región no pinta su país', statuses.get('CHN'), undefined)
+  eq('cada territorio conserva su propio estado', statuses.get('GIB'), 'been')
+
+  console.log('\n=== 8. Copias antiguas: lo marcado sigue valiendo ===')
+  // Copias hechas con la versión en la que el Reino Unido eran 4 países:
+  // ENG/SCT siguen existiendo con el mismo código, así que importan tal cual
+  // y siguen sumando 1 país.
+  await useFreshDb()
+  await importAll(
+    await currentDb(),
+    JSON.stringify({
+      app: 'ludok-been',
+      schemaVersion: SCHEMA_VERSION,
+      exportedAt: 0,
+      settings: null,
+      visits: [
+        { code: 'ENG', status: 'been', addedAt: 1, updatedAt: 1 },
+        { code: 'WLS', status: 'been', addedAt: 1, updatedAt: 1 },
+        { code: 'ESP', status: 'been', addedAt: 1, updatedAt: 1 },
+      ],
+    }),
+  )
+  st = computeStats((await exportAll(await currentDb())).visits)
+  eq('copia antigua con Inglaterra y Gales: 2 países (Reino Unido y España)', st.been, 2)
+  eq('y el % no cambia respecto a antes', st.percent, Math.round((2 / 195) * 1000) / 10)
+
+  console.log('\n=== 9. Coherencia de la lista ===')
+  check('ningún código repetido', new Set(COUNTRIES.map((c) => c.cca3)).size === COUNTRIES.length)
+  check(
+    'los códigos propios llevan el prefijo x- (nunca chocan con un ISO)',
+    COUNTRIES.every((c) => /^[A-Z]{3}$/.test(c.cca3) || /^x-[a-z-]+$/.test(c.cca3)),
+  )
+  check('todo territorio tiene tipo', TERRITORIES.every((t) => !!t.type))
+  check(
+    'solo naciones y regiones suman a su país',
+    TERRITORIES.every((t) => !t.sovereignCode || t.type === 'nacion' || t.type === 'region'),
+  )
+  check(
+    'España tiene sus territorios dentro',
+    ['x-pais-vasco', 'x-canarias', 'x-ceuta', 'x-melilla'].every((c) => territoriesOf('ESP').some((t) => t.cca3 === c)),
+  )
+  eq('línea de contexto de Gibraltar', contextOf(getByCca3('GIB')!), 'Dependencia de Reino Unido')
+  eq('Nagorno Karabaj marcado como desaparecido', contextOf(getByCca3('x-nagorno-karabaj')!), 'Estado de facto · reclamado por Azerbaiyán · ya no existe')
 
   console.log(
     failures === 0

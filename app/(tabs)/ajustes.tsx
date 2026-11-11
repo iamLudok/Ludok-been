@@ -81,7 +81,8 @@ export default function SettingsScreen() {
             Tus datos viven solo en este móvil. Exporta a menudo y guarda el fichero donde quieras.
           </Txt>
           <View style={[styles.stat, { borderColor: palette.line }]}>
-            <Row label="Visitados" value={String(stats.been)} />
+            <Row label="Países" value={String(stats.been)} />
+            <Row label="Territorios" value={String(stats.territories.been)} />
             <Row label="Quiero ir" value={String(stats.want)} />
             <Row label="Del mundo" value={`${stats.percent}%`} />
             <Row label="Continentes" value={String(stats.continentsVisited)} />

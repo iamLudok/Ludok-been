@@ -1,0 +1,27 @@
+[
+  { "code": "x-transnistria", "name": "Transnistria", "type": "de-facto", "parent": "MDA", "continent": "Europa", "subregion": "Eastern Europe", "latlng": [46.84, 29.6] },
+  { "code": "x-abjasia", "name": "Abjasia", "type": "de-facto", "parent": "GEO", "continent": "Asia", "subregion": "Western Asia", "latlng": [43.0, 41.02] },
+  { "code": "x-osetia-sur", "name": "Osetia del Sur", "type": "de-facto", "parent": "GEO", "continent": "Asia", "subregion": "Western Asia", "latlng": [42.23, 43.97] },
+  { "code": "x-chipre-norte", "name": "Chipre del Norte", "type": "de-facto", "parent": "CYP", "continent": "Europa", "subregion": "Southern Europe", "latlng": [35.25, 33.6], "atlasName": "N. Cyprus" },
+  { "code": "x-somalilandia", "name": "Somalilandia", "type": "de-facto", "parent": "SOM", "continent": "África", "subregion": "Eastern Africa", "latlng": [9.5, 45.0], "atlasName": "Somaliland" },
+  { "code": "x-nagorno-karabaj", "name": "Nagorno Karabaj", "type": "de-facto", "parent": "AZE", "continent": "Asia", "subregion": "Western Asia", "latlng": [39.82, 46.75], "defunct": true },
+
+  { "code": "x-pais-vasco", "name": "País Vasco", "type": "region", "parent": "ESP", "countsFor": "ESP", "continent": "Europa", "subregion": "Southern Europe", "latlng": [43.05, -2.6] },
+  { "code": "x-canarias", "name": "Canarias", "type": "region", "parent": "ESP", "countsFor": "ESP", "continent": "África", "subregion": "Northern Africa", "latlng": [28.3, -15.6] },
+  { "code": "x-ceuta", "name": "Ceuta", "type": "region", "parent": "ESP", "countsFor": "ESP", "continent": "África", "subregion": "Northern Africa", "latlng": [35.89, -5.32] },
+  { "code": "x-melilla", "name": "Melilla", "type": "region", "parent": "ESP", "countsFor": "ESP", "continent": "África", "subregion": "Northern Africa", "latlng": [35.29, -2.94] },
+  { "code": "x-azores", "name": "Azores", "type": "region", "parent": "PRT", "countsFor": "PRT", "continent": "Europa", "subregion": "Southern Europe", "latlng": [38.5, -28.0] },
+  { "code": "x-madeira", "name": "Madeira", "type": "region", "parent": "PRT", "countsFor": "PRT", "continent": "África", "subregion": "Northern Africa", "latlng": [32.75, -16.95] },
+  { "code": "x-corcega", "name": "Córcega", "type": "region", "parent": "FRA", "countsFor": "FRA", "continent": "Europa", "subregion": "Western Europe", "latlng": [42.15, 9.1] },
+  { "code": "x-kaliningrado", "name": "Kaliningrado", "type": "region", "parent": "RUS", "countsFor": "RUS", "continent": "Europa", "subregion": "Eastern Europe", "latlng": [54.7, 21.0] },
+  { "code": "x-monte-athos", "name": "Monte Athos", "type": "region", "parent": "GRC", "countsFor": "GRC", "continent": "Europa", "subregion": "Southern Europe", "latlng": [40.16, 24.3] },
+  { "code": "x-tibet", "name": "Tíbet", "type": "region", "parent": "CHN", "countsFor": "CHN", "continent": "Asia", "subregion": "Eastern Asia", "latlng": [31.5, 88.0] },
+  { "code": "x-kurdistan-irak", "name": "Kurdistán iraquí", "type": "region", "parent": "IRQ", "countsFor": "IRQ", "continent": "Asia", "subregion": "Western Asia", "latlng": [36.2, 44.0] },
+  { "code": "x-zanzibar", "name": "Zanzíbar", "type": "region", "parent": "TZA", "countsFor": "TZA", "continent": "África", "subregion": "Eastern Africa", "latlng": [-6.15, 39.3] },
+  { "code": "x-socotra", "name": "Socotra", "type": "region", "parent": "YEM", "countsFor": "YEM", "continent": "Asia", "subregion": "Western Asia", "latlng": [12.5, 53.9] },
+  { "code": "x-galapagos", "name": "Galápagos", "type": "region", "parent": "ECU", "countsFor": "ECU", "continent": "América", "subregion": "South America", "latlng": [-0.7, -90.5] },
+  { "code": "x-isla-pascua", "name": "Isla de Pascua", "type": "region", "parent": "CHL", "countsFor": "CHL", "continent": "Oceanía", "subregion": "Polynesia", "latlng": [-27.12, -109.35] },
+  { "code": "x-tierra-fuego", "name": "Tierra del Fuego", "type": "region", "parent": "ARG", "countsFor": "ARG", "continent": "América", "subregion": "South America", "latlng": [-54.3, -68.0] },
+  { "code": "x-hawai", "name": "Hawái", "type": "region", "parent": "USA", "countsFor": "USA", "continent": "Oceanía", "subregion": "Polynesia", "latlng": [20.8, -156.3] },
+  { "code": "x-alaska", "name": "Alaska", "type": "region", "parent": "USA", "countsFor": "USA", "continent": "América", "subregion": "North America", "latlng": [64.0, -152.0] }
+]

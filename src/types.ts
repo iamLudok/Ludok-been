@@ -37,8 +37,23 @@ export interface Settings {
   lastAutoBackupAt?: number
 }
 
-/** Metadato estático de país (empaquetado en src/data/countries.json). */
+/**
+ * Tipo de territorio. Ver scripts/gen-countries.mjs para el criterio.
+ * - de-facto: estados que funcionan como tales pero casi nadie reconoce.
+ * - nacion: naciones que forman un país (las 4 del Reino Unido).
+ * - region: regiones que se sienten otro sitio (País Vasco, Canarias…).
+ * - dependencia: territorios con gobierno propio (Gibraltar, Feroe…).
+ * - ultramar: legalmente parte del país pero lejísimos (Martinica…).
+ * - remoto: deshabitados o casi inaccesibles (Bouvet…).
+ */
+export type TerritoryType = 'de-facto' | 'nacion' | 'region' | 'dependencia' | 'ultramar' | 'remoto'
+
+/**
+ * Metadato estático de un sitio marcable: un país o un territorio
+ * (empaquetado en src/data/countries.json).
+ */
 export interface Country {
+  /** ISO alfa-3, o un código propio con prefijo `x-` para los que no tienen. */
   cca3: string
   cca2: string
   /** ISO numérico (string, p.ej. "724"). Casa con los id de world-atlas. */
@@ -46,15 +61,20 @@ export interface Country {
   name: string
   continent: string
   subregion: string
-  /** true si es un país soberano (cuenta para el "% del mundo"). */
-  independent: boolean
+  /** País (los 195 de la ONU: cuentan para el «% del mundo») o territorio. */
+  kind: 'country' | 'territory'
+  /** Solo territorios. */
+  type?: TerritoryType
+  /** Solo territorios: el país del que forma parte o depende, si lo hay. */
+  parent?: string
   /**
-   * Para territorios no soberanos que deben seguir sumando 1 solo país al
-   * "% del mundo" entre varios (p.ej. Inglaterra/Escocia/Gales/Irlanda del
-   * Norte comparten "GBR"): cca3 del país al que cuentan. Ver WORLD_TOTAL y
-   * sovereignByContinent en lib/countries.ts.
+   * Solo territorios que FORMAN PARTE de su país (naciones y regiones): el
+   * país al que suman al visitarlos. Escocia → GBR, Canarias → ESP. Una
+   * dependencia (Gibraltar) no lo tiene: ir allí no es ir al Reino Unido.
    */
   sovereignCode?: string
+  /** Ya no existe como tal (Nagorno Karabaj): solo lo tiene quien fue. */
+  defunct?: boolean
 }
 
 /** Estructura del fichero de copia de seguridad (export/import). */

@@ -5,7 +5,7 @@ import { usePalette } from '../ui/ThemeProvider'
 import { Txt } from '../ui/Text'
 import { Button } from '../ui/Button'
 import { TransportIcon } from '../ui/TransportIcon'
-import { nameOf } from '../lib/countries'
+import { nameOf, getByCca3, contextOf, territoriesOf } from '../lib/countries'
 import { setStatus, clearStatus, setTransports } from '../lib/library'
 import {
   TRANSPORTS,
@@ -30,10 +30,14 @@ interface Props {
   inline?: boolean
   /** Alto de la ficha incrustada, para que el mapa encuadre por encima. */
   onHeight?: (height: number) => void
+  /** Todas las visitas, para enseñar el estado de los territorios del país. */
+  visits?: Visit[]
+  /** Abrir la ficha de otro sitio (un territorio del país, o su país). */
+  onOpen?: (code: string) => void
 }
 
 /** Hoja inferior con las acciones para un país (estado, año, transportes). */
-export default function CountrySheet({ code, current, onClose, inline, onHeight }: Props) {
+export default function CountrySheet({ code, current, onClose, inline, onHeight, visits, onOpen }: Props) {
   const palette = usePalette()
   const insets = useSafeAreaInsets()
   const [year, setYear] = useState<string>(current?.year ? String(current.year) : '')
@@ -91,6 +95,10 @@ export default function CountrySheet({ code, current, onClose, inline, onHeight 
     return () => sub.remove()
   }, [inline, onClose])
 
+  const meta = getByCca3(code)
+  const inside = territoriesOf(code)
+  const statusOf = (c: string) => visits?.find((v) => v.code === c)?.status
+
   const field = [
     styles.input,
     { borderColor: palette.line, color: palette.fg, backgroundColor: palette.surface2 },
@@ -113,7 +121,21 @@ export default function CountrySheet({ code, current, onClose, inline, onHeight 
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <Txt variant="title">{nameOf(code)}</Txt>
+        <View>
+          <Txt variant="title">{nameOf(code)}</Txt>
+          {meta && (
+            <Pressable
+              onPress={meta.parent && onOpen ? () => onOpen(meta.parent!) : undefined}
+              disabled={!meta.parent || !onOpen}
+              accessibilityRole={meta.parent && onOpen ? 'link' : undefined}
+            >
+              <Txt variant="small" tone="muted">
+                {contextOf(meta)}
+                {meta.parent && onOpen ? '  ›' : ''}
+              </Txt>
+            </Pressable>
+          )}
+        </View>
 
         <View style={styles.row}>
           <Txt variant="small" tone="muted" style={{ flex: 1 }}>
@@ -142,6 +164,47 @@ export default function CountrySheet({ code, current, onClose, inline, onHeight 
           />
           {current && <Button title="Quitar" kind="danger" onPress={remove} />}
         </View>
+
+        {inside.length > 0 && (
+          <>
+            <View style={[styles.divider, { backgroundColor: palette.line }]} />
+            <Txt variant="label" tone="faint">
+              Territorios
+            </Txt>
+            <View style={styles.transportGrid}>
+              {inside.map((t) => {
+                const st = statusOf(t.cca3)
+                return (
+                  <Pressable
+                    key={t.cca3}
+                    onPress={onOpen ? () => onOpen(t.cca3) : undefined}
+                    disabled={!onOpen}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${t.name}${st === 'been' ? ', visitado' : st === 'want' ? ', quiero ir' : ''}`}
+                    style={({ pressed }) => [
+                      styles.chip,
+                      { borderColor: palette.line, opacity: pressed ? 0.6 : 1 },
+                    ]}
+                  >
+                    {/* Mismo punto que en la Lista: lleno = visitado,
+                        aro ámbar = quiero ir, aro gris = sin marcar. */}
+                    <View
+                      style={[
+                        styles.mark,
+                        st === 'been'
+                          ? { backgroundColor: palette.fg, borderColor: palette.fg }
+                          : { borderColor: st === 'want' ? palette.warn : palette.line },
+                      ]}
+                    />
+                    <Txt variant="small" style={{ color: palette.muted, fontWeight: '600' }}>
+                      {t.name}
+                    </Txt>
+                  </Pressable>
+                )
+              })}
+            </View>
+          </>
+        )}
 
         <View style={[styles.divider, { backgroundColor: palette.line }]} />
 
@@ -268,6 +331,7 @@ const styles = StyleSheet.create({
   actions: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
   divider: { height: StyleSheet.hairlineWidth, marginTop: space.xs },
   transportGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: space.sm },
+  mark: { width: 10, height: 10, borderRadius: radius.pill, borderWidth: 2 },
   chip: {
     flexDirection: 'row',
     alignItems: 'center',

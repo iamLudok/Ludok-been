@@ -28,6 +28,7 @@ export default function StatsScreen() {
           </View>
           <View style={[styles.stat, { borderColor: palette.line }]}>
             <Row label="Visitados" value={`${stats.been} de ${stats.worldTotal}`} />
+            <Row label="Territorios" value={`${stats.territories.been} de ${stats.territories.total}`} />
             <Row label="Quiero ir" value={String(stats.want)} />
             <Row label="Continentes" value={String(stats.continentsVisited)} />
           </View>

@@ -21,6 +21,7 @@ import {
   withDecay,
   cancelAnimation,
   Easing,
+  type SharedValue,
 } from 'react-native-reanimated'
 import { scheduleOnRN } from 'react-native-worklets'
 import {
@@ -45,6 +46,7 @@ import {
   type Finger,
   type TouchAnchor,
 } from '../lib/mapTransform'
+import { getByCca3 } from '../lib/countries'
 import { usePalette } from '../ui/ThemeProvider'
 import { Txt } from '../ui/Text'
 import { mapMarks, radius, space } from '../ui/theme'
@@ -154,6 +156,83 @@ function recordTile(statusByCode: Map<string, CountryStatus>, palette: Palette) 
     // sobresale medio píxel.
     Skia.XYWHRect(-10, -10, MAP_WIDTH + 20, MAP_HEIGHT + 20),
   )
+}
+
+type MarkerShape = 'circle' | 'diamond'
+
+/** Lo que necesita un marcador para saber dónde cae en pantalla. */
+interface Camera {
+  k: SharedValue<number>
+  translateX: SharedValue<number>
+  translateY: SharedValue<number>
+  scale: SharedValue<number>
+  containerW: SharedValue<number>
+  containerH: SharedValue<number>
+}
+
+/**
+ * Lado del cuadrado de un rombo respecto al diámetro de un círculo: girado,
+ * su diagonal mide un 15 % más que el círculo, para que a la vista pesen
+ * parecido (un rombo del mismo ancho se ve más pequeño).
+ */
+const DIAMOND_SIDE = 1.15 / Math.SQRT2
+
+/**
+ * Una capa de marcadores del mismo color y forma.
+ *
+ * Se dibujan en coordenadas de PANTALLA, fuera del lienzo que escala: así
+ * miden siempre lo mismo a cualquier zoom. Las posiciones se recalculan en
+ * cada fotograma en el hilo de la interfaz, y se descartan las que caen
+ * fuera para no mandar a dibujar cientos de puntos invisibles.
+ *
+ * Skia solo sabe dibujar puntos redondos o cuadrados. El rombo es un
+ * cuadrado girado 45°: se gira la capa entera y, para que cada punto siga
+ * cayendo en su sitio, sus posiciones se giran antes en sentido contrario.
+ */
+function MarkerLayer({
+  flat,
+  shape,
+  size,
+  color,
+  camera,
+}: {
+  flat: number[]
+  shape: MarkerShape
+  size: number
+  color: string
+  camera: Camera
+}) {
+  const { k, translateX, translateY, scale, containerW, containerH } = camera
+  const diamond = shape === 'diamond'
+  const points = useDerivedValue(() => {
+    const kk = k.value
+    const x0 = wrapTranslateX(translateX.value, containerW.value * scale.value)
+    const y0 = translateY.value
+    const w = containerW.value
+    const h = containerH.value
+    const out: { x: number; y: number }[] = []
+    for (let i = 0; i < flat.length; i += 2) {
+      for (let t = -1; t <= 1; t++) {
+        const x = (flat[i] + t * MAP_WIDTH) * kk + x0
+        const y = flat[i + 1] * kk + y0
+        if (x < -20 || x > w + 20 || y < -20 || y > h + 20) continue
+        // Giro de -45°: al girar después la capa +45°, vuelve a (x, y).
+        out.push(diamond ? { x: (x + y) / Math.SQRT2, y: (y - x) / Math.SQRT2 } : { x, y })
+      }
+    }
+    return out
+  }, [flat, diamond])
+  if (flat.length === 0) return null
+  const dots = (
+    <Points
+      points={points}
+      mode="points"
+      strokeWidth={diamond ? size * DIAMOND_SIDE : size}
+      strokeCap={diamond ? 'square' : 'round'}
+      color={color}
+    />
+  )
+  return diamond ? <Group transform={[{ rotate: Math.PI / 4 }]}>{dots}</Group> : dots
 }
 
 export default function WorldMap({ statusByCode, onSelect, selected, bottomInset = 0, topInset = 0 }: Props) {
@@ -435,53 +514,33 @@ export default function WorldMap({ statusByCode, onSelect, selected, bottomInset
     [selected],
   )
 
-  // Marcadores de los países diminutos, por estado. Se recalcula solo al
-  // terminar un gesto (`settledScale`), no en cada fotograma.
+  // Marcadores de los sitios diminutos, por forma (país o territorio) y por
+  // estado. Se recalcula solo al terminar un gesto (`settledScale`), no en
+  // cada fotograma.
   const markers = useMemo(() => {
     const ppu = size.width ? pxPerUnit(settledScale, size.width) : 0
-    const groups = { been: [] as number[], want: [] as number[], empty: [] as number[], all: [] as number[] }
+    const empty = () => ({ been: [] as number[], want: [] as number[], none: [] as number[], all: [] as number[] })
+    const byShape: Record<MarkerShape, ReturnType<typeof empty>> = { circle: empty(), diamond: empty() }
     let selectedAnchor: number[] = []
-    if (!ppu) return { ...groups, selectedAnchor }
+    let selectedMarkerShape: MarkerShape = 'circle'
+    if (!ppu) return { byShape, selectedAnchor, selectedMarkerShape }
     for (const s of MAP_SITES) {
       if (!markerVisible(s, ppu)) continue
+      const shape: MarkerShape = getByCca3(s.code)?.kind === 'territory' ? 'diamond' : 'circle'
+      const g = byShape[shape]
       const st = statusByCode.get(s.code)
-      const g = st === 'been' ? groups.been : st === 'want' ? groups.want : groups.empty
-      g.push(s.anchor[0], s.anchor[1])
-      groups.all.push(s.anchor[0], s.anchor[1])
-      if (s.code === selected) selectedAnchor = [s.anchor[0], s.anchor[1]]
+      const bucket = st === 'been' ? g.been : st === 'want' ? g.want : g.none
+      bucket.push(s.anchor[0], s.anchor[1])
+      g.all.push(s.anchor[0], s.anchor[1])
+      if (s.code === selected) {
+        selectedAnchor = [s.anchor[0], s.anchor[1]]
+        selectedMarkerShape = shape
+      }
     }
-    return { ...groups, selectedAnchor }
+    return { byShape, selectedAnchor, selectedMarkerShape }
   }, [settledScale, size.width, statusByCode, selected])
 
-  /**
-   * Los marcadores se dibujan en coordenadas de PANTALLA, fuera del lienzo
-   * que escala: así miden siempre lo mismo. Sus posiciones se recalculan en
-   * cada fotograma en el hilo de la interfaz, y se descartan los que caen
-   * fuera para no mandar a dibujar cientos de puntos invisibles.
-   */
-  function useScreenPoints(flat: number[]) {
-    return useDerivedValue(() => {
-      const kk = k.value
-      const x0 = wrapTranslateX(translateX.value, containerW.value * scale.value)
-      const y0 = translateY.value
-      const w = containerW.value
-      const h = containerH.value
-      const out: { x: number; y: number }[] = []
-      for (let i = 0; i < flat.length; i += 2) {
-        for (let t = -1; t <= 1; t++) {
-          const x = (flat[i] + t * MAP_WIDTH) * kk + x0
-          const y = flat[i + 1] * kk + y0
-          if (x > -20 && x < w + 20 && y > -20 && y < h + 20) out.push({ x, y })
-        }
-      }
-      return out
-    }, [flat])
-  }
-  const ringPts = useScreenPoints(markers.all)
-  const beenPts = useScreenPoints(markers.been)
-  const wantPts = useScreenPoints(markers.want)
-  const emptyPts = useScreenPoints(markers.empty)
-  const selectedPts = useScreenPoints(markers.selectedAnchor)
+  const camera = { k, translateX, translateY, scale, containerW, containerH }
 
   const canZoomIn = settledScale < MAX_SCALE - 1e-6
   const canZoomOut = settledScale > MIN_SCALE + 1e-6
@@ -524,27 +583,32 @@ export default function WorldMap({ statusByCode, onSelect, selected, bottomInset
                 ))}
               </Group>
               {/* El seleccionado, con un aro claro más grande por debajo. */}
-              {markers.selectedAnchor.length > 0 && (
-                <Points
-                  points={selectedPts}
-                  mode="points"
-                  strokeWidth={2 * (mapMarks.dot + mapMarks.dotRing * 2)}
-                  strokeCap="round"
-                  color={palette.mapSelected}
-                />
-              )}
-              {/* Puntos de los países diminutos: un aro del color del mar
-                  para separarlos de lo que tengan debajo, y el relleno. */}
-              <Points
-                points={ringPts}
-                mode="points"
-                strokeWidth={2 * (mapMarks.dot + mapMarks.dotRing)}
-                strokeCap="round"
-                color={palette.mapStroke}
+              <MarkerLayer
+                flat={markers.selectedAnchor}
+                shape={markers.selectedMarkerShape}
+                size={2 * (mapMarks.dot + mapMarks.dotRing * 2)}
+                color={palette.mapSelected}
+                camera={camera}
               />
-              <Points points={emptyPts} mode="points" strokeWidth={2 * mapMarks.dot} strokeCap="round" color={palette.faint} />
-              <Points points={wantPts} mode="points" strokeWidth={2 * mapMarks.dot} strokeCap="round" color={palette.mapWant} />
-              <Points points={beenPts} mode="points" strokeWidth={2 * mapMarks.dot} strokeCap="round" color={palette.mapBeen} />
+              {/* Círculo = país diminuto, rombo = territorio. El color sigue
+                  siendo el estado, igual que en las formas: si los
+                  territorios tuvieran su propio color, uno visitado dejaría
+                  de verse morado. Debajo, un aro del color del mar para
+                  separarlos de lo que tengan detrás. */}
+              {(['circle', 'diamond'] as const).map((shape) => (
+                <Group key={shape}>
+                  <MarkerLayer
+                    flat={markers.byShape[shape].all}
+                    shape={shape}
+                    size={2 * (mapMarks.dot + mapMarks.dotRing)}
+                    color={palette.mapStroke}
+                    camera={camera}
+                  />
+                  <MarkerLayer flat={markers.byShape[shape].none} shape={shape} size={2 * mapMarks.dot} color={palette.faint} camera={camera} />
+                  <MarkerLayer flat={markers.byShape[shape].want} shape={shape} size={2 * mapMarks.dot} color={palette.mapWant} camera={camera} />
+                  <MarkerLayer flat={markers.byShape[shape].been} shape={shape} size={2 * mapMarks.dot} color={palette.mapBeen} camera={camera} />
+                </Group>
+              ))}
             </Canvas>
           )}
         </View>

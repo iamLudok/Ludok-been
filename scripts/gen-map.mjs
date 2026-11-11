@@ -24,6 +24,7 @@ const readJson = (p) => JSON.parse(readFileSync(p, 'utf8'))
 const topology = readJson(join(here, '..', 'node_modules', 'world-atlas', 'countries-50m.json'))
 const countries = readJson(join(dataDir, 'countries.json'))
 const ukNations = readJson(join(dataDir, 'uk-nations.json'))
+const territories = readJson(join(dataDir, 'territories.json'))
 
 // Deben coincidir con MAP_WIDTH/MAP_HEIGHT de src/lib/geo.ts.
 const MAP_WIDTH = 800
@@ -42,11 +43,11 @@ projection.clipExtent([[0, 0], [MAP_WIDTH, MAP_HEIGHT]])
 
 const byCcn3 = new Map(countries.map((c) => [c.ccn3, c]))
 const known = new Set(countries.map((c) => c.cca3))
-// Territorios del atlas sin ISO numérico que sí se pueden marcar.
+// Formas del atlas sin ISO numérico que sí se pueden marcar: Kosovo, y los
+// territorios de territories.json que el atlas ya dibuja aparte (Chipre del
+// Norte, Somalilandia). Antes eran tierra gris que no se podía tocar.
 const NAME_FALLBACK = { Kosovo: 'UNK' }
-// El atlas trae el Reino Unido como una sola forma; se sustituye por las 4
-// naciones de uk-nations.json (ver scripts/gen-countries.mjs).
-const UK_ATLAS_ID = '826'
+for (const t of territories) if (t.atlasName) NAME_FALLBACK[t.atlasName] = t.code
 
 /**
  * Convierte una geometría proyectada en anillos planos [x0, y0, x1, y1, …].
@@ -114,13 +115,12 @@ const project = (lonLat) => {
 }
 
 const fc = feature(topology, topology.objects.countries)
-const atlas = fc.features
-  .filter((f) => String(f.id) !== UK_ATLAS_ID)
-  .map((f) => ({
-    code: byCcn3.get(String(f.id ?? '').padStart(3, '0'))?.cca3 ?? NAME_FALLBACK[f.properties?.name] ?? null,
-    geometry: f.geometry,
-  }))
-  .concat(ukNations.map((n) => ({ code: n.cca3, geometry: n.geometry })))
+// El Reino Unido es UNA forma (es un país); sus 4 naciones son territorios y
+// van como puntos (ver abajo), igual que el País Vasco dentro de España.
+const atlas = fc.features.map((f) => ({
+  code: byCcn3.get(String(f.id ?? '').padStart(3, '0'))?.cca3 ?? NAME_FALLBACK[f.properties?.name] ?? null,
+  geometry: f.geometry,
+}))
 
 const shapes = []
 const drawn = new Set()
@@ -140,9 +140,16 @@ for (const { code, geometry } of atlas) {
   if (code) drawn.add(code)
 }
 
-// Los que no tienen forma en el atlas (Tuvalu, Gibraltar, Guadalupe…): solo
-// un punto, con las coordenadas de world-countries. Se tocan por el marcador.
+// Los que no tienen forma propia en el atlas (Tuvalu, Gibraltar, Escocia,
+// Transnistria…): solo un punto. Se tocan por el marcador. Coordenadas de
+// world-countries, de territories.json, o el centro de la forma de cada
+// nación del Reino Unido.
 const latlngByCca3 = new Map(worldCountries.map((c) => [c.cca3, c.latlng]))
+for (const t of territories) latlngByCca3.set(t.code, t.latlng)
+for (const n of ukNations) {
+  const [lon, lat] = geoCentroid(mainPolygon(n.geometry))
+  latlngByCca3.set(n.cca3, [lat, lon])
+}
 const points = []
 const unplaced = []
 for (const c of countries) {
@@ -159,11 +166,11 @@ for (const c of countries) {
 writeFileSync(join(dataDir, 'map.json'), JSON.stringify({ width: MAP_WIDTH, height: MAP_HEIGHT, shapes, points }))
 
 const sovereignMissing = countries.filter(
-  (c) => c.independent && !drawn.has(c.cca3) && !points.some((p) => p.code === c.cca3),
+  (c) => c.kind === 'country' && !drawn.has(c.cca3) && !points.some((p) => p.code === c.cca3),
 )
 console.log(`map.json: ${shapes.length} formas, ${points.length} puntos`)
 console.log(`fuera del mapa (polos/Antártida): ${unplaced.join(', ') || 'ninguno'}`)
 if (sovereignMissing.length) {
-  console.error(`¡Soberanos sin forma ni punto!: ${sovereignMissing.map((c) => c.name).join(', ')}`)
+  console.error(`¡Países sin forma ni punto!: ${sovereignMissing.map((c) => c.name).join(', ')}`)
   process.exit(1)
 }

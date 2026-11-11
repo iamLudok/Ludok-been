@@ -1,21 +1,46 @@
 [
   {
+    "cca3": "x-abjasia",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Abjasia",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "kind": "territory",
+    "type": "de-facto",
+    "parent": "GEO"
+  },
+  {
     "cca3": "AFG",
     "cca2": "AF",
     "ccn3": "004",
     "name": "Afganistán",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ALA",
     "cca2": "AX",
     "ccn3": "248",
-    "name": "Alandia",
+    "name": "Åland",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "FIN"
+  },
+  {
+    "cca3": "x-alaska",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Alaska",
+    "continent": "América",
+    "subregion": "North America",
+    "kind": "territory",
+    "type": "region",
+    "parent": "USA",
+    "sovereignCode": "USA"
   },
   {
     "cca3": "ALB",
@@ -24,7 +49,7 @@
     "name": "Albania",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "DEU",
@@ -33,7 +58,7 @@
     "name": "Alemania",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "AND",
@@ -42,7 +67,7 @@
     "name": "Andorra",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "AGO",
@@ -51,7 +76,7 @@
     "name": "Angola",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "AIA",
@@ -60,7 +85,9 @@
     "name": "Anguilla",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "ATA",
@@ -69,7 +96,8 @@
     "name": "Antártida",
     "continent": "Antártida",
     "subregion": "",
-    "independent": false
+    "kind": "territory",
+    "type": "remoto"
   },
   {
     "cca3": "ATG",
@@ -78,7 +106,7 @@
     "name": "Antigua y Barbuda",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SAU",
@@ -87,7 +115,7 @@
     "name": "Arabia Saudí",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "DZA",
@@ -96,7 +124,7 @@
     "name": "Argelia",
     "continent": "África",
     "subregion": "Northern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ARG",
@@ -105,7 +133,7 @@
     "name": "Argentina",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ARM",
@@ -114,7 +142,7 @@
     "name": "Armenia",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ABW",
@@ -123,7 +151,9 @@
     "name": "Aruba",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NLD"
   },
   {
     "cca3": "AUS",
@@ -132,7 +162,7 @@
     "name": "Australia",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "AUT",
@@ -141,7 +171,7 @@
     "name": "Austria",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "AZE",
@@ -150,7 +180,19 @@
     "name": "Azerbaiyán",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-azores",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Azores",
+    "continent": "Europa",
+    "subregion": "Southern Europe",
+    "kind": "territory",
+    "type": "region",
+    "parent": "PRT",
+    "sovereignCode": "PRT"
   },
   {
     "cca3": "BHS",
@@ -159,7 +201,7 @@
     "name": "Bahamas",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BHR",
@@ -168,7 +210,7 @@
     "name": "Bahrein",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BGD",
@@ -177,7 +219,7 @@
     "name": "Bangladesh",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BRB",
@@ -186,7 +228,7 @@
     "name": "Barbados",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BEL",
@@ -195,7 +237,7 @@
     "name": "Bélgica",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BLZ",
@@ -204,7 +246,7 @@
     "name": "Belice",
     "continent": "América",
     "subregion": "Central America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BEN",
@@ -213,7 +255,7 @@
     "name": "Benín",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BMU",
@@ -222,7 +264,9 @@
     "name": "Bermudas",
     "continent": "América",
     "subregion": "North America",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "BLR",
@@ -231,7 +275,7 @@
     "name": "Bielorrusia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BOL",
@@ -240,7 +284,7 @@
     "name": "Bolivia",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BIH",
@@ -249,7 +293,7 @@
     "name": "Bosnia y Herzegovina",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BWA",
@@ -258,7 +302,7 @@
     "name": "Botswana",
     "continent": "África",
     "subregion": "Southern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BRA",
@@ -267,7 +311,7 @@
     "name": "Brasil",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BRN",
@@ -276,7 +320,7 @@
     "name": "Brunei",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BGR",
@@ -285,7 +329,7 @@
     "name": "Bulgaria",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BFA",
@@ -294,7 +338,7 @@
     "name": "Burkina Faso",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BDI",
@@ -303,7 +347,7 @@
     "name": "Burundi",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "BTN",
@@ -312,7 +356,7 @@
     "name": "Bután",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CPV",
@@ -321,7 +365,7 @@
     "name": "Cabo Verde",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "KHM",
@@ -330,7 +374,7 @@
     "name": "Camboya",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CMR",
@@ -339,7 +383,7 @@
     "name": "Camerún",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CAN",
@@ -348,7 +392,19 @@
     "name": "Canadá",
     "continent": "América",
     "subregion": "North America",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-canarias",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Canarias",
+    "continent": "África",
+    "subregion": "Northern Africa",
+    "kind": "territory",
+    "type": "region",
+    "parent": "ESP",
+    "sovereignCode": "ESP"
   },
   {
     "cca3": "BES",
@@ -357,7 +413,9 @@
     "name": "Caribe Neerlandés",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NLD"
   },
   {
     "cca3": "QAT",
@@ -366,7 +424,19 @@
     "name": "Catar",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-ceuta",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Ceuta",
+    "continent": "África",
+    "subregion": "Northern Africa",
+    "kind": "territory",
+    "type": "region",
+    "parent": "ESP",
+    "sovereignCode": "ESP"
   },
   {
     "cca3": "TCD",
@@ -375,7 +445,7 @@
     "name": "Chad",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CZE",
@@ -384,7 +454,7 @@
     "name": "Chequia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CHL",
@@ -393,7 +463,7 @@
     "name": "Chile",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CHN",
@@ -402,7 +472,7 @@
     "name": "China",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CYP",
@@ -411,7 +481,18 @@
     "name": "Chipre",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-chipre-norte",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Chipre del Norte",
+    "continent": "Europa",
+    "subregion": "Southern Europe",
+    "kind": "territory",
+    "type": "de-facto",
+    "parent": "CYP"
   },
   {
     "cca3": "VAT",
@@ -420,7 +501,7 @@
     "name": "Ciudad del Vaticano",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "COL",
@@ -429,7 +510,7 @@
     "name": "Colombia",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "COM",
@@ -438,7 +519,7 @@
     "name": "Comoras",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "COG",
@@ -447,7 +528,7 @@
     "name": "Congo",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "COD",
@@ -456,7 +537,19 @@
     "name": "Congo (Rep. Dem.)",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-corcega",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Córcega",
+    "continent": "Europa",
+    "subregion": "Western Europe",
+    "kind": "territory",
+    "type": "region",
+    "parent": "FRA",
+    "sovereignCode": "FRA"
   },
   {
     "cca3": "PRK",
@@ -465,7 +558,7 @@
     "name": "Corea del Norte",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "KOR",
@@ -474,7 +567,7 @@
     "name": "Corea del Sur",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CIV",
@@ -483,7 +576,7 @@
     "name": "Costa de Marfil",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CRI",
@@ -492,7 +585,7 @@
     "name": "Costa Rica",
     "continent": "América",
     "subregion": "Central America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "HRV",
@@ -501,7 +594,7 @@
     "name": "Croacia",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CUB",
@@ -510,7 +603,7 @@
     "name": "Cuba",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CUW",
@@ -519,7 +612,9 @@
     "name": "Curazao",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NLD"
   },
   {
     "cca3": "DNK",
@@ -528,7 +623,7 @@
     "name": "Dinamarca",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "DJI",
@@ -537,7 +632,7 @@
     "name": "Djibouti",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "DMA",
@@ -546,7 +641,7 @@
     "name": "Dominica",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ECU",
@@ -555,7 +650,7 @@
     "name": "Ecuador",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "EGY",
@@ -564,7 +659,7 @@
     "name": "Egipto",
     "continent": "África",
     "subregion": "Northern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SLV",
@@ -573,7 +668,7 @@
     "name": "El Salvador",
     "continent": "América",
     "subregion": "Central America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ARE",
@@ -582,7 +677,7 @@
     "name": "Emiratos Árabes Unidos",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ERI",
@@ -591,7 +686,7 @@
     "name": "Eritrea",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SCT",
@@ -600,7 +695,9 @@
     "name": "Escocia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false,
+    "kind": "territory",
+    "type": "nacion",
+    "parent": "GBR",
     "sovereignCode": "GBR"
   },
   {
@@ -610,7 +707,7 @@
     "name": "Eslovaquia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SVN",
@@ -619,7 +716,7 @@
     "name": "Eslovenia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ESP",
@@ -628,7 +725,7 @@
     "name": "España",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "USA",
@@ -637,7 +734,7 @@
     "name": "Estados Unidos",
     "continent": "América",
     "subregion": "North America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "EST",
@@ -646,7 +743,7 @@
     "name": "Estonia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ETH",
@@ -655,7 +752,7 @@
     "name": "Etiopía",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PHL",
@@ -664,7 +761,7 @@
     "name": "Filipinas",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "FIN",
@@ -673,7 +770,7 @@
     "name": "Finlandia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "FJI",
@@ -682,7 +779,7 @@
     "name": "Fiyi",
     "continent": "Oceanía",
     "subregion": "Melanesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "FRA",
@@ -691,7 +788,7 @@
     "name": "Francia",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GAB",
@@ -700,7 +797,19 @@
     "name": "Gabón",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-galapagos",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Galápagos",
+    "continent": "América",
+    "subregion": "South America",
+    "kind": "territory",
+    "type": "region",
+    "parent": "ECU",
+    "sovereignCode": "ECU"
   },
   {
     "cca3": "WLS",
@@ -709,7 +818,9 @@
     "name": "Gales",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false,
+    "kind": "territory",
+    "type": "nacion",
+    "parent": "GBR",
     "sovereignCode": "GBR"
   },
   {
@@ -719,7 +830,7 @@
     "name": "Gambia",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GEO",
@@ -728,7 +839,18 @@
     "name": "Georgia",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "SGS",
+    "cca2": "GS",
+    "ccn3": "239",
+    "name": "Georgias del Sur",
+    "continent": "Antártida",
+    "subregion": "",
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "GBR"
   },
   {
     "cca3": "GHA",
@@ -737,7 +859,7 @@
     "name": "Ghana",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GIB",
@@ -746,7 +868,9 @@
     "name": "Gibraltar",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "GRC",
@@ -755,7 +879,7 @@
     "name": "Grecia",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GRD",
@@ -764,7 +888,7 @@
     "name": "Grenada",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GRL",
@@ -773,7 +897,9 @@
     "name": "Groenlandia",
     "continent": "América",
     "subregion": "North America",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "DNK"
   },
   {
     "cca3": "GLP",
@@ -782,7 +908,9 @@
     "name": "Guadalupe",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "ultramar",
+    "parent": "FRA"
   },
   {
     "cca3": "GUM",
@@ -791,7 +919,9 @@
     "name": "Guam",
     "continent": "Oceanía",
     "subregion": "Micronesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "USA"
   },
   {
     "cca3": "GTM",
@@ -800,7 +930,7 @@
     "name": "Guatemala",
     "continent": "América",
     "subregion": "Central America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GUF",
@@ -809,7 +939,9 @@
     "name": "Guayana Francesa",
     "continent": "América",
     "subregion": "South America",
-    "independent": false
+    "kind": "territory",
+    "type": "ultramar",
+    "parent": "FRA"
   },
   {
     "cca3": "GGY",
@@ -818,7 +950,9 @@
     "name": "Guernsey",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "GIN",
@@ -827,7 +961,7 @@
     "name": "Guinea",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GNQ",
@@ -836,7 +970,7 @@
     "name": "Guinea Ecuatorial",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GNB",
@@ -845,7 +979,7 @@
     "name": "Guinea-Bisáu",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "GUY",
@@ -854,7 +988,7 @@
     "name": "Guyana",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "HTI",
@@ -863,7 +997,19 @@
     "name": "Haití",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-hawai",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Hawái",
+    "continent": "Oceanía",
+    "subregion": "Polynesia",
+    "kind": "territory",
+    "type": "region",
+    "parent": "USA",
+    "sovereignCode": "USA"
   },
   {
     "cca3": "HND",
@@ -872,7 +1018,7 @@
     "name": "Honduras",
     "continent": "América",
     "subregion": "Central America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "HKG",
@@ -881,7 +1027,9 @@
     "name": "Hong Kong",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "CHN"
   },
   {
     "cca3": "HUN",
@@ -890,7 +1038,7 @@
     "name": "Hungría",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "IND",
@@ -899,7 +1047,7 @@
     "name": "India",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "IDN",
@@ -908,7 +1056,7 @@
     "name": "Indonesia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ENG",
@@ -917,7 +1065,9 @@
     "name": "Inglaterra",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false,
+    "kind": "territory",
+    "type": "nacion",
+    "parent": "GBR",
     "sovereignCode": "GBR"
   },
   {
@@ -927,7 +1077,7 @@
     "name": "Irak",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "IRN",
@@ -936,7 +1086,7 @@
     "name": "Iran",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "IRL",
@@ -945,7 +1095,7 @@
     "name": "Irlanda",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NIR",
@@ -954,7 +1104,9 @@
     "name": "Irlanda del Norte",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false,
+    "kind": "territory",
+    "type": "nacion",
+    "parent": "GBR",
     "sovereignCode": "GBR"
   },
   {
@@ -964,7 +1116,9 @@
     "name": "Isla Bouvet",
     "continent": "Antártida",
     "subregion": "",
-    "independent": false
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "NOR"
   },
   {
     "cca3": "IMN",
@@ -973,7 +1127,9 @@
     "name": "Isla de Man",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "CXR",
@@ -982,7 +1138,9 @@
     "name": "Isla de Navidad",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
-    "independent": false
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "AUS"
   },
   {
     "cca3": "NFK",
@@ -991,7 +1149,21 @@
     "name": "Isla de Norfolk",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "AUS"
+  },
+  {
+    "cca3": "x-isla-pascua",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Isla de Pascua",
+    "continent": "Oceanía",
+    "subregion": "Polynesia",
+    "kind": "territory",
+    "type": "region",
+    "parent": "CHL",
+    "sovereignCode": "CHL"
   },
   {
     "cca3": "ISL",
@@ -1000,7 +1172,7 @@
     "name": "Islandia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CYM",
@@ -1009,16 +1181,20 @@
     "name": "Islas Caimán",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "CCK",
     "cca2": "CC",
     "ccn3": "166",
-    "name": "Islas Cocos o Islas Keeling",
+    "name": "Islas Cocos",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
-    "independent": false
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "AUS"
   },
   {
     "cca3": "COK",
@@ -1027,25 +1203,20 @@
     "name": "Islas Cook",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NZL"
   },
   {
     "cca3": "FRO",
     "cca2": "FO",
     "ccn3": "234",
-    "name": "Islas Faroe",
+    "name": "Islas Feroe",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false
-  },
-  {
-    "cca3": "SGS",
-    "cca2": "GS",
-    "ccn3": "239",
-    "name": "Islas Georgias del Sur y Sandwich del Sur",
-    "continent": "Antártida",
-    "subregion": "",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "DNK"
   },
   {
     "cca3": "HMD",
@@ -1054,7 +1225,9 @@
     "name": "Islas Heard y McDonald",
     "continent": "Antártida",
     "subregion": "",
-    "independent": false
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "AUS"
   },
   {
     "cca3": "FLK",
@@ -1063,7 +1236,9 @@
     "name": "Islas Malvinas",
     "continent": "América",
     "subregion": "South America",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "MNP",
@@ -1072,7 +1247,9 @@
     "name": "Islas Marianas del Norte",
     "continent": "Oceanía",
     "subregion": "Micronesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "USA"
   },
   {
     "cca3": "MHL",
@@ -1081,16 +1258,18 @@
     "name": "Islas Marshall",
     "continent": "Oceanía",
     "subregion": "Micronesia",
-    "independent": true
+    "kind": "country"
   },
   {
-    "cca3": "PCN",
-    "cca2": "PN",
-    "ccn3": "612",
-    "name": "Islas Pitcairn",
-    "continent": "Oceanía",
-    "subregion": "Polynesia",
-    "independent": false
+    "cca3": "UMI",
+    "cca2": "UM",
+    "ccn3": "581",
+    "name": "Islas menores de EE. UU.",
+    "continent": "América",
+    "subregion": "North America",
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "USA"
   },
   {
     "cca3": "SLB",
@@ -1099,61 +1278,40 @@
     "name": "Islas Salomón",
     "continent": "Oceanía",
     "subregion": "Melanesia",
-    "independent": true
-  },
-  {
-    "cca3": "SJM",
-    "cca2": "SJ",
-    "ccn3": "744",
-    "name": "Islas Svalbard y Jan Mayen",
-    "continent": "Europa",
-    "subregion": "Northern Europe",
-    "independent": false
-  },
-  {
-    "cca3": "TKL",
-    "cca2": "TK",
-    "ccn3": "772",
-    "name": "Islas Tokelau",
-    "continent": "Oceanía",
-    "subregion": "Polynesia",
-    "independent": false
+    "kind": "country"
   },
   {
     "cca3": "TCA",
     "cca2": "TC",
     "ccn3": "796",
-    "name": "Islas Turks y Caicos",
+    "name": "Islas Turcas y Caicos",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
-  },
-  {
-    "cca3": "UMI",
-    "cca2": "UM",
-    "ccn3": "581",
-    "name": "Islas Ultramarinas Menores de Estados Unidos",
-    "continent": "América",
-    "subregion": "North America",
-    "independent": false
-  },
-  {
-    "cca3": "VIR",
-    "cca2": "VI",
-    "ccn3": "850",
-    "name": "Islas Vírgenes de los Estados Unidos",
-    "continent": "América",
-    "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "VGB",
     "cca2": "VG",
     "ccn3": "092",
-    "name": "Islas Vírgenes del Reino Unido",
+    "name": "Islas Vírgenes Británicas",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
+  },
+  {
+    "cca3": "VIR",
+    "cca2": "VI",
+    "ccn3": "850",
+    "name": "Islas Vírgenes de EE. UU.",
+    "continent": "América",
+    "subregion": "Caribbean",
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "USA"
   },
   {
     "cca3": "ISR",
@@ -1162,7 +1320,7 @@
     "name": "Israel",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ITA",
@@ -1171,7 +1329,7 @@
     "name": "Italia",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "JAM",
@@ -1180,7 +1338,7 @@
     "name": "Jamaica",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "JPN",
@@ -1189,7 +1347,7 @@
     "name": "Japón",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "JEY",
@@ -1198,7 +1356,9 @@
     "name": "Jersey",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "JOR",
@@ -1207,7 +1367,19 @@
     "name": "Jordania",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-kaliningrado",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Kaliningrado",
+    "continent": "Europa",
+    "subregion": "Eastern Europe",
+    "kind": "territory",
+    "type": "region",
+    "parent": "RUS",
+    "sovereignCode": "RUS"
   },
   {
     "cca3": "KAZ",
@@ -1216,7 +1388,7 @@
     "name": "Kazajistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "KEN",
@@ -1225,7 +1397,7 @@
     "name": "Kenia",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "KGZ",
@@ -1234,7 +1406,7 @@
     "name": "Kirguizistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "KIR",
@@ -1243,7 +1415,7 @@
     "name": "Kiribati",
     "continent": "Oceanía",
     "subregion": "Micronesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "UNK",
@@ -1252,7 +1424,20 @@
     "name": "Kosovo",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": false
+    "kind": "territory",
+    "type": "de-facto"
+  },
+  {
+    "cca3": "x-kurdistan-irak",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Kurdistán iraquí",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "kind": "territory",
+    "type": "region",
+    "parent": "IRQ",
+    "sovereignCode": "IRQ"
   },
   {
     "cca3": "KWT",
@@ -1261,7 +1446,7 @@
     "name": "Kuwait",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LAO",
@@ -1270,7 +1455,7 @@
     "name": "Laos",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LSO",
@@ -1279,7 +1464,7 @@
     "name": "Lesotho",
     "continent": "África",
     "subregion": "Southern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LVA",
@@ -1288,7 +1473,7 @@
     "name": "Letonia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LBN",
@@ -1297,7 +1482,7 @@
     "name": "Líbano",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LBR",
@@ -1306,7 +1491,7 @@
     "name": "Liberia",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LBY",
@@ -1315,7 +1500,7 @@
     "name": "Libia",
     "continent": "África",
     "subregion": "Northern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LIE",
@@ -1324,7 +1509,7 @@
     "name": "Liechtenstein",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LTU",
@@ -1333,7 +1518,7 @@
     "name": "Lituania",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "LUX",
@@ -1342,7 +1527,7 @@
     "name": "Luxemburgo",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MAC",
@@ -1351,7 +1536,9 @@
     "name": "Macao",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "CHN"
   },
   {
     "cca3": "MKD",
@@ -1360,7 +1547,7 @@
     "name": "Macedonia del Norte",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MDG",
@@ -1369,7 +1556,19 @@
     "name": "Madagascar",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-madeira",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Madeira",
+    "continent": "África",
+    "subregion": "Northern Africa",
+    "kind": "territory",
+    "type": "region",
+    "parent": "PRT",
+    "sovereignCode": "PRT"
   },
   {
     "cca3": "MYS",
@@ -1378,7 +1577,7 @@
     "name": "Malasia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MWI",
@@ -1387,7 +1586,7 @@
     "name": "Malawi",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MDV",
@@ -1396,7 +1595,7 @@
     "name": "Maldivas",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MLI",
@@ -1405,7 +1604,7 @@
     "name": "Mali",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MLT",
@@ -1414,7 +1613,7 @@
     "name": "Malta",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MAR",
@@ -1423,7 +1622,7 @@
     "name": "Marruecos",
     "continent": "África",
     "subregion": "Northern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MTQ",
@@ -1432,7 +1631,9 @@
     "name": "Martinica",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "ultramar",
+    "parent": "FRA"
   },
   {
     "cca3": "MUS",
@@ -1441,7 +1642,7 @@
     "name": "Mauricio",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MRT",
@@ -1450,7 +1651,7 @@
     "name": "Mauritania",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MYT",
@@ -1459,7 +1660,21 @@
     "name": "Mayotte",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": false
+    "kind": "territory",
+    "type": "ultramar",
+    "parent": "FRA"
+  },
+  {
+    "cca3": "x-melilla",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Melilla",
+    "continent": "África",
+    "subregion": "Northern Africa",
+    "kind": "territory",
+    "type": "region",
+    "parent": "ESP",
+    "sovereignCode": "ESP"
   },
   {
     "cca3": "MEX",
@@ -1468,7 +1683,7 @@
     "name": "México",
     "continent": "América",
     "subregion": "North America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "FSM",
@@ -1477,7 +1692,7 @@
     "name": "Micronesia",
     "continent": "Oceanía",
     "subregion": "Micronesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MDA",
@@ -1486,7 +1701,7 @@
     "name": "Moldavia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MCO",
@@ -1495,7 +1710,7 @@
     "name": "Mónaco",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MNG",
@@ -1504,7 +1719,19 @@
     "name": "Mongolia",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-monte-athos",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Monte Athos",
+    "continent": "Europa",
+    "subregion": "Southern Europe",
+    "kind": "territory",
+    "type": "region",
+    "parent": "GRC",
+    "sovereignCode": "GRC"
   },
   {
     "cca3": "MNE",
@@ -1513,7 +1740,7 @@
     "name": "Montenegro",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MSR",
@@ -1522,7 +1749,9 @@
     "name": "Montserrat",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "MOZ",
@@ -1531,7 +1760,7 @@
     "name": "Mozambique",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "MMR",
@@ -1540,7 +1769,19 @@
     "name": "Myanmar",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-nagorno-karabaj",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Nagorno Karabaj",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "kind": "territory",
+    "type": "de-facto",
+    "parent": "AZE",
+    "defunct": true
   },
   {
     "cca3": "NAM",
@@ -1549,7 +1790,7 @@
     "name": "Namibia",
     "continent": "África",
     "subregion": "Southern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NRU",
@@ -1558,7 +1799,7 @@
     "name": "Nauru",
     "continent": "Oceanía",
     "subregion": "Micronesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NPL",
@@ -1567,7 +1808,7 @@
     "name": "Nepal",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NIC",
@@ -1576,7 +1817,7 @@
     "name": "Nicaragua",
     "continent": "América",
     "subregion": "Central America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NER",
@@ -1585,7 +1826,7 @@
     "name": "Níger",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NGA",
@@ -1594,7 +1835,7 @@
     "name": "Nigeria",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NIU",
@@ -1603,7 +1844,9 @@
     "name": "Niue",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NZL"
   },
   {
     "cca3": "NOR",
@@ -1612,7 +1855,7 @@
     "name": "Noruega",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "NCL",
@@ -1621,7 +1864,9 @@
     "name": "Nueva Caledonia",
     "continent": "Oceanía",
     "subregion": "Melanesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "FRA"
   },
   {
     "cca3": "NZL",
@@ -1630,7 +1875,7 @@
     "name": "Nueva Zelanda",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "OMN",
@@ -1639,7 +1884,30 @@
     "name": "Omán",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-osetia-sur",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Osetia del Sur",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "kind": "territory",
+    "type": "de-facto",
+    "parent": "GEO"
+  },
+  {
+    "cca3": "x-pais-vasco",
+    "cca2": "",
+    "ccn3": "",
+    "name": "País Vasco",
+    "continent": "Europa",
+    "subregion": "Southern Europe",
+    "kind": "territory",
+    "type": "region",
+    "parent": "ESP",
+    "sovereignCode": "ESP"
   },
   {
     "cca3": "NLD",
@@ -1648,7 +1916,7 @@
     "name": "Países Bajos",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PAK",
@@ -1657,7 +1925,7 @@
     "name": "Pakistán",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PLW",
@@ -1666,7 +1934,7 @@
     "name": "Palau",
     "continent": "Oceanía",
     "subregion": "Micronesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PSE",
@@ -1675,7 +1943,7 @@
     "name": "Palestina",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PAN",
@@ -1684,7 +1952,7 @@
     "name": "Panamá",
     "continent": "América",
     "subregion": "Central America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PNG",
@@ -1693,7 +1961,7 @@
     "name": "Papúa Nueva Guinea",
     "continent": "Oceanía",
     "subregion": "Melanesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PRY",
@@ -1702,7 +1970,7 @@
     "name": "Paraguay",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PER",
@@ -1711,7 +1979,18 @@
     "name": "Perú",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "PCN",
+    "cca2": "PN",
+    "ccn3": "612",
+    "name": "Pitcairn",
+    "continent": "Oceanía",
+    "subregion": "Polynesia",
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "PYF",
@@ -1720,7 +1999,9 @@
     "name": "Polinesia Francesa",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "FRA"
   },
   {
     "cca3": "POL",
@@ -1729,7 +2010,7 @@
     "name": "Polonia",
     "continent": "Europa",
     "subregion": "Central Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PRT",
@@ -1738,7 +2019,7 @@
     "name": "Portugal",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "PRI",
@@ -1747,7 +2028,18 @@
     "name": "Puerto Rico",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "USA"
+  },
+  {
+    "cca3": "GBR",
+    "cca2": "GB",
+    "ccn3": "826",
+    "name": "Reino Unido",
+    "continent": "Europa",
+    "subregion": "Northern Europe",
+    "kind": "country"
   },
   {
     "cca3": "CAF",
@@ -1756,7 +2048,7 @@
     "name": "República Centroafricana",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "DOM",
@@ -1765,7 +2057,7 @@
     "name": "República Dominicana",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "REU",
@@ -1774,7 +2066,9 @@
     "name": "Reunión",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": false
+    "kind": "territory",
+    "type": "ultramar",
+    "parent": "FRA"
   },
   {
     "cca3": "RWA",
@@ -1783,7 +2077,7 @@
     "name": "Ruanda",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ROU",
@@ -1792,7 +2086,7 @@
     "name": "Rumania",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "RUS",
@@ -1801,25 +2095,17 @@
     "name": "Rusia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ESH",
     "cca2": "EH",
     "ccn3": "732",
-    "name": "Sahara Occidental",
+    "name": "Sáhara Occidental",
     "continent": "África",
     "subregion": "Northern Africa",
-    "independent": false
-  },
-  {
-    "cca3": "MAF",
-    "cca2": "MF",
-    "ccn3": "663",
-    "name": "Saint Martin",
-    "continent": "América",
-    "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "de-facto"
   },
   {
     "cca3": "WSM",
@@ -1828,7 +2114,7 @@
     "name": "Samoa",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ASM",
@@ -1837,7 +2123,9 @@
     "name": "Samoa Americana",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "USA"
   },
   {
     "cca3": "BLM",
@@ -1846,7 +2134,9 @@
     "name": "San Bartolomé",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "FRA"
   },
   {
     "cca3": "KNA",
@@ -1855,7 +2145,7 @@
     "name": "San Cristóbal y Nieves",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SMR",
@@ -1864,7 +2154,18 @@
     "name": "San Marino",
     "continent": "Europa",
     "subregion": "Southern Europe",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "MAF",
+    "cca2": "MF",
+    "ccn3": "663",
+    "name": "San Martín",
+    "continent": "América",
+    "subregion": "Caribbean",
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "FRA"
   },
   {
     "cca3": "SPM",
@@ -1873,7 +2174,9 @@
     "name": "San Pedro y Miquelón",
     "continent": "América",
     "subregion": "North America",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "FRA"
   },
   {
     "cca3": "VCT",
@@ -1882,16 +2185,18 @@
     "name": "San Vicente y Granadinas",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SHN",
     "cca2": "SH",
     "ccn3": "654",
-    "name": "Santa Elena, Ascensión y Tristán de Acuña",
+    "name": "Santa Elena",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "GBR"
   },
   {
     "cca3": "LCA",
@@ -1900,7 +2205,7 @@
     "name": "Santa Lucía",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "STP",
@@ -1909,7 +2214,7 @@
     "name": "Santo Tomé y Príncipe",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SEN",
@@ -1918,7 +2223,7 @@
     "name": "Senegal",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SRB",
@@ -1927,7 +2232,7 @@
     "name": "Serbia",
     "continent": "Europa",
     "subregion": "Southeast Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SYC",
@@ -1936,7 +2241,7 @@
     "name": "Seychelles",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SLE",
@@ -1945,7 +2250,7 @@
     "name": "Sierra Leone",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SGP",
@@ -1954,7 +2259,7 @@
     "name": "Singapur",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SXM",
@@ -1963,7 +2268,9 @@
     "name": "Sint Maarten",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NLD"
   },
   {
     "cca3": "SYR",
@@ -1972,7 +2279,19 @@
     "name": "Siria",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-socotra",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Socotra",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "kind": "territory",
+    "type": "region",
+    "parent": "YEM",
+    "sovereignCode": "YEM"
   },
   {
     "cca3": "SOM",
@@ -1981,7 +2300,18 @@
     "name": "Somalia",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-somalilandia",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Somalilandia",
+    "continent": "África",
+    "subregion": "Eastern Africa",
+    "kind": "territory",
+    "type": "de-facto",
+    "parent": "SOM"
   },
   {
     "cca3": "LKA",
@@ -1990,7 +2320,7 @@
     "name": "Sri Lanka",
     "continent": "Asia",
     "subregion": "Southern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SWZ",
@@ -1999,7 +2329,7 @@
     "name": "Suazilandia",
     "continent": "África",
     "subregion": "Southern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ZAF",
@@ -2008,7 +2338,7 @@
     "name": "Sudáfrica",
     "continent": "África",
     "subregion": "Southern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SDN",
@@ -2017,7 +2347,7 @@
     "name": "Sudán",
     "continent": "África",
     "subregion": "Northern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SSD",
@@ -2026,7 +2356,7 @@
     "name": "Sudán del Sur",
     "continent": "África",
     "subregion": "Middle Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SWE",
@@ -2035,7 +2365,7 @@
     "name": "Suecia",
     "continent": "Europa",
     "subregion": "Northern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "CHE",
@@ -2044,7 +2374,7 @@
     "name": "Suiza",
     "continent": "Europa",
     "subregion": "Western Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "SUR",
@@ -2053,7 +2383,18 @@
     "name": "Surinam",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "SJM",
+    "cca2": "SJ",
+    "ccn3": "744",
+    "name": "Svalbard",
+    "continent": "Europa",
+    "subregion": "Northern Europe",
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NOR"
   },
   {
     "cca3": "THA",
@@ -2062,7 +2403,7 @@
     "name": "Tailandia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "TWN",
@@ -2071,7 +2412,8 @@
     "name": "Taiwán",
     "continent": "Asia",
     "subregion": "Eastern Asia",
-    "independent": false
+    "kind": "territory",
+    "type": "de-facto"
   },
   {
     "cca3": "TZA",
@@ -2080,7 +2422,7 @@
     "name": "Tanzania",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "TJK",
@@ -2089,7 +2431,7 @@
     "name": "Tayikistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "IOT",
@@ -2098,16 +2440,44 @@
     "name": "Territorio Británico del Océano Índico",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": false
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "GBR"
+  },
+  {
+    "cca3": "x-tibet",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Tíbet",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "kind": "territory",
+    "type": "region",
+    "parent": "CHN",
+    "sovereignCode": "CHN"
+  },
+  {
+    "cca3": "x-tierra-fuego",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Tierra del Fuego",
+    "continent": "América",
+    "subregion": "South America",
+    "kind": "territory",
+    "type": "region",
+    "parent": "ARG",
+    "sovereignCode": "ARG"
   },
   {
     "cca3": "ATF",
     "cca2": "TF",
     "ccn3": "260",
-    "name": "Tierras Australes y Antárticas Francesas",
+    "name": "Tierras Australes Francesas",
     "continent": "Antártida",
     "subregion": "",
-    "independent": false
+    "kind": "territory",
+    "type": "remoto",
+    "parent": "FRA"
   },
   {
     "cca3": "TLS",
@@ -2116,7 +2486,7 @@
     "name": "Timor Oriental",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "TGO",
@@ -2125,7 +2495,18 @@
     "name": "Togo",
     "continent": "África",
     "subregion": "Western Africa",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "TKL",
+    "cca2": "TK",
+    "ccn3": "772",
+    "name": "Tokelau",
+    "continent": "Oceanía",
+    "subregion": "Polynesia",
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "NZL"
   },
   {
     "cca3": "TON",
@@ -2134,7 +2515,18 @@
     "name": "Tonga",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-transnistria",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Transnistria",
+    "continent": "Europa",
+    "subregion": "Eastern Europe",
+    "kind": "territory",
+    "type": "de-facto",
+    "parent": "MDA"
   },
   {
     "cca3": "TTO",
@@ -2143,7 +2535,7 @@
     "name": "Trinidad y Tobago",
     "continent": "América",
     "subregion": "Caribbean",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "TUN",
@@ -2152,7 +2544,7 @@
     "name": "Túnez",
     "continent": "África",
     "subregion": "Northern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "TKM",
@@ -2161,7 +2553,7 @@
     "name": "Turkmenistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "TUR",
@@ -2170,7 +2562,7 @@
     "name": "Turquía",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "TUV",
@@ -2179,7 +2571,7 @@
     "name": "Tuvalu",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "UKR",
@@ -2188,7 +2580,7 @@
     "name": "Ucrania",
     "continent": "Europa",
     "subregion": "Eastern Europe",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "UGA",
@@ -2197,7 +2589,7 @@
     "name": "Uganda",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "URY",
@@ -2206,7 +2598,7 @@
     "name": "Uruguay",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "UZB",
@@ -2215,7 +2607,7 @@
     "name": "Uzbekistán",
     "continent": "Asia",
     "subregion": "Central Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "VUT",
@@ -2224,7 +2616,7 @@
     "name": "Vanuatu",
     "continent": "Oceanía",
     "subregion": "Melanesia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "VEN",
@@ -2233,7 +2625,7 @@
     "name": "Venezuela",
     "continent": "América",
     "subregion": "South America",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "VNM",
@@ -2242,7 +2634,7 @@
     "name": "Vietnam",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "WLF",
@@ -2251,7 +2643,9 @@
     "name": "Wallis y Futuna",
     "continent": "Oceanía",
     "subregion": "Polynesia",
-    "independent": false
+    "kind": "territory",
+    "type": "dependencia",
+    "parent": "FRA"
   },
   {
     "cca3": "YEM",
@@ -2260,7 +2654,7 @@
     "name": "Yemen",
     "continent": "Asia",
     "subregion": "Western Asia",
-    "independent": true
+    "kind": "country"
   },
   {
     "cca3": "ZMB",
@@ -2269,7 +2663,19 @@
     "name": "Zambia",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
+  },
+  {
+    "cca3": "x-zanzibar",
+    "cca2": "",
+    "ccn3": "",
+    "name": "Zanzíbar",
+    "continent": "África",
+    "subregion": "Eastern Africa",
+    "kind": "territory",
+    "type": "region",
+    "parent": "TZA",
+    "sovereignCode": "TZA"
   },
   {
     "cca3": "ZWE",
@@ -2278,6 +2684,6 @@
     "name": "Zimbabue",
     "continent": "África",
     "subregion": "Eastern Africa",
-    "independent": true
+    "kind": "country"
   }
 ]
