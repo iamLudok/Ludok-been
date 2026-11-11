@@ -23,11 +23,12 @@ Your data lives on your phone. No accounts. No servers. No tracking.
 ---
 
 <p align="center">
-<img src="docs/screenshots/map.webp" alt="World map with visited countries" width="260">&nbsp;
-<img src="docs/screenshots/stats.webp" alt="Stats: % of the world, transport and continents" width="260">
+<img src="docs/screenshots/map.webp" alt="World map with visited countries in purple, country names and dots for tiny countries and territories" width="260">&nbsp;
+<img src="docs/screenshots/retos.webp" alt="Challenges: achievements as passport stamps, unlocked and in progress" width="260">&nbsp;
+<img src="docs/screenshots/stats.webp" alt="Stats: % of the world, territories, adventure level and rarest places" width="260">
 </p>
 
-<p align="center"><sub>Map · Stats</sub></p>
+<p align="center"><sub>Map · Challenges · Stats</sub></p>
 
 ## Table of Contents
 
