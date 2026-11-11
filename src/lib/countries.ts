@@ -67,6 +67,14 @@ export function nameOf(code: string): string {
   return byCca3.get(code)?.name ?? code
 }
 
+/** Para buscar sin que importen mayúsculas ni tildes: «japon» encuentra Japón. */
+export function normalizeName(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+}
+
 /** Lista de continentes presentes, ordenada. */
 export function continents(): string[] {
   return [...new Set(COUNTRIES.map((c) => c.continent))].sort((a, b) =>

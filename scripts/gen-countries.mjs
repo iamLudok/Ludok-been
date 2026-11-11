@@ -123,8 +123,25 @@ const NAME_FIX = {
   TCA: 'Islas Turcas y Caicos',
 }
 
+/**
+ * Centro aproximado [lat, lon] con 2 decimales (~1 km): sobra para los
+ * extremos y la distancia a casa, y no engorda el JSON.
+ */
+const round = ([lat, lon]) => [Math.round(lat * 100) / 100, Math.round(lon * 100) / 100]
+
+/**
+ * Sitios cuyo «centro» de world-countries no es donde se va de verdad.
+ * La Antártida viene en el Polo Sur, pero casi todos los viajes llegan a la
+ * península Antártica: con el polo, cualquiera que fuera en crucero saldría
+ * «a 90° S» y a 3.000 km más de casa de lo que estuvo.
+ */
+const LATLNG_FIX = {
+  ATA: [-64.5, -62],
+}
+
 const base = countries.map((c) => {
   const name = NAME_FIX[c.cca3] || c.translations?.spa?.common || c.name.common
+  if (!c.latlng?.length) throw new Error(`${c.cca3} no trae coordenadas.`)
   const common = {
     cca3: c.cca3,
     cca2: c.cca2,
@@ -133,6 +150,7 @@ const base = countries.map((c) => {
     name,
     continent: REGION_ES[c.region] || c.region || 'Otros',
     subregion: c.subregion || '',
+    latlng: round(LATLNG_FIX[c.cca3] || c.latlng),
   }
   // `world-countries` no cuenta Palestina como soberana; la ONU sí la trata
   // como estado observador, igual que a la Santa Sede.
@@ -149,18 +167,21 @@ const base = countries.map((c) => {
 
 // Las 4 naciones del Reino Unido: territorios que SÍ suman al Reino Unido.
 // Mantienen sus códigos de siempre (ENG, SCT…): ya están en copias guardadas.
+// Las coordenadas son el centro de cada nación (el mismo que sale de su forma
+// en gen-map.mjs), escritas a mano para no meter d3 en este script.
 const ukNations = [
-  ['ENG', 'Inglaterra'],
-  ['SCT', 'Escocia'],
-  ['WLS', 'Gales'],
-  ['NIR', 'Irlanda del Norte'],
-].map(([cca3, name]) => ({
+  ['ENG', 'Inglaterra', [52.57, -1.46]],
+  ['SCT', 'Escocia', [56.66, -3.99]],
+  ['WLS', 'Gales', [52.3, -3.73]],
+  ['NIR', 'Irlanda del Norte', [54.61, -6.7]],
+].map(([cca3, name, latlng]) => ({
   cca3,
   cca2: 'GB',
   ccn3: '',
   name,
   continent: 'Europa',
   subregion: 'Northern Europe',
+  latlng,
   kind: 'territory',
   type: 'nacion',
   parent: 'GBR',
@@ -174,6 +195,7 @@ const manual = territories.map((t) => ({
   name: t.name,
   continent: t.continent,
   subregion: t.subregion,
+  latlng: round(t.latlng),
   kind: 'territory',
   type: t.type,
   ...(t.parent ? { parent: t.parent } : {}),

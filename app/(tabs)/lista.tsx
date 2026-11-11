@@ -4,19 +4,12 @@ import { Screen } from '../../src/ui/Screen'
 import { Txt } from '../../src/ui/Text'
 import { usePalette } from '../../src/ui/ThemeProvider'
 import { useVisits } from '../../src/hooks/useVisits'
-import { ONLY_COUNTRIES, TERRITORIES, TERRITORY_TYPE_LABEL, nameOf } from '../../src/lib/countries'
+import { ONLY_COUNTRIES, TERRITORIES, TERRITORY_TYPE_LABEL, nameOf, normalizeName } from '../../src/lib/countries'
 import { Chips } from '../../src/ui/Chips'
 import CountrySheet from '../../src/components/CountrySheet'
 import { TransportIcon } from '../../src/ui/TransportIcon'
 import { radius, space } from '../../src/ui/theme'
 import type { Country, TerritoryType, Visit } from '../../src/types'
-
-function normalize(s: string): string {
-  return s
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
-}
 
 interface Section {
   title: string
@@ -51,9 +44,9 @@ export default function ListaScreen() {
   const visitByCode = useMemo(() => new Map<string, Visit>(visits.map((v) => [v.code, v])), [visits])
 
   const sections = useMemo<Section[]>(() => {
-    const q = normalize(query.trim())
+    const q = normalizeName(query.trim())
     const source = tab === 'countries' ? ONLY_COUNTRIES : TERRITORIES
-    const filtered = q ? source.filter((c) => normalize(c.name).includes(q)) : source
+    const filtered = q ? source.filter((c) => normalizeName(c.name).includes(q)) : source
     if (tab === 'countries') return groupBy(filtered, (c) => c.continent)
     return groupBy(
       filtered,

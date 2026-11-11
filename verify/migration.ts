@@ -208,6 +208,35 @@ async function main() {
   eq('y se puede escribir', after4.rows[0]?.seenAchievements, '["peñon"]')
   for (const suffix of ['', '-wal', '-shm']) rmSync(path4 + suffix, { force: true })
 
+  console.log('\n=== 8. Subida de v4 a v5 (el móvil con logros, antes de los extremos) ===')
+  const V4_SQL = V3_SQL.replace('lastAutoBackupAt INTEGER', 'lastAutoBackupAt INTEGER, seenAchievements TEXT')
+  const path5 = join(tmpdir(), `ludok-been-migration-v4-${process.pid}.db`)
+  rmSync(path5, { force: true })
+  const client5 = createClient({ url: `file:${path5}` })
+  await client5.executeMultiple(V4_SQL)
+  await client5.execute(`PRAGMA user_version = 4`)
+  await client5.execute(
+    'INSERT INTO settings (id, theme, lastBackup, schemaVersion, seenAchievements) VALUES (?, ?, ?, ?, ?)',
+    ['app', 'dark', 1700000000000, 3, '["penon"]'],
+  )
+  await client5.execute(
+    'INSERT INTO visits (code, status, year, transports, addedAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)',
+    ['NZL', 'been', 2024, '["plane"]', 1700000000000, 1700000000000],
+  )
+  const row5 = await client5.execute('PRAGMA user_version')
+  const current5 = Number(row5.rows[0]?.user_version ?? 0)
+  check('arranca en v4', current5 === 4)
+  await client5.executeMultiple(CREATE_SQL)
+  for (const step of MIGRATIONS.slice(current5 - 1)) await client5.executeMultiple(step)
+  await client5.execute(`PRAGMA user_version = ${DB_VERSION}`)
+  eq('la visita sigue ahí', (await client5.execute('SELECT code FROM visits')).rows[0]?.code, 'NZL')
+  const settings5 = await client5.execute('SELECT * FROM settings WHERE id = ?', ['app'])
+  eq('los logros vistos no se tocan', settings5.rows[0]?.seenAchievements, '["penon"]')
+  check('hay columna de tu país, vacía', 'homeCode' in (settings5.rows[0] ?? {}) && settings5.rows[0]?.homeCode == null)
+  await client5.execute('UPDATE settings SET homeCode = ? WHERE id = ?', ['ESP', 'app'])
+  eq('y se puede escribir', (await client5.execute('SELECT homeCode FROM settings')).rows[0]?.homeCode, 'ESP')
+  for (const suffix of ['', '-wal', '-shm']) rmSync(path5 + suffix, { force: true })
+
   console.log(
     failures === 0
       ? '\n✅ TODO CORRECTO — el esquema se crea de forma idempotente\n'

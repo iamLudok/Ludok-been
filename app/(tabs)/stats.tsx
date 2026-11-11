@@ -1,11 +1,14 @@
 import { useMemo } from 'react'
-import { ScrollView, View, StyleSheet } from 'react-native'
+import { ScrollView, View, Pressable, StyleSheet } from 'react-native'
+import { router } from 'expo-router'
 import { Screen, Card } from '../../src/ui/Screen'
 import { Txt } from '../../src/ui/Text'
 import { usePalette } from '../../src/ui/ThemeProvider'
 import { useVisits } from '../../src/hooks/useVisits'
+import { useSettings } from '../../src/hooks/useSettings'
 import { computeStats } from '../../src/lib/library'
-import { adventureOf, footprintOf } from '../../src/lib/rarity'
+import { adventureOf, footprintOf, formatCount } from '../../src/lib/rarity'
+import { extremesOf, formatDegrees } from '../../src/lib/extremes'
 import { nameOf } from '../../src/lib/countries'
 import { countByTransport } from '../../src/lib/transports'
 import { TransportIcon } from '../../src/ui/TransportIcon'
@@ -18,6 +21,8 @@ export default function StatsScreen() {
   const transports = useMemo(() => countByTransport(visits), [visits])
   const adventure = useMemo(() => adventureOf(visits), [visits])
   const footprint = useMemo(() => footprintOf(visits), [visits])
+  const { homeCode } = useSettings()
+  const extremes = useMemo(() => extremesOf(visits, homeCode), [visits, homeCode])
   const maxTransport = transports[0]?.count ?? 0
 
   return (
@@ -93,6 +98,61 @@ export default function StatsScreen() {
           </View>
         </Card>
 
+        {extremes && (
+          <Card>
+            <Txt variant="title">Extremos</Txt>
+            <View style={[styles.stat, { borderColor: palette.line }]}>
+              <Row label="Norte" value={`${nameOf(extremes.north.code)} · ${formatDegrees(extremes.north.degrees, 'lat')}`} />
+              <Row label="Sur" value={`${nameOf(extremes.south.code)} · ${formatDegrees(extremes.south.degrees, 'lat')}`} />
+              <Row label="Este" value={`${nameOf(extremes.east.code)} · ${formatDegrees(extremes.east.degrees, 'lon')}`} />
+              <Row label="Oeste" value={`${nameOf(extremes.west.code)} · ${formatDegrees(extremes.west.degrees, 'lon')}`} />
+            </View>
+            <Pressable
+              onPress={() => router.push('/casa')}
+              accessibilityRole="button"
+              style={({ pressed }) => [styles.link, { borderColor: palette.line, opacity: pressed ? 0.6 : 1 }]}
+            >
+              <View style={{ flex: 1, gap: space.xs }}>
+                {homeCode ? (
+                  <>
+                    <Txt variant="label" tone="faint">
+                      Lo más lejos de casa
+                    </Txt>
+                    {extremes.farthest ? (
+                      <View style={styles.row}>
+                        <Txt variant="section">{nameOf(extremes.farthest.code)}</Txt>
+                        <Txt variant="data" tone="muted">
+                          {formatCount(extremes.farthest.km)} km
+                        </Txt>
+                      </View>
+                    ) : (
+                      <Txt variant="small" tone="muted">
+                        Aún no has salido de casa.
+                      </Txt>
+                    )}
+                    <Txt variant="small" tone="faint">
+                      Desde {nameOf(homeCode)}. Toca para cambiar.
+                    </Txt>
+                  </>
+                ) : (
+                  <>
+                    <Txt variant="section">Lo más lejos de casa</Txt>
+                    <Txt variant="small" tone="muted">
+                      Elige tu país para medirlo.
+                    </Txt>
+                  </>
+                )}
+              </View>
+              <Txt variant="title" tone="muted">
+                ›
+              </Txt>
+            </Pressable>
+            <Txt variant="small" tone="faint">
+              Medido desde el centro de cada sitio, no desde su punta.
+            </Txt>
+          </Card>
+        )}
+
         {transports.length > 0 && (
           <Card>
             <Txt variant="title">Cómo te has movido</Txt>
@@ -148,7 +208,9 @@ function Row({ label, value }: { label: string; value: string }) {
       <Txt variant="small" tone="muted">
         {label}
       </Txt>
-      <Txt variant="data">{value}</Txt>
+      <Txt variant="data" style={styles.rowValue}>
+        {value}
+      </Txt>
     </View>
   )
 }
@@ -164,7 +226,17 @@ const styles = StyleSheet.create({
     gap: space.xs,
   },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
+  // Los extremos llevan nombres largos («Islas menores de EE. UU. · 19° N»):
+  // que el valor parta línea en vez de salirse de la tarjeta.
+  rowValue: { flexShrink: 1, textAlign: 'right', marginLeft: space.md },
   footprint: { flexDirection: 'row', gap: space.lg },
+  link: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space.md,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    paddingTop: space.md,
+  },
   footprintItem: { flex: 1, gap: space.xs },
   big: { fontSize: 30, fontWeight: '800', letterSpacing: -1 },
   transportLabel: { flexDirection: 'row', alignItems: 'center', gap: 6 },

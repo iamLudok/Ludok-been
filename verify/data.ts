@@ -215,6 +215,20 @@ async function main() {
   await importAll(dbV2, JSON.stringify(v2))
   check('una copia v2 sin logros se importa', (await exportAll(dbV2)).visits.length === conLogros.visits.length)
 
+  console.log('\n=== 11. Tu país viaja en la copia ===')
+  const dbCasa = await freshDb()
+  await writeSettings(dbCasa, { ...(await readSettings(dbCasa)), homeCode: 'ESP' })
+  const conCasa = await exportAll(dbCasa)
+  eq('sale en la copia', conCasa.settings?.homeCode, 'ESP')
+  const dbCasa2 = await freshDb()
+  await importAll(dbCasa2, JSON.stringify(conCasa))
+  eq('y vuelve al importar', (await readSettings(dbCasa2)).homeCode, 'ESP')
+  // Una copia v3, de antes de elegir país, se importa y lo deja sin elegir.
+  const v3 = { ...conCasa, schemaVersion: 3, settings: { ...conCasa.settings!, homeCode: undefined } }
+  const dbV3 = await freshDb()
+  await importAll(dbV3, JSON.stringify(v3))
+  eq('una copia v3 se importa, sin país', (await readSettings(dbV3)).homeCode ?? null, null)
+
   console.log(
     failures === 0
       ? '\n✅ TODO CORRECTO — los datos entran y salen sin perder nada\n'

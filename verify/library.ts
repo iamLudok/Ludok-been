@@ -20,6 +20,7 @@ import { countByTransport } from '../src/lib/transports'
 import { exportAll, importAll, SCHEMA_VERSION } from '../src/lib/backupCore'
 import type { Visit } from '../src/types'
 import { achievementsOf, longestBorderChain, pendingNotices, USED_CODES, ACHIEVEMENTS } from '../src/lib/achievements'
+import { extremesOf, distanceKm, formatDegrees } from '../src/lib/extremes'
 import { rarityOf, pointsFromTourists, adventureOf, footprintOf, ranking, LEVELS, MANUAL_POINTS } from '../src/lib/rarity'
 
 let failures = 0
@@ -326,6 +327,32 @@ async function main() {
     eq('instalación nueva: se avisa del primero', pendingNotices(['penon'], '[]').notify.join(), 'penon')
     eq('uno ya visto no se repite', pendingNotices(['penon', 'tren'], '["penon"]').notify.join(), 'tren')
     eq('una lista rota se trata como vacía', pendingNotices(['penon'], 'no-json').notify.join(), 'penon')
+  }
+
+  console.log('\n=== 14. Extremos ===')
+  {
+    check('todos los sitios tienen coordenadas válidas', COUNTRIES.every((c) => Math.abs(c.latlng?.[0]) <= 90 && Math.abs(c.latlng?.[1]) <= 180))
+    eq('sin visitas, no hay extremos', extremesOf([]), undefined)
+    eq('«quiero ir» no cuenta', extremesOf([{ code: 'NOR', status: 'want', addedAt: 0, updatedAt: 0 }]), undefined)
+    const x = extremesOf(been('ESP', 'NOR', 'ZAF', 'JPN', 'MEX'), 'ESP')!
+    eq('norte: Noruega', x.north.code, 'NOR')
+    eq('sur: Sudáfrica', x.south.code, 'ZAF')
+    eq('este: Japón', x.east.code, 'JPN')
+    eq('oeste: México', x.west.code, 'MEX')
+    eq('lo más lejos de España: Japón', x.farthest?.code, 'JPN')
+    // Svalbard es un territorio, pero sí te lleva más al norte que Noruega.
+    eq('Svalbard gana a Noruega', extremesOf(been('NOR', 'SJM'))!.north.code, 'SJM')
+    eq('sin país elegido, no hay «más lejos»', extremesOf(been('ESP', 'JPN'))!.farthest, undefined)
+    eq('solo has estado en casa: tampoco', extremesOf(been('ESP'), 'ESP')!.farthest, undefined)
+    eq('con un solo sitio, es todos los extremos', extremesOf(been('ISL'))!.south.code, 'ISL')
+    // Madrid–Tokio son ~10.800 km; con los centros de los países, cerca.
+    const km = distanceKm(getByCca3('ESP')!.latlng, getByCca3('JPN')!.latlng)
+    check('España–Japón entre 10.000 y 11.500 km', km > 10000 && km < 11500, `${Math.round(km)} km`)
+    eq('la distancia es simétrica', Math.round(distanceKm([10, 20], [-30, 170])), Math.round(distanceKm([-30, 170], [10, 20])))
+    check('las antípodas, media vuelta (~20.000 km)', Math.abs(distanceKm([0, 0], [0, 180]) - 20015) < 5)
+    eq('grados norte', formatDegrees(78.2, 'lat'), '78° N')
+    eq('grados oeste', formatDegrees(-3.7, 'lon'), '4° O')
+    eq('el ecuador, sin letra', formatDegrees(0.3, 'lat'), '0°')
   }
 
   console.log(

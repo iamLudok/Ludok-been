@@ -8,5 +8,8 @@
  * añadido: las copias v1 y v2 se siguen importando. Se sube la versión para
  * que una app vieja rechace con aviso una copia nueva, en vez de importarla
  * perdiendo en silencio lo que no entiende.
+ *
+ * v3 → v4: tu país (`homeCode` en los ajustes), para los extremos. Campo
+ * añadido, mismo motivo para subir la versión.
  */
-export const SCHEMA_VERSION = 3
+export const SCHEMA_VERSION = 4

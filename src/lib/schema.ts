@@ -27,6 +27,8 @@ export const settings = sqliteTable('settings', {
   lastAutoBackupAt: integer('lastAutoBackupAt'),
   /** Logros ya vistos, como lista JSON de ids. Ver `achievements.ts`. */
   seenAchievements: text('seenAchievements'),
+  /** Tu país (cca3), para «lo más lejos de casa». */
+  homeCode: text('homeCode'),
 })
 
 export type VisitRow = typeof visits.$inferSelect

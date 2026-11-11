@@ -41,6 +41,11 @@ export interface Settings {
    * golpe de todo lo que ya tenías (ver `achievements.ts`).
    */
   seenAchievements?: string | null
+  /**
+   * Tu país (código cca3), para medir «lo más lejos de casa». Ausente = sin
+   * elegir: la app no lo adivina.
+   */
+  homeCode?: string | null
 }
 
 /**
@@ -81,6 +86,8 @@ export interface Country {
   sovereignCode?: string
   /** Ya no existe como tal (Nagorno Karabaj): solo lo tiene quien fue. */
   defunct?: boolean
+  /** Centro aproximado [lat, lon]. Para los extremos y la distancia a casa. */
+  latlng: [number, number]
   /** Solo países: los países con los que tiene frontera terrestre. */
   borders?: string[]
 }

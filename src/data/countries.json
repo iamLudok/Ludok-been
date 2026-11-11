@@ -6,6 +6,10 @@
     "name": "Abjasia",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      43,
+      41.02
+    ],
     "kind": "territory",
     "type": "de-facto",
     "parent": "GEO"
@@ -17,6 +21,10 @@
     "name": "Afganistán",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      33,
+      65
+    ],
     "kind": "country",
     "borders": [
       "IRN",
@@ -34,6 +42,10 @@
     "name": "Åland",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      60.12,
+      19.9
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "FIN"
@@ -45,6 +57,10 @@
     "name": "Alaska",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      64,
+      -152
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "USA",
@@ -57,6 +73,10 @@
     "name": "Albania",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      41,
+      20
+    ],
     "kind": "country",
     "borders": [
       "MNE",
@@ -71,6 +91,10 @@
     "name": "Alemania",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      51,
+      9
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -91,6 +115,10 @@
     "name": "Andorra",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      42.5,
+      1.5
+    ],
     "kind": "country",
     "borders": [
       "FRA",
@@ -104,6 +132,10 @@
     "name": "Angola",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      -12.5,
+      18.5
+    ],
     "kind": "country",
     "borders": [
       "COG",
@@ -119,6 +151,10 @@
     "name": "Anguilla",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.25,
+      -63.17
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -130,6 +166,10 @@
     "name": "Antártida",
     "continent": "Antártida",
     "subregion": "",
+    "latlng": [
+      -64.5,
+      -62
+    ],
     "kind": "territory",
     "type": "remoto"
   },
@@ -140,6 +180,10 @@
     "name": "Antigua y Barbuda",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      17.05,
+      -61.8
+    ],
     "kind": "country"
   },
   {
@@ -149,6 +193,10 @@
     "name": "Arabia Saudí",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      25,
+      45
+    ],
     "kind": "country",
     "borders": [
       "IRQ",
@@ -167,6 +215,10 @@
     "name": "Argelia",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      28,
+      3
+    ],
     "kind": "country",
     "borders": [
       "TUN",
@@ -184,6 +236,10 @@
     "name": "Argentina",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -34,
+      -64
+    ],
     "kind": "country",
     "borders": [
       "BOL",
@@ -200,6 +256,10 @@
     "name": "Armenia",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      40,
+      45
+    ],
     "kind": "country",
     "borders": [
       "AZE",
@@ -215,6 +275,10 @@
     "name": "Aruba",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      12.5,
+      -69.97
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NLD"
@@ -226,6 +290,10 @@
     "name": "Australia",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
+    "latlng": [
+      -27,
+      133
+    ],
     "kind": "country"
   },
   {
@@ -235,6 +303,10 @@
     "name": "Austria",
     "continent": "Europa",
     "subregion": "Central Europe",
+    "latlng": [
+      47.33,
+      13.33
+    ],
     "kind": "country",
     "borders": [
       "CZE",
@@ -254,6 +326,10 @@
     "name": "Azerbaiyán",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      40.5,
+      47.5
+    ],
     "kind": "country",
     "borders": [
       "ARM",
@@ -270,6 +346,10 @@
     "name": "Azores",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      38.5,
+      -28
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "PRT",
@@ -282,6 +362,10 @@
     "name": "Bahamas",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      24.25,
+      -76
+    ],
     "kind": "country"
   },
   {
@@ -291,6 +375,10 @@
     "name": "Bahrein",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      26,
+      50.55
+    ],
     "kind": "country"
   },
   {
@@ -300,6 +388,10 @@
     "name": "Bangladesh",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      24,
+      90
+    ],
     "kind": "country",
     "borders": [
       "MMR",
@@ -313,6 +405,10 @@
     "name": "Barbados",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      13.17,
+      -59.53
+    ],
     "kind": "country"
   },
   {
@@ -322,6 +418,10 @@
     "name": "Bélgica",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      50.83,
+      4
+    ],
     "kind": "country",
     "borders": [
       "FRA",
@@ -337,6 +437,10 @@
     "name": "Belice",
     "continent": "América",
     "subregion": "Central America",
+    "latlng": [
+      17.25,
+      -88.75
+    ],
     "kind": "country",
     "borders": [
       "GTM",
@@ -350,6 +454,10 @@
     "name": "Benín",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      9.5,
+      2.25
+    ],
     "kind": "country",
     "borders": [
       "BFA",
@@ -365,6 +473,10 @@
     "name": "Bermudas",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      32.33,
+      -64.75
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -376,6 +488,10 @@
     "name": "Bielorrusia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
+    "latlng": [
+      53,
+      28
+    ],
     "kind": "country",
     "borders": [
       "LVA",
@@ -392,6 +508,10 @@
     "name": "Bolivia",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -17,
+      -65
+    ],
     "kind": "country",
     "borders": [
       "ARG",
@@ -408,6 +528,10 @@
     "name": "Bosnia y Herzegovina",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      44,
+      18
+    ],
     "kind": "country",
     "borders": [
       "HRV",
@@ -422,6 +546,10 @@
     "name": "Botswana",
     "continent": "África",
     "subregion": "Southern Africa",
+    "latlng": [
+      -22,
+      24
+    ],
     "kind": "country",
     "borders": [
       "NAM",
@@ -437,6 +565,10 @@
     "name": "Brasil",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -10,
+      -55
+    ],
     "kind": "country",
     "borders": [
       "ARG",
@@ -457,6 +589,10 @@
     "name": "Brunei",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      4.5,
+      114.67
+    ],
     "kind": "country",
     "borders": [
       "MYS"
@@ -469,6 +605,10 @@
     "name": "Bulgaria",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      43,
+      25
+    ],
     "kind": "country",
     "borders": [
       "GRC",
@@ -485,6 +625,10 @@
     "name": "Burkina Faso",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      13,
+      -2
+    ],
     "kind": "country",
     "borders": [
       "BEN",
@@ -502,6 +646,10 @@
     "name": "Burundi",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -3.5,
+      30
+    ],
     "kind": "country",
     "borders": [
       "COD",
@@ -516,6 +664,10 @@
     "name": "Bután",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      27.5,
+      90.5
+    ],
     "kind": "country",
     "borders": [
       "CHN",
@@ -529,6 +681,10 @@
     "name": "Cabo Verde",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      16,
+      -24
+    ],
     "kind": "country"
   },
   {
@@ -538,6 +694,10 @@
     "name": "Camboya",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      13,
+      105
+    ],
     "kind": "country",
     "borders": [
       "LAO",
@@ -552,6 +712,10 @@
     "name": "Camerún",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      6,
+      12
+    ],
     "kind": "country",
     "borders": [
       "CAF",
@@ -569,6 +733,10 @@
     "name": "Canadá",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      60,
+      -95
+    ],
     "kind": "country",
     "borders": [
       "USA"
@@ -581,6 +749,10 @@
     "name": "Canarias",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      28.3,
+      -15.6
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "ESP",
@@ -593,6 +765,10 @@
     "name": "Caribe Neerlandés",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      12.18,
+      -68.25
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NLD"
@@ -604,6 +780,10 @@
     "name": "Catar",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      25.5,
+      51.25
+    ],
     "kind": "country",
     "borders": [
       "SAU"
@@ -616,6 +796,10 @@
     "name": "Ceuta",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      35.89,
+      -5.32
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "ESP",
@@ -628,6 +812,10 @@
     "name": "Chad",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      15,
+      19
+    ],
     "kind": "country",
     "borders": [
       "CMR",
@@ -645,6 +833,10 @@
     "name": "Chequia",
     "continent": "Europa",
     "subregion": "Central Europe",
+    "latlng": [
+      49.75,
+      15.5
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -660,6 +852,10 @@
     "name": "Chile",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -30,
+      -71
+    ],
     "kind": "country",
     "borders": [
       "ARG",
@@ -674,6 +870,10 @@
     "name": "China",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      35,
+      105
+    ],
     "kind": "country",
     "borders": [
       "AFG",
@@ -699,6 +899,10 @@
     "name": "Chipre",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      35,
+      33
+    ],
     "kind": "country"
   },
   {
@@ -708,6 +912,10 @@
     "name": "Chipre del Norte",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      35.25,
+      33.6
+    ],
     "kind": "territory",
     "type": "de-facto",
     "parent": "CYP"
@@ -719,6 +927,10 @@
     "name": "Ciudad del Vaticano",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      41.9,
+      12.45
+    ],
     "kind": "country",
     "borders": [
       "ITA"
@@ -731,6 +943,10 @@
     "name": "Colombia",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      4,
+      -72
+    ],
     "kind": "country",
     "borders": [
       "BRA",
@@ -747,6 +963,10 @@
     "name": "Comoras",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -12.17,
+      44.25
+    ],
     "kind": "country"
   },
   {
@@ -756,6 +976,10 @@
     "name": "Congo",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      -1,
+      15
+    ],
     "kind": "country",
     "borders": [
       "AGO",
@@ -772,6 +996,10 @@
     "name": "Congo (Rep. Dem.)",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      0,
+      25
+    ],
     "kind": "country",
     "borders": [
       "AGO",
@@ -792,6 +1020,10 @@
     "name": "Córcega",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      42.15,
+      9.1
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "FRA",
@@ -804,6 +1036,10 @@
     "name": "Corea del Norte",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      40,
+      127
+    ],
     "kind": "country",
     "borders": [
       "CHN",
@@ -818,6 +1054,10 @@
     "name": "Corea del Sur",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      37,
+      127.5
+    ],
     "kind": "country",
     "borders": [
       "PRK"
@@ -830,6 +1070,10 @@
     "name": "Costa de Marfil",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      8,
+      -5
+    ],
     "kind": "country",
     "borders": [
       "BFA",
@@ -846,6 +1090,10 @@
     "name": "Costa Rica",
     "continent": "América",
     "subregion": "Central America",
+    "latlng": [
+      10,
+      -84
+    ],
     "kind": "country",
     "borders": [
       "NIC",
@@ -859,6 +1107,10 @@
     "name": "Croacia",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      45.17,
+      15.5
+    ],
     "kind": "country",
     "borders": [
       "BIH",
@@ -875,6 +1127,10 @@
     "name": "Cuba",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      21.5,
+      -80
+    ],
     "kind": "country"
   },
   {
@@ -884,6 +1140,10 @@
     "name": "Curazao",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      12.12,
+      -68.93
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NLD"
@@ -895,6 +1155,10 @@
     "name": "Dinamarca",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      56,
+      10
+    ],
     "kind": "country",
     "borders": [
       "DEU"
@@ -907,6 +1171,10 @@
     "name": "Djibouti",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      11.5,
+      43
+    ],
     "kind": "country",
     "borders": [
       "ERI",
@@ -921,6 +1189,10 @@
     "name": "Dominica",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      15.42,
+      -61.33
+    ],
     "kind": "country"
   },
   {
@@ -930,6 +1202,10 @@
     "name": "Ecuador",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -2,
+      -77.5
+    ],
     "kind": "country",
     "borders": [
       "COL",
@@ -943,6 +1219,10 @@
     "name": "Egipto",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      27,
+      30
+    ],
     "kind": "country",
     "borders": [
       "ISR",
@@ -958,6 +1238,10 @@
     "name": "El Salvador",
     "continent": "América",
     "subregion": "Central America",
+    "latlng": [
+      13.83,
+      -88.92
+    ],
     "kind": "country",
     "borders": [
       "GTM",
@@ -971,6 +1255,10 @@
     "name": "Emiratos Árabes Unidos",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      24,
+      54
+    ],
     "kind": "country",
     "borders": [
       "OMN",
@@ -984,6 +1272,10 @@
     "name": "Eritrea",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      15,
+      39
+    ],
     "kind": "country",
     "borders": [
       "DJI",
@@ -998,6 +1290,10 @@
     "name": "Escocia",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      56.66,
+      -3.99
+    ],
     "kind": "territory",
     "type": "nacion",
     "parent": "GBR",
@@ -1010,6 +1306,10 @@
     "name": "Eslovaquia",
     "continent": "Europa",
     "subregion": "Central Europe",
+    "latlng": [
+      48.67,
+      19.5
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -1026,6 +1326,10 @@
     "name": "Eslovenia",
     "continent": "Europa",
     "subregion": "Central Europe",
+    "latlng": [
+      46.12,
+      14.82
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -1041,6 +1345,10 @@
     "name": "España",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      40,
+      -4
+    ],
     "kind": "country",
     "borders": [
       "AND",
@@ -1056,6 +1364,10 @@
     "name": "Estados Unidos",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      38,
+      -97
+    ],
     "kind": "country",
     "borders": [
       "CAN",
@@ -1069,6 +1381,10 @@
     "name": "Estonia",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      59,
+      26
+    ],
     "kind": "country",
     "borders": [
       "LVA",
@@ -1082,6 +1398,10 @@
     "name": "Etiopía",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      8,
+      38
+    ],
     "kind": "country",
     "borders": [
       "DJI",
@@ -1099,6 +1419,10 @@
     "name": "Filipinas",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      13,
+      122
+    ],
     "kind": "country"
   },
   {
@@ -1108,6 +1432,10 @@
     "name": "Finlandia",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      64,
+      26
+    ],
     "kind": "country",
     "borders": [
       "NOR",
@@ -1122,6 +1450,10 @@
     "name": "Fiyi",
     "continent": "Oceanía",
     "subregion": "Melanesia",
+    "latlng": [
+      -18,
+      175
+    ],
     "kind": "country"
   },
   {
@@ -1131,6 +1463,10 @@
     "name": "Francia",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      46,
+      2
+    ],
     "kind": "country",
     "borders": [
       "AND",
@@ -1150,6 +1486,10 @@
     "name": "Gabón",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      -1,
+      11.75
+    ],
     "kind": "country",
     "borders": [
       "CMR",
@@ -1164,6 +1504,10 @@
     "name": "Galápagos",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -0.7,
+      -90.5
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "ECU",
@@ -1176,6 +1520,10 @@
     "name": "Gales",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      52.3,
+      -3.73
+    ],
     "kind": "territory",
     "type": "nacion",
     "parent": "GBR",
@@ -1188,6 +1536,10 @@
     "name": "Gambia",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      13.47,
+      -16.57
+    ],
     "kind": "country",
     "borders": [
       "SEN"
@@ -1200,6 +1552,10 @@
     "name": "Georgia",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      42,
+      43.5
+    ],
     "kind": "country",
     "borders": [
       "ARM",
@@ -1215,6 +1571,10 @@
     "name": "Georgias del Sur",
     "continent": "Antártida",
     "subregion": "",
+    "latlng": [
+      -54.5,
+      -37
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "GBR"
@@ -1226,6 +1586,10 @@
     "name": "Ghana",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      8,
+      -2
+    ],
     "kind": "country",
     "borders": [
       "BFA",
@@ -1240,6 +1604,10 @@
     "name": "Gibraltar",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      36.13,
+      -5.35
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1251,6 +1619,10 @@
     "name": "Grecia",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      39,
+      22
+    ],
     "kind": "country",
     "borders": [
       "ALB",
@@ -1266,6 +1638,10 @@
     "name": "Grenada",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      12.12,
+      -61.67
+    ],
     "kind": "country"
   },
   {
@@ -1275,6 +1651,10 @@
     "name": "Groenlandia",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      72,
+      -40
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "DNK"
@@ -1286,6 +1666,10 @@
     "name": "Guadalupe",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      16.25,
+      -61.58
+    ],
     "kind": "territory",
     "type": "ultramar",
     "parent": "FRA"
@@ -1297,6 +1681,10 @@
     "name": "Guam",
     "continent": "Oceanía",
     "subregion": "Micronesia",
+    "latlng": [
+      13.47,
+      144.78
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "USA"
@@ -1308,6 +1696,10 @@
     "name": "Guatemala",
     "continent": "América",
     "subregion": "Central America",
+    "latlng": [
+      15.5,
+      -90.25
+    ],
     "kind": "country",
     "borders": [
       "BLZ",
@@ -1323,6 +1715,10 @@
     "name": "Guayana Francesa",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      4,
+      -53
+    ],
     "kind": "territory",
     "type": "ultramar",
     "parent": "FRA"
@@ -1334,6 +1730,10 @@
     "name": "Guernsey",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      49.47,
+      -2.58
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1345,6 +1745,10 @@
     "name": "Guinea",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      11,
+      -10
+    ],
     "kind": "country",
     "borders": [
       "CIV",
@@ -1362,6 +1766,10 @@
     "name": "Guinea Ecuatorial",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      2,
+      10
+    ],
     "kind": "country",
     "borders": [
       "CMR",
@@ -1375,6 +1783,10 @@
     "name": "Guinea-Bisáu",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      12,
+      -15
+    ],
     "kind": "country",
     "borders": [
       "GIN",
@@ -1388,6 +1800,10 @@
     "name": "Guyana",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      5,
+      -59
+    ],
     "kind": "country",
     "borders": [
       "BRA",
@@ -1402,6 +1818,10 @@
     "name": "Haití",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      19,
+      -72.42
+    ],
     "kind": "country",
     "borders": [
       "DOM"
@@ -1414,6 +1834,10 @@
     "name": "Hawái",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      20.8,
+      -156.3
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "USA",
@@ -1426,6 +1850,10 @@
     "name": "Honduras",
     "continent": "América",
     "subregion": "Central America",
+    "latlng": [
+      15,
+      -86.5
+    ],
     "kind": "country",
     "borders": [
       "GTM",
@@ -1440,6 +1868,10 @@
     "name": "Hong Kong",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      22.27,
+      114.19
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "CHN"
@@ -1451,6 +1883,10 @@
     "name": "Hungría",
     "continent": "Europa",
     "subregion": "Central Europe",
+    "latlng": [
+      47,
+      20
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -1469,6 +1905,10 @@
     "name": "India",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      20,
+      77
+    ],
     "kind": "country",
     "borders": [
       "BGD",
@@ -1486,6 +1926,10 @@
     "name": "Indonesia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      -5,
+      120
+    ],
     "kind": "country",
     "borders": [
       "TLS",
@@ -1500,6 +1944,10 @@
     "name": "Inglaterra",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      52.57,
+      -1.46
+    ],
     "kind": "territory",
     "type": "nacion",
     "parent": "GBR",
@@ -1512,6 +1960,10 @@
     "name": "Irak",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      33,
+      44
+    ],
     "kind": "country",
     "borders": [
       "IRN",
@@ -1529,6 +1981,10 @@
     "name": "Iran",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      32,
+      53
+    ],
     "kind": "country",
     "borders": [
       "AFG",
@@ -1547,6 +2003,10 @@
     "name": "Irlanda",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      53,
+      -8
+    ],
     "kind": "country",
     "borders": [
       "GBR"
@@ -1559,6 +2019,10 @@
     "name": "Irlanda del Norte",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      54.61,
+      -6.7
+    ],
     "kind": "territory",
     "type": "nacion",
     "parent": "GBR",
@@ -1571,6 +2035,10 @@
     "name": "Isla Bouvet",
     "continent": "Antártida",
     "subregion": "",
+    "latlng": [
+      -54.43,
+      3.4
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "NOR"
@@ -1582,6 +2050,10 @@
     "name": "Isla de Man",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      54.25,
+      -4.5
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1593,6 +2065,10 @@
     "name": "Isla de Navidad",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
+    "latlng": [
+      -10.5,
+      105.67
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "AUS"
@@ -1604,6 +2080,10 @@
     "name": "Isla de Norfolk",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
+    "latlng": [
+      -29.03,
+      167.95
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "AUS"
@@ -1615,6 +2095,10 @@
     "name": "Isla de Pascua",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -27.12,
+      -109.35
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "CHL",
@@ -1627,6 +2111,10 @@
     "name": "Islandia",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      65,
+      -18
+    ],
     "kind": "country"
   },
   {
@@ -1636,6 +2124,10 @@
     "name": "Islas Caimán",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      19.5,
+      -80.5
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1647,6 +2139,10 @@
     "name": "Islas Cocos",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
+    "latlng": [
+      -12.5,
+      96.83
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "AUS"
@@ -1658,6 +2154,10 @@
     "name": "Islas Cook",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -21.23,
+      -159.77
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NZL"
@@ -1669,6 +2169,10 @@
     "name": "Islas Feroe",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      62,
+      -7
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "DNK"
@@ -1680,6 +2184,10 @@
     "name": "Islas Heard y McDonald",
     "continent": "Antártida",
     "subregion": "",
+    "latlng": [
+      -53.1,
+      72.52
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "AUS"
@@ -1691,6 +2199,10 @@
     "name": "Islas Malvinas",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -51.75,
+      -59
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1702,6 +2214,10 @@
     "name": "Islas Marianas del Norte",
     "continent": "Oceanía",
     "subregion": "Micronesia",
+    "latlng": [
+      15.2,
+      145.75
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "USA"
@@ -1713,6 +2229,10 @@
     "name": "Islas Marshall",
     "continent": "Oceanía",
     "subregion": "Micronesia",
+    "latlng": [
+      9,
+      168
+    ],
     "kind": "country"
   },
   {
@@ -1722,6 +2242,10 @@
     "name": "Islas menores de EE. UU.",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      19.3,
+      166.63
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "USA"
@@ -1733,6 +2257,10 @@
     "name": "Islas Salomón",
     "continent": "Oceanía",
     "subregion": "Melanesia",
+    "latlng": [
+      -8,
+      159
+    ],
     "kind": "country"
   },
   {
@@ -1742,6 +2270,10 @@
     "name": "Islas Turcas y Caicos",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      21.75,
+      -71.58
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1753,6 +2285,10 @@
     "name": "Islas Vírgenes Británicas",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.43,
+      -64.62
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1764,6 +2300,10 @@
     "name": "Islas Vírgenes de EE. UU.",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.35,
+      -64.93
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "USA"
@@ -1775,6 +2315,10 @@
     "name": "Israel",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      31.47,
+      35.13
+    ],
     "kind": "country",
     "borders": [
       "EGY",
@@ -1791,6 +2335,10 @@
     "name": "Italia",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      42.83,
+      12.83
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -1808,6 +2356,10 @@
     "name": "Jamaica",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.25,
+      -77.5
+    ],
     "kind": "country"
   },
   {
@@ -1817,6 +2369,10 @@
     "name": "Japón",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      36,
+      138
+    ],
     "kind": "country"
   },
   {
@@ -1826,6 +2382,10 @@
     "name": "Jersey",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      49.25,
+      -2.17
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -1837,6 +2397,10 @@
     "name": "Jordania",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      31,
+      36
+    ],
     "kind": "country",
     "borders": [
       "IRQ",
@@ -1853,6 +2417,10 @@
     "name": "Kaliningrado",
     "continent": "Europa",
     "subregion": "Eastern Europe",
+    "latlng": [
+      54.7,
+      21
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "RUS",
@@ -1865,6 +2433,10 @@
     "name": "Kazajistán",
     "continent": "Asia",
     "subregion": "Central Asia",
+    "latlng": [
+      48,
+      68
+    ],
     "kind": "country",
     "borders": [
       "CHN",
@@ -1881,6 +2453,10 @@
     "name": "Kenia",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      1,
+      38
+    ],
     "kind": "country",
     "borders": [
       "ETH",
@@ -1897,6 +2473,10 @@
     "name": "Kirguizistán",
     "continent": "Asia",
     "subregion": "Central Asia",
+    "latlng": [
+      41,
+      75
+    ],
     "kind": "country",
     "borders": [
       "CHN",
@@ -1912,6 +2492,10 @@
     "name": "Kiribati",
     "continent": "Oceanía",
     "subregion": "Micronesia",
+    "latlng": [
+      1.42,
+      173
+    ],
     "kind": "country"
   },
   {
@@ -1921,6 +2505,10 @@
     "name": "Kosovo",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      42.67,
+      21.17
+    ],
     "kind": "territory",
     "type": "de-facto"
   },
@@ -1931,6 +2519,10 @@
     "name": "Kurdistán iraquí",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      36.2,
+      44
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "IRQ",
@@ -1943,6 +2535,10 @@
     "name": "Kuwait",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      29.5,
+      45.75
+    ],
     "kind": "country",
     "borders": [
       "IRQ",
@@ -1956,6 +2552,10 @@
     "name": "Laos",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      18,
+      105
+    ],
     "kind": "country",
     "borders": [
       "MMR",
@@ -1972,6 +2572,10 @@
     "name": "Lesotho",
     "continent": "África",
     "subregion": "Southern Africa",
+    "latlng": [
+      -29.5,
+      28.5
+    ],
     "kind": "country",
     "borders": [
       "ZAF"
@@ -1984,6 +2588,10 @@
     "name": "Letonia",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      57,
+      25
+    ],
     "kind": "country",
     "borders": [
       "BLR",
@@ -1999,6 +2607,10 @@
     "name": "Líbano",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      33.83,
+      35.83
+    ],
     "kind": "country",
     "borders": [
       "ISR",
@@ -2012,6 +2624,10 @@
     "name": "Liberia",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      6.5,
+      -9.5
+    ],
     "kind": "country",
     "borders": [
       "GIN",
@@ -2026,6 +2642,10 @@
     "name": "Libia",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      25,
+      17
+    ],
     "kind": "country",
     "borders": [
       "DZA",
@@ -2043,6 +2663,10 @@
     "name": "Liechtenstein",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      47.27,
+      9.53
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -2056,6 +2680,10 @@
     "name": "Lituania",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      56,
+      24
+    ],
     "kind": "country",
     "borders": [
       "BLR",
@@ -2071,6 +2699,10 @@
     "name": "Luxemburgo",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      49.75,
+      6.17
+    ],
     "kind": "country",
     "borders": [
       "BEL",
@@ -2085,6 +2717,10 @@
     "name": "Macao",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      22.17,
+      113.55
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "CHN"
@@ -2096,6 +2732,10 @@
     "name": "Macedonia del Norte",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      41.83,
+      22
+    ],
     "kind": "country",
     "borders": [
       "ALB",
@@ -2111,6 +2751,10 @@
     "name": "Madagascar",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -20,
+      47
+    ],
     "kind": "country"
   },
   {
@@ -2120,6 +2764,10 @@
     "name": "Madeira",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      32.75,
+      -16.95
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "PRT",
@@ -2132,6 +2780,10 @@
     "name": "Malasia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      2.5,
+      112.5
+    ],
     "kind": "country",
     "borders": [
       "BRN",
@@ -2146,6 +2798,10 @@
     "name": "Malawi",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -13.5,
+      34
+    ],
     "kind": "country",
     "borders": [
       "MOZ",
@@ -2160,6 +2816,10 @@
     "name": "Maldivas",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      3.25,
+      73
+    ],
     "kind": "country"
   },
   {
@@ -2169,6 +2829,10 @@
     "name": "Mali",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      17,
+      -4
+    ],
     "kind": "country",
     "borders": [
       "DZA",
@@ -2187,6 +2851,10 @@
     "name": "Malta",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      35.83,
+      14.58
+    ],
     "kind": "country"
   },
   {
@@ -2196,6 +2864,10 @@
     "name": "Marruecos",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      32,
+      -5
+    ],
     "kind": "country",
     "borders": [
       "DZA",
@@ -2209,6 +2881,10 @@
     "name": "Martinica",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      14.67,
+      -61
+    ],
     "kind": "territory",
     "type": "ultramar",
     "parent": "FRA"
@@ -2220,6 +2896,10 @@
     "name": "Mauricio",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -20.28,
+      57.55
+    ],
     "kind": "country"
   },
   {
@@ -2229,6 +2909,10 @@
     "name": "Mauritania",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      20,
+      -12
+    ],
     "kind": "country",
     "borders": [
       "DZA",
@@ -2243,6 +2927,10 @@
     "name": "Mayotte",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -12.83,
+      45.17
+    ],
     "kind": "territory",
     "type": "ultramar",
     "parent": "FRA"
@@ -2254,6 +2942,10 @@
     "name": "Melilla",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      35.29,
+      -2.94
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "ESP",
@@ -2266,6 +2958,10 @@
     "name": "México",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      23,
+      -102
+    ],
     "kind": "country",
     "borders": [
       "BLZ",
@@ -2280,6 +2976,10 @@
     "name": "Micronesia",
     "continent": "Oceanía",
     "subregion": "Micronesia",
+    "latlng": [
+      6.92,
+      158.25
+    ],
     "kind": "country"
   },
   {
@@ -2289,6 +2989,10 @@
     "name": "Moldavia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
+    "latlng": [
+      47,
+      29
+    ],
     "kind": "country",
     "borders": [
       "ROU",
@@ -2302,6 +3006,10 @@
     "name": "Mónaco",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      43.73,
+      7.4
+    ],
     "kind": "country",
     "borders": [
       "FRA"
@@ -2314,6 +3022,10 @@
     "name": "Mongolia",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      46,
+      105
+    ],
     "kind": "country",
     "borders": [
       "CHN",
@@ -2327,6 +3039,10 @@
     "name": "Monte Athos",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      40.16,
+      24.3
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "GRC",
@@ -2339,6 +3055,10 @@
     "name": "Montenegro",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      42.5,
+      19.3
+    ],
     "kind": "country",
     "borders": [
       "ALB",
@@ -2354,6 +3074,10 @@
     "name": "Montserrat",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      16.75,
+      -62.2
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -2365,6 +3089,10 @@
     "name": "Mozambique",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -18.25,
+      35
+    ],
     "kind": "country",
     "borders": [
       "MWI",
@@ -2382,6 +3110,10 @@
     "name": "Myanmar",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      22,
+      98
+    ],
     "kind": "country",
     "borders": [
       "BGD",
@@ -2398,6 +3130,10 @@
     "name": "Nagorno Karabaj",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      39.82,
+      46.75
+    ],
     "kind": "territory",
     "type": "de-facto",
     "parent": "AZE",
@@ -2410,6 +3146,10 @@
     "name": "Namibia",
     "continent": "África",
     "subregion": "Southern Africa",
+    "latlng": [
+      -22,
+      17
+    ],
     "kind": "country",
     "borders": [
       "AGO",
@@ -2425,6 +3165,10 @@
     "name": "Nauru",
     "continent": "Oceanía",
     "subregion": "Micronesia",
+    "latlng": [
+      -0.53,
+      166.92
+    ],
     "kind": "country"
   },
   {
@@ -2434,6 +3178,10 @@
     "name": "Nepal",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      28,
+      84
+    ],
     "kind": "country",
     "borders": [
       "CHN",
@@ -2447,6 +3195,10 @@
     "name": "Nicaragua",
     "continent": "América",
     "subregion": "Central America",
+    "latlng": [
+      13,
+      -85
+    ],
     "kind": "country",
     "borders": [
       "CRI",
@@ -2460,6 +3212,10 @@
     "name": "Níger",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      16,
+      8
+    ],
     "kind": "country",
     "borders": [
       "DZA",
@@ -2478,6 +3234,10 @@
     "name": "Nigeria",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      10,
+      8
+    ],
     "kind": "country",
     "borders": [
       "BEN",
@@ -2493,6 +3253,10 @@
     "name": "Niue",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -19.03,
+      -169.87
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NZL"
@@ -2504,6 +3268,10 @@
     "name": "Noruega",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      62,
+      10
+    ],
     "kind": "country",
     "borders": [
       "FIN",
@@ -2518,6 +3286,10 @@
     "name": "Nueva Caledonia",
     "continent": "Oceanía",
     "subregion": "Melanesia",
+    "latlng": [
+      -21.5,
+      165.5
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "FRA"
@@ -2529,6 +3301,10 @@
     "name": "Nueva Zelanda",
     "continent": "Oceanía",
     "subregion": "Australia and New Zealand",
+    "latlng": [
+      -41,
+      174
+    ],
     "kind": "country"
   },
   {
@@ -2538,6 +3314,10 @@
     "name": "Omán",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      21,
+      57
+    ],
     "kind": "country",
     "borders": [
       "SAU",
@@ -2552,6 +3332,10 @@
     "name": "Osetia del Sur",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      42.23,
+      43.97
+    ],
     "kind": "territory",
     "type": "de-facto",
     "parent": "GEO"
@@ -2563,6 +3347,10 @@
     "name": "País Vasco",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      43.05,
+      -2.6
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "ESP",
@@ -2575,6 +3363,10 @@
     "name": "Países Bajos",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      52.5,
+      5.75
+    ],
     "kind": "country",
     "borders": [
       "BEL",
@@ -2588,6 +3380,10 @@
     "name": "Pakistán",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      30,
+      70
+    ],
     "kind": "country",
     "borders": [
       "AFG",
@@ -2603,6 +3399,10 @@
     "name": "Palau",
     "continent": "Oceanía",
     "subregion": "Micronesia",
+    "latlng": [
+      7.5,
+      134.5
+    ],
     "kind": "country"
   },
   {
@@ -2612,6 +3412,10 @@
     "name": "Palestina",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      31.9,
+      35.2
+    ],
     "kind": "country",
     "borders": [
       "ISR",
@@ -2626,6 +3430,10 @@
     "name": "Panamá",
     "continent": "América",
     "subregion": "Central America",
+    "latlng": [
+      9,
+      -80
+    ],
     "kind": "country",
     "borders": [
       "COL",
@@ -2639,6 +3447,10 @@
     "name": "Papúa Nueva Guinea",
     "continent": "Oceanía",
     "subregion": "Melanesia",
+    "latlng": [
+      -6,
+      147
+    ],
     "kind": "country",
     "borders": [
       "IDN"
@@ -2651,6 +3463,10 @@
     "name": "Paraguay",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -23,
+      -58
+    ],
     "kind": "country",
     "borders": [
       "ARG",
@@ -2665,6 +3481,10 @@
     "name": "Perú",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -10,
+      -76
+    ],
     "kind": "country",
     "borders": [
       "BOL",
@@ -2681,6 +3501,10 @@
     "name": "Pitcairn",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -25.07,
+      -130.1
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -2692,6 +3516,10 @@
     "name": "Polinesia Francesa",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -15,
+      -140
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "FRA"
@@ -2703,6 +3531,10 @@
     "name": "Polonia",
     "continent": "Europa",
     "subregion": "Central Europe",
+    "latlng": [
+      52,
+      20
+    ],
     "kind": "country",
     "borders": [
       "BLR",
@@ -2721,6 +3553,10 @@
     "name": "Portugal",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      39.5,
+      -8
+    ],
     "kind": "country",
     "borders": [
       "ESP"
@@ -2733,6 +3569,10 @@
     "name": "Puerto Rico",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.25,
+      -66.5
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "USA"
@@ -2744,6 +3584,10 @@
     "name": "Reino Unido",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      54,
+      -2
+    ],
     "kind": "country",
     "borders": [
       "IRL"
@@ -2756,6 +3600,10 @@
     "name": "República Centroafricana",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      7,
+      21
+    ],
     "kind": "country",
     "borders": [
       "CMR",
@@ -2773,6 +3621,10 @@
     "name": "República Dominicana",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      19,
+      -70.67
+    ],
     "kind": "country",
     "borders": [
       "HTI"
@@ -2785,6 +3637,10 @@
     "name": "Reunión",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -21.15,
+      55.5
+    ],
     "kind": "territory",
     "type": "ultramar",
     "parent": "FRA"
@@ -2796,6 +3652,10 @@
     "name": "Ruanda",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -2,
+      30
+    ],
     "kind": "country",
     "borders": [
       "BDI",
@@ -2811,6 +3671,10 @@
     "name": "Rumania",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      46,
+      25
+    ],
     "kind": "country",
     "borders": [
       "BGR",
@@ -2827,6 +3691,10 @@
     "name": "Rusia",
     "continent": "Europa",
     "subregion": "Eastern Europe",
+    "latlng": [
+      60,
+      100
+    ],
     "kind": "country",
     "borders": [
       "AZE",
@@ -2852,6 +3720,10 @@
     "name": "Sáhara Occidental",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      24.5,
+      -13
+    ],
     "kind": "territory",
     "type": "de-facto"
   },
@@ -2862,6 +3734,10 @@
     "name": "Samoa",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -13.58,
+      -172.33
+    ],
     "kind": "country"
   },
   {
@@ -2871,6 +3747,10 @@
     "name": "Samoa Americana",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -14.33,
+      -170
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "USA"
@@ -2882,6 +3762,10 @@
     "name": "San Bartolomé",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.5,
+      -63.42
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "FRA"
@@ -2893,6 +3777,10 @@
     "name": "San Cristóbal y Nieves",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      17.33,
+      -62.75
+    ],
     "kind": "country"
   },
   {
@@ -2902,6 +3790,10 @@
     "name": "San Marino",
     "continent": "Europa",
     "subregion": "Southern Europe",
+    "latlng": [
+      43.77,
+      12.42
+    ],
     "kind": "country",
     "borders": [
       "ITA"
@@ -2914,6 +3806,10 @@
     "name": "San Martín",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.08,
+      -63.95
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "FRA"
@@ -2925,6 +3821,10 @@
     "name": "San Pedro y Miquelón",
     "continent": "América",
     "subregion": "North America",
+    "latlng": [
+      46.83,
+      -56.33
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "FRA"
@@ -2936,6 +3836,10 @@
     "name": "San Vicente y Granadinas",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      13.25,
+      -61.2
+    ],
     "kind": "country"
   },
   {
@@ -2945,6 +3849,10 @@
     "name": "Santa Elena",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      -15.95,
+      -5.72
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "GBR"
@@ -2956,6 +3864,10 @@
     "name": "Santa Lucía",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      13.88,
+      -60.97
+    ],
     "kind": "country"
   },
   {
@@ -2965,6 +3877,10 @@
     "name": "Santo Tomé y Príncipe",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      1,
+      7
+    ],
     "kind": "country"
   },
   {
@@ -2974,6 +3890,10 @@
     "name": "Senegal",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      14,
+      -14
+    ],
     "kind": "country",
     "borders": [
       "GMB",
@@ -2990,6 +3910,10 @@
     "name": "Serbia",
     "continent": "Europa",
     "subregion": "Southeast Europe",
+    "latlng": [
+      44,
+      21
+    ],
     "kind": "country",
     "borders": [
       "BIH",
@@ -3008,6 +3932,10 @@
     "name": "Seychelles",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -4.58,
+      55.67
+    ],
     "kind": "country"
   },
   {
@@ -3017,6 +3945,10 @@
     "name": "Sierra Leone",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      8.5,
+      -11.5
+    ],
     "kind": "country",
     "borders": [
       "GIN",
@@ -3030,6 +3962,10 @@
     "name": "Singapur",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      1.37,
+      103.8
+    ],
     "kind": "country"
   },
   {
@@ -3039,6 +3975,10 @@
     "name": "Sint Maarten",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      18.03,
+      -63.05
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NLD"
@@ -3050,6 +3990,10 @@
     "name": "Siria",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      35,
+      38
+    ],
     "kind": "country",
     "borders": [
       "IRQ",
@@ -3066,6 +4010,10 @@
     "name": "Socotra",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      12.5,
+      53.9
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "YEM",
@@ -3078,6 +4026,10 @@
     "name": "Somalia",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      10,
+      49
+    ],
     "kind": "country",
     "borders": [
       "DJI",
@@ -3092,6 +4044,10 @@
     "name": "Somalilandia",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      9.5,
+      45
+    ],
     "kind": "territory",
     "type": "de-facto",
     "parent": "SOM"
@@ -3103,6 +4059,10 @@
     "name": "Sri Lanka",
     "continent": "Asia",
     "subregion": "Southern Asia",
+    "latlng": [
+      7,
+      81
+    ],
     "kind": "country",
     "borders": [
       "IND"
@@ -3115,6 +4075,10 @@
     "name": "Suazilandia",
     "continent": "África",
     "subregion": "Southern Africa",
+    "latlng": [
+      -26.5,
+      31.5
+    ],
     "kind": "country",
     "borders": [
       "MOZ",
@@ -3128,6 +4092,10 @@
     "name": "Sudáfrica",
     "continent": "África",
     "subregion": "Southern Africa",
+    "latlng": [
+      -29,
+      24
+    ],
     "kind": "country",
     "borders": [
       "BWA",
@@ -3145,6 +4113,10 @@
     "name": "Sudán",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      15,
+      30
+    ],
     "kind": "country",
     "borders": [
       "CAF",
@@ -3163,6 +4135,10 @@
     "name": "Sudán del Sur",
     "continent": "África",
     "subregion": "Middle Africa",
+    "latlng": [
+      7,
+      30
+    ],
     "kind": "country",
     "borders": [
       "CAF",
@@ -3180,6 +4156,10 @@
     "name": "Suecia",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      62,
+      15
+    ],
     "kind": "country",
     "borders": [
       "FIN",
@@ -3193,6 +4173,10 @@
     "name": "Suiza",
     "continent": "Europa",
     "subregion": "Western Europe",
+    "latlng": [
+      47,
+      8
+    ],
     "kind": "country",
     "borders": [
       "AUT",
@@ -3209,6 +4193,10 @@
     "name": "Surinam",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      4,
+      -56
+    ],
     "kind": "country",
     "borders": [
       "BRA",
@@ -3222,6 +4210,10 @@
     "name": "Svalbard",
     "continent": "Europa",
     "subregion": "Northern Europe",
+    "latlng": [
+      78,
+      20
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NOR"
@@ -3233,6 +4225,10 @@
     "name": "Tailandia",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      15,
+      100
+    ],
     "kind": "country",
     "borders": [
       "MMR",
@@ -3248,6 +4244,10 @@
     "name": "Taiwán",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      23.5,
+      121
+    ],
     "kind": "territory",
     "type": "de-facto"
   },
@@ -3258,6 +4258,10 @@
     "name": "Tanzania",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -6,
+      35
+    ],
     "kind": "country",
     "borders": [
       "BDI",
@@ -3277,6 +4281,10 @@
     "name": "Tayikistán",
     "continent": "Asia",
     "subregion": "Central Asia",
+    "latlng": [
+      39,
+      71
+    ],
     "kind": "country",
     "borders": [
       "AFG",
@@ -3292,6 +4300,10 @@
     "name": "Territorio Británico del Océano Índico",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -6,
+      71.5
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "GBR"
@@ -3303,6 +4315,10 @@
     "name": "Tíbet",
     "continent": "Asia",
     "subregion": "Eastern Asia",
+    "latlng": [
+      31.5,
+      88
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "CHN",
@@ -3315,6 +4331,10 @@
     "name": "Tierra del Fuego",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -54.3,
+      -68
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "ARG",
@@ -3327,6 +4347,10 @@
     "name": "Tierras Australes Francesas",
     "continent": "Antártida",
     "subregion": "",
+    "latlng": [
+      -49.25,
+      69.17
+    ],
     "kind": "territory",
     "type": "remoto",
     "parent": "FRA"
@@ -3338,6 +4362,10 @@
     "name": "Timor Oriental",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      -8.83,
+      125.92
+    ],
     "kind": "country",
     "borders": [
       "IDN"
@@ -3350,6 +4378,10 @@
     "name": "Togo",
     "continent": "África",
     "subregion": "Western Africa",
+    "latlng": [
+      8,
+      1.17
+    ],
     "kind": "country",
     "borders": [
       "BEN",
@@ -3364,6 +4396,10 @@
     "name": "Tokelau",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -9,
+      -172
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "NZL"
@@ -3375,6 +4411,10 @@
     "name": "Tonga",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -20,
+      -175
+    ],
     "kind": "country"
   },
   {
@@ -3384,6 +4424,10 @@
     "name": "Transnistria",
     "continent": "Europa",
     "subregion": "Eastern Europe",
+    "latlng": [
+      46.84,
+      29.6
+    ],
     "kind": "territory",
     "type": "de-facto",
     "parent": "MDA"
@@ -3395,6 +4439,10 @@
     "name": "Trinidad y Tobago",
     "continent": "América",
     "subregion": "Caribbean",
+    "latlng": [
+      11,
+      -61
+    ],
     "kind": "country"
   },
   {
@@ -3404,6 +4452,10 @@
     "name": "Túnez",
     "continent": "África",
     "subregion": "Northern Africa",
+    "latlng": [
+      34,
+      9
+    ],
     "kind": "country",
     "borders": [
       "DZA",
@@ -3417,6 +4469,10 @@
     "name": "Turkmenistán",
     "continent": "Asia",
     "subregion": "Central Asia",
+    "latlng": [
+      40,
+      60
+    ],
     "kind": "country",
     "borders": [
       "AFG",
@@ -3432,6 +4488,10 @@
     "name": "Turquía",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      39,
+      35
+    ],
     "kind": "country",
     "borders": [
       "ARM",
@@ -3451,6 +4511,10 @@
     "name": "Tuvalu",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -8,
+      178
+    ],
     "kind": "country"
   },
   {
@@ -3460,6 +4524,10 @@
     "name": "Ucrania",
     "continent": "Europa",
     "subregion": "Eastern Europe",
+    "latlng": [
+      49,
+      32
+    ],
     "kind": "country",
     "borders": [
       "BLR",
@@ -3478,6 +4546,10 @@
     "name": "Uganda",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      1,
+      32
+    ],
     "kind": "country",
     "borders": [
       "COD",
@@ -3494,6 +4566,10 @@
     "name": "Uruguay",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      -33,
+      -56
+    ],
     "kind": "country",
     "borders": [
       "ARG",
@@ -3507,6 +4583,10 @@
     "name": "Uzbekistán",
     "continent": "Asia",
     "subregion": "Central Asia",
+    "latlng": [
+      41,
+      64
+    ],
     "kind": "country",
     "borders": [
       "AFG",
@@ -3523,6 +4603,10 @@
     "name": "Vanuatu",
     "continent": "Oceanía",
     "subregion": "Melanesia",
+    "latlng": [
+      -16,
+      167
+    ],
     "kind": "country"
   },
   {
@@ -3532,6 +4616,10 @@
     "name": "Venezuela",
     "continent": "América",
     "subregion": "South America",
+    "latlng": [
+      8,
+      -66
+    ],
     "kind": "country",
     "borders": [
       "BRA",
@@ -3546,6 +4634,10 @@
     "name": "Vietnam",
     "continent": "Asia",
     "subregion": "South-Eastern Asia",
+    "latlng": [
+      16.17,
+      107.83
+    ],
     "kind": "country",
     "borders": [
       "KHM",
@@ -3560,6 +4652,10 @@
     "name": "Wallis y Futuna",
     "continent": "Oceanía",
     "subregion": "Polynesia",
+    "latlng": [
+      -13.3,
+      -176.2
+    ],
     "kind": "territory",
     "type": "dependencia",
     "parent": "FRA"
@@ -3571,6 +4667,10 @@
     "name": "Yemen",
     "continent": "Asia",
     "subregion": "Western Asia",
+    "latlng": [
+      15,
+      48
+    ],
     "kind": "country",
     "borders": [
       "OMN",
@@ -3584,6 +4684,10 @@
     "name": "Zambia",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -15,
+      30
+    ],
     "kind": "country",
     "borders": [
       "AGO",
@@ -3603,6 +4707,10 @@
     "name": "Zanzíbar",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -6.15,
+      39.3
+    ],
     "kind": "territory",
     "type": "region",
     "parent": "TZA",
@@ -3615,6 +4723,10 @@
     "name": "Zimbabue",
     "continent": "África",
     "subregion": "Eastern Africa",
+    "latlng": [
+      -20,
+      30
+    ],
     "kind": "country",
     "borders": [
       "BWA",

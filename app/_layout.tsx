@@ -97,6 +97,7 @@ function Shell() {
       >
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="ranking" />
+        <Stack.Screen name="casa" />
       </Stack>
     </>
   )
