@@ -21,6 +21,7 @@ import { exportAll, importAll, SCHEMA_VERSION } from '../src/lib/backupCore'
 import type { Visit } from '../src/types'
 import { achievementsOf, longestBorderChain, pendingNotices, USED_CODES, ACHIEVEMENTS } from '../src/lib/achievements'
 import { extremesOf, distanceKm, formatDegrees } from '../src/lib/extremes'
+import { timelineOf, yearSummary } from '../src/lib/timeline'
 import { rarityOf, pointsFromTourists, adventureOf, footprintOf, ranking, LEVELS, MANUAL_POINTS } from '../src/lib/rarity'
 
 let failures = 0
@@ -353,6 +354,34 @@ async function main() {
     eq('grados norte', formatDegrees(78.2, 'lat'), '78° N')
     eq('grados oeste', formatDegrees(-3.7, 'lon'), '4° O')
     eq('el ecuador, sin letra', formatDegrees(0.3, 'lat'), '0°')
+  }
+
+  console.log('\n=== 15. Línea de tiempo ===')
+  {
+    const v = (code: string, year?: number, status: 'been' | 'want' = 'been'): Visit => ({ code, status, year, addedAt: 0, updatedAt: 0 })
+    const t = timelineOf([
+      v('ITA', 2019),
+      v('ESP', 2015),
+      v('ENG', 2015),
+      v('SCT', 2019),
+      v('GIB', 2019),
+      v('JPN'),
+      v('PER', 2019, 'want'),
+      v('FRA', 2023),
+    ])
+    eq('años en orden, del más antiguo al más reciente', t.years.map((y) => y.year).join(), '2015,2019,2023')
+    eq('2015 estrena España y Reino Unido (por Inglaterra)', t.years[0].newCountries, 2)
+    // Escocia en 2019 no estrena el Reino Unido: ya estaba desde 2015.
+    eq('2019 estrena solo Italia', t.years[1].newCountries, 1)
+    eq('2019 trae 2 territorios (Escocia y Gibraltar)', t.years[1].territories, 2)
+    eq('los sitios del año, por nombre', t.years[1].codes.join(), 'SCT,GIB,ITA')
+    eq('acumulado al acabar 2023', t.years[2].totalCountries, 4)
+    eq('lo que no tiene año va aparte', t.undated.join(), 'JPN')
+    check('«quiero ir» no sale', !t.years.some((y) => y.codes.includes('PER')))
+    eq('sin visitas, vacía', timelineOf([]).years.length, 0)
+    eq('resumen', yearSummary(2, 1), '+2 países · 1 territorio')
+    eq('resumen en singular', yearSummary(1, 0), '+1 país')
+    eq('un año solo de repetidos', yearSummary(0, 0), 'Ningún país nuevo')
   }
 
   console.log(

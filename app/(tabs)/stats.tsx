@@ -9,6 +9,10 @@ import { useSettings } from '../../src/hooks/useSettings'
 import { computeStats } from '../../src/lib/library'
 import { adventureOf, footprintOf, formatCount } from '../../src/lib/rarity'
 import { extremesOf, formatDegrees } from '../../src/lib/extremes'
+import { timelineOf, yearSummary } from '../../src/lib/timeline'
+
+/** Años que caben en la tarjeta; el resto, en la línea de tiempo. */
+const RECENT_YEARS = 5
 import { nameOf } from '../../src/lib/countries'
 import { countByTransport } from '../../src/lib/transports'
 import { TransportIcon } from '../../src/ui/TransportIcon'
@@ -23,6 +27,9 @@ export default function StatsScreen() {
   const footprint = useMemo(() => footprintOf(visits), [visits])
   const { homeCode } = useSettings()
   const extremes = useMemo(() => extremesOf(visits, homeCode), [visits, homeCode])
+  const timeline = useMemo(() => timelineOf(visits), [visits])
+  const recentYears = timeline.years.slice(-RECENT_YEARS).reverse()
+  const maxNew = Math.max(1, ...recentYears.map((y) => y.newCountries + y.territories))
   const maxTransport = transports[0]?.count ?? 0
 
   return (
@@ -150,6 +157,56 @@ export default function StatsScreen() {
             <Txt variant="small" tone="faint">
               Medido desde el centro de cada sitio, no desde su punta.
             </Txt>
+          </Card>
+        )}
+
+        {(timeline.years.length > 0 || timeline.undated.length > 0) && (
+          <Card>
+            <Txt variant="title">Año a año</Txt>
+            {recentYears.length === 0 ? (
+              <Txt variant="small" tone="muted">
+                Ponle el año a cada sitio desde su ficha y aquí verás qué estrenaste cada año.
+              </Txt>
+            ) : (
+              recentYears.map((y) => {
+                const pct = Math.round(((y.newCountries + y.territories) / maxNew) * 100)
+                return (
+                  <View key={y.year} style={{ gap: space.xs }}>
+                    <View style={styles.row}>
+                      <Txt variant="small">{y.year}</Txt>
+                      <Txt variant="data" tone="muted">
+                        {yearSummary(y.newCountries, y.territories)}
+                      </Txt>
+                    </View>
+                    <View style={[styles.bar, { backgroundColor: palette.surface2 }]}>
+                      <View style={[styles.barFill, { width: `${pct}%`, backgroundColor: palette.mapBeen }]} />
+                    </View>
+                  </View>
+                )
+              })
+            )}
+            <Pressable
+              onPress={() => router.push('/linea')}
+              accessibilityRole="button"
+              style={({ pressed }) => [styles.link, { borderColor: palette.line, opacity: pressed ? 0.6 : 1 }]}
+            >
+              <View style={{ flex: 1 }}>
+                <Txt variant="section">Línea de tiempo</Txt>
+                <Txt variant="small" tone="muted">
+                  {[
+                    recentYears.length > 0 ? 'Todos tus años, con cada sitio.' : '',
+                    timeline.undated.length > 0
+                      ? `${timeline.undated.length} ${timeline.undated.length === 1 ? 'sitio' : 'sitios'} sin año${recentYears.length > 0 ? '.' : ': pónselo desde aquí.'}`
+                      : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                </Txt>
+              </View>
+              <Txt variant="title" tone="muted">
+                ›
+              </Txt>
+            </Pressable>
           </Card>
         )}
 

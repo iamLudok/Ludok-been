@@ -7,7 +7,7 @@ import { Button } from '../ui/Button'
 import { TransportIcon } from '../ui/TransportIcon'
 import { nameOf, getByCca3, contextOf, territoriesOf } from '../lib/countries'
 import { rarityLine } from '../lib/rarity'
-import { setStatus, clearStatus, setTransports } from '../lib/library'
+import { setStatus, clearStatus, setTransports, setYear as saveYear } from '../lib/library'
 import {
   TRANSPORTS,
   isKnownTransport,
@@ -57,6 +57,19 @@ export default function CountrySheet({ code, current, onClose, inline, onHeight,
   const parsedYear = () => {
     const n = parseInt(year, 10)
     return Number.isFinite(n) && n > 0 ? n : undefined
+  }
+
+  // En un sitio ya marcado, el año se guarda en cuanto es un año completo
+  // (o se borra), igual que los transportes: antes solo se guardaba al
+  // pulsar «Visitado» otra vez, y quien lo escribía y cerraba la ficha lo
+  // perdía sin aviso. Con 4 cifras y no a cada tecla, para no guardar «20»
+  // camino de «2023».
+  const changeYear = (text: string) => {
+    setYear(text)
+    if (!current) return
+    const t = text.trim()
+    if (t === '') saveYear(code, undefined).catch(() => {})
+    else if (/^\d{4}$/.test(t)) saveYear(code, parseInt(t, 10)).catch(() => {})
   }
 
   const choose = async (status: CountryStatus) => {
@@ -149,7 +162,7 @@ export default function CountrySheet({ code, current, onClose, inline, onHeight,
           </Txt>
           <TextInput
             value={year}
-            onChangeText={setYear}
+            onChangeText={changeYear}
             placeholder="p.ej. 2023"
             placeholderTextColor={palette.faint}
             keyboardType="numeric"

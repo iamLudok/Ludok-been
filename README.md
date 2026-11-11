@@ -72,6 +72,7 @@ entirely on your phone**.
 - 📊 **Stats**: countries visited out of 195, territories visited, % of the world, continents visited, a breakdown by continent and by transport.
 - 🏔️ **Adventure points**: every place has a rarity score from 1 (France, the most visited country) to 100 (Tuvalu), based on international tourist arrivals on a log scale. Your total gives you a level, from *Turista* to *Leyenda*, and Stats shows the rarest places you've been.
 - 👣 **Your footprint**: the % of the 195 countries' land area you've set foot in, and the % of humanity that lives where you've been.
+- 📅 **Year by year**: what you visited each year, how many new countries and territories it brought and your running total, with a full timeline screen. Places without a year are listed apart, ready to be dated from their card.
 - 🧭 **Extremes**: the northernmost, southernmost, easternmost and westernmost places you've been, and, once you pick your home country, the farthest one from home in km. Measured from the centre of each place, so Svalbard counts but visiting Russia doesn't put you in the Arctic.
 - 🎖️ **Challenges**: 16 achievements shown as passport stamps, with progress: a state that doesn't exist (Transnistria, Abkhazia…), Europe's microstates, the Crown Dependencies, the Balkans, the Caucasus, all continents, a chain of 10 countries crossing land borders, 10 places by train… You get a notice the first time you unlock each one.
 - 🏆 **Ranking**: countries sorted by rarity, area or population, filtered by visited or still missing (in the *Retos* tab).
@@ -189,7 +190,7 @@ code that runs on the phone**:
 
 ```bash
 npm run verify:data       # backup round trip (export/import), password never exported
-npm run verify:library    # rules: visit status, transports, stats, territories, rarity, achievements, extremes
+npm run verify:library    # rules: visit status, transports, stats, territories, rarity, achievements, extremes, timeline
 npm run verify:migration  # the schema is created idempotently
 npm run verify:map        # pan, zoom and camera maths; every country is tappable
 ```
