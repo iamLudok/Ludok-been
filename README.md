@@ -168,9 +168,9 @@ Then:
 ```bash
 npm run build:apk                    # all architectures
 ./scripts/build-apk.sh --compartir   # arm64-v8a only, smaller, for sharing
-# → android/app/build/outputs/apk/release/app-release.apk
+# → dist/Ludok-Been-<version>.apk (or -arm64.apk), named after the version in app.json
 
-adb install -r android/app/build/outputs/apk/release/app-release.apk
+adb install -r dist/Ludok-Been-1.1.0-arm64.apk
 ```
 
 It has to be a **release** build: a debug APK loads its JavaScript from the Metro server, so it

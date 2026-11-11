@@ -43,6 +43,16 @@ cd android
   -Pandroid.injected.signing.key.password="$keyPassword"
 
 APK="app/build/outputs/apk/release/app-release.apk"
+
+# Gradle siempre lo llama app-release.apk. Se deja una copia con nombre propio
+# (nombre y versión de app.json) en dist/, que git ya ignora.
+VERSION="$(node -p "require('../app.json').expo.version")"
+SUFFIX=""
+[ -n "$ARCHS" ] && SUFFIX="-arm64"
+NAMED="../dist/Ludok-Been-${VERSION}${SUFFIX}.apk"
+mkdir -p ../dist
+cp "$APK" "$NAMED"
+
 echo
-echo "APK listo: android/$APK"
-ls -lh "$APK"
+echo "APK listo: dist/$(basename "$NAMED")"
+ls -lh "$NAMED"
