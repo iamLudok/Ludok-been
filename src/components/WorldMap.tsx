@@ -11,7 +11,10 @@ import {
   FillType,
   PaintStyle,
   createPicture,
+  matchFont,
+  StrokeJoin,
   type SkPath,
+  type SkFont,
 } from '@shopify/react-native-skia'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import {
@@ -47,6 +50,7 @@ import {
   type TouchAnchor,
 } from '../lib/mapTransform'
 import { getByCca3 } from '../lib/countries'
+import { placeLabels, LABELS_FROM_SCALE, type PlacedLabel } from '../lib/mapLabels'
 import { usePalette } from '../ui/ThemeProvider'
 import { Txt } from '../ui/Text'
 import { mapMarks, radius, space } from '../ui/theme'
@@ -233,6 +237,81 @@ function MarkerLayer({
     />
   )
   return diamond ? <Group transform={[{ rotate: Math.PI / 4 }]}>{dots}</Group> : dots
+}
+
+/**
+ * La fuente de los nombres, creada una sola vez. `sans-serif` es la del
+ * sistema en Android (Roboto); la app solo se compila para Android.
+ */
+let labelFont: SkFont | null = null
+function getLabelFont(): SkFont {
+  if (!labelFont) labelFont = matchFont({ fontFamily: 'sans-serif', fontSize: mapMarks.label, fontWeight: '600' })
+  return labelFont
+}
+
+/** Anchos ya medidos: los mismos ~280 nombres se miden en cada zoom. */
+const labelWidths = new Map<string, number>()
+function measureLabel(text: string): number {
+  let w = labelWidths.get(text)
+  if (w === undefined) {
+    w = getLabelFont().measureText(text).width
+    labelWidths.set(text, w)
+  }
+  return w
+}
+
+/**
+ * Los nombres de los países, grabados como una imagen en cada fotograma.
+ *
+ * Una imagen y no un nodo `<Text>` por nombre, por lo mismo que el mapa
+ * (ver `recordTile`): con 50 nombres serían 50 nodos que mover desde
+ * JavaScript en cada fotograma del arrastre. Grabarlos en el hilo de la
+ * interfaz es una pasada por una lista y se reproduce en nativo.
+ *
+ * Cada nombre lleva primero un contorno del color del mar y luego la
+ * letra: así se lee igual sobre morado, sobre gris o sobre el agua.
+ */
+function LabelLayer({ labels, camera, palette }: { labels: PlacedLabel[]; camera: Camera; palette: Palette }) {
+  const { k, translateX, translateY, scale, containerW, containerH } = camera
+  const paints = useMemo(() => {
+    const halo = Skia.Paint()
+    halo.setAntiAlias(true)
+    halo.setStyle(PaintStyle.Stroke)
+    halo.setStrokeWidth(mapMarks.labelHalo)
+    halo.setStrokeJoin(StrokeJoin.Round)
+    halo.setColor(Skia.Color(palette.mapSea))
+    const country = Skia.Paint()
+    country.setAntiAlias(true)
+    country.setColor(Skia.Color(palette.fg))
+    // Los territorios, un punto más apagados: se distinguen de los países
+    // sin otro color (el color del mapa es el estado, ver los marcadores).
+    const territory = Skia.Paint()
+    territory.setAntiAlias(true)
+    territory.setColor(Skia.Color(palette.muted))
+    return { halo, country, territory }
+  }, [palette])
+  const font = getLabelFont()
+  const picture = useDerivedValue(() => {
+    const kk = k.value
+    const x0 = wrapTranslateX(translateX.value, containerW.value * scale.value)
+    const y0 = translateY.value
+    const w = containerW.value
+    const h = containerH.value
+    return createPicture((canvas) => {
+      for (const l of labels) {
+        for (let t = -1; t <= 1; t++) {
+          const x = (l.x + t * MAP_WIDTH) * kk + x0 + l.dx
+          const y = l.y * kk + y0 + l.dy
+          // Fuera de la pantalla no se graba (con margen para nombres largos).
+          if (x > w + 10 || x < -300 || y < -20 || y > h + 20) continue
+          canvas.drawText(l.text, x, y, paints.halo, font)
+          canvas.drawText(l.text, x, y, l.territory ? paints.territory : paints.country, font)
+        }
+      }
+    }, Skia.XYWHRect(0, 0, Math.max(1, w), Math.max(1, h)))
+  }, [labels, paints, font])
+  if (!labels.length) return null
+  return <Picture picture={picture} />
 }
 
 export default function WorldMap({ statusByCode, onSelect, selected, bottomInset = 0, topInset = 0 }: Props) {
@@ -542,6 +621,19 @@ export default function WorldMap({ statusByCode, onSelect, selected, bottomInset
 
   const camera = { k, translateX, translateY, scale, containerW, containerH }
 
+  // Nombres: como los marcadores, se deciden al terminar cada gesto (o al
+  // empezar cada zoom animado, que ya pone `settledScale` en su destino).
+  const labels = useMemo(() => {
+    if (!size.width || settledScale < LABELS_FROM_SCALE) return []
+    return placeLabels({
+      ppu: pxPerUnit(settledScale, size.width),
+      measure: measureLabel,
+      fontSize: mapMarks.label,
+      markerGap: mapMarks.dot + mapMarks.dotRing + 3,
+      selected,
+    })
+  }, [settledScale, size.width, selected])
+
   const canZoomIn = settledScale < MAX_SCALE - 1e-6
   const canZoomOut = settledScale > MIN_SCALE + 1e-6
   const selectedFill = selected ? fillFor(statusByCode.get(selected), palette) : palette.mapEmpty
@@ -609,6 +701,8 @@ export default function WorldMap({ statusByCode, onSelect, selected, bottomInset
                   <MarkerLayer flat={markers.byShape[shape].been} shape={shape} size={2 * mapMarks.dot} color={palette.mapBeen} camera={camera} />
                 </Group>
               ))}
+              {/* Encima de todo: un nombre tapado por un punto no se lee. */}
+              <LabelLayer labels={labels} camera={camera} palette={palette} />
             </Canvas>
           )}
         </View>

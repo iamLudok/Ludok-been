@@ -130,6 +130,10 @@ export const mapMarks = {
   selected: 2,
   /** Halo alrededor del seleccionado. */
   halo: 9,
+  /** Tamaño de letra de los nombres de países. */
+  label: 11,
+  /** Contorno del color del mar alrededor de cada letra, para leerla sobre cualquier relleno. */
+  labelHalo: 3,
 } as const
 
 /** Escala tipográfica. `data` se usa donde hay cifras que deben cuadrar. */

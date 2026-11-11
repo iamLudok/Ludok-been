@@ -36,6 +36,8 @@ import {
   hostCode,
 } from '../src/lib/geo'
 import { COUNTRIES } from '../src/lib/countries'
+import { MAP_SHAPES, shapeContains } from '../src/lib/geo'
+import { placeLabels, POINT_LABELS_MIN_PPU } from '../src/lib/mapLabels'
 
 let failures = 0
 function check(label: string, ok: boolean, detail = '') {
@@ -486,6 +488,49 @@ async function main() {
   }
   check('el mar no es ningún país', shapeAt(MAP_WIDTH * 0.35, MAP_HEIGHT * 0.55) === null)
   check('todos los sitios caen dentro del lienzo', MAP_SITES.every((s) => s.anchor[0] >= 0 && s.anchor[0] <= MAP_WIDTH && s.anchor[1] >= 0 && s.anchor[1] <= MAP_HEIGHT))
+  console.log('\n=== 11. Nombres de países ===')
+  {
+    // Medida aproximada de Roboto semibold a 11: ~0,58 em por letra.
+    const fontSize = 11
+    const measure = (t: string) => t.length * fontSize * 0.58
+    const at = (scale: number, selected?: string) =>
+      placeLabels({ ppu: (scale * W) / MAP_WIDTH, measure, fontSize, markerGap: 8, selected })
+    const fuera = MAP_SHAPES.filter((s) => s.code && !shapeContains(s, s.label[0], s.label[1])).map((s) => s.code)
+    check('el punto del nombre cae dentro de su país (no en el vecino)', fuera.length === 0, fuera.join(', '))
+    const mundo = at(1.6)
+    const cerca = at(8)
+    check('con poco zoom, pocos nombres y de países grandes', mundo.length > 0 && mundo.length < 40, `${mundo.length}`)
+    check('a vista de mundo y algo, Rusia tiene nombre', mundo.some((l) => l.code === 'RUS'))
+    check('el Vaticano no, todavía', !mundo.some((l) => l.code === 'VAT'))
+    check('ampliando, más nombres', cerca.length > mundo.length, `${mundo.length} → ${cerca.length}`)
+    check('con zoom, España tiene nombre', cerca.some((l) => l.code === 'ESP'))
+    // Ningún par de nombres se pisa (mismas cajas que usa placeLabels, sin el hueco).
+    for (const [label, list, scale] of [['a poco zoom', mundo, 1.6], ['con zoom', cerca, 8], ['al máximo', at(MAX_SCALE), MAX_SCALE]] as const) {
+      const ppu = (scale * W) / MAP_WIDTH
+      const box = (l: (typeof list)[number]) => {
+        const x = l.x * ppu + l.dx
+        const y = l.y * ppu + l.dy
+        return [x, y - fontSize * 0.8, x + measure(l.text), y + fontSize * 0.25]
+      }
+      let overlaps = 0
+      for (let i = 0; i < list.length; i++) {
+        const [l1, t1, r1, b1] = box(list[i])
+        for (let j = i + 1; j < list.length; j++) {
+          const [l2, t2, r2, b2] = box(list[j])
+          if (l1 < r2 && r1 > l2 && t1 < b2 && b1 > t2) overlaps++
+        }
+      }
+      check(`ningún nombre pisa a otro (${label})`, overlaps === 0, `${overlaps}`)
+    }
+    const ppuPoints = POINT_LABELS_MIN_PPU * 0.9
+    const sinPuntos = placeLabels({ ppu: ppuPoints, measure, fontSize, markerGap: 8 })
+    check('por debajo del umbral, los puntos (Andorra…) no llevan nombre', !sinPuntos.some((l) => l.dx > 0))
+    check('pero el seleccionado sí, aunque sea un punto', at(1.6, 'TUV').some((l) => l.code === 'TUV' && l.dx > 0))
+    const conPuntos = at(30)
+    check('con mucho zoom, Gibraltar lleva nombre junto a su punto', conPuntos.some((l) => l.code === 'GIB' && l.dx > 0))
+    check('cada sitio sale una vez como mucho', new Set(cerca.map((l) => l.code)).size === cerca.length)
+  }
+
   console.log(
     failures === 0
       ? '\n✅ TODO CORRECTO — el zoom ancla donde tocas\n'

@@ -369,19 +369,6 @@
     "kind": "country"
   },
   {
-    "cca3": "BHR",
-    "cca2": "BH",
-    "ccn3": "048",
-    "name": "Bahrein",
-    "continent": "Asia",
-    "subregion": "Western Asia",
-    "latlng": [
-      26,
-      50.55
-    ],
-    "kind": "country"
-  },
-  {
     "cca3": "BGD",
     "cca2": "BD",
     "ccn3": "050",
@@ -408,6 +395,19 @@
     "latlng": [
       13.17,
       -59.53
+    ],
+    "kind": "country"
+  },
+  {
+    "cca3": "BHR",
+    "cca2": "BH",
+    "ccn3": "048",
+    "name": "Baréin",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "latlng": [
+      26,
+      50.55
     ],
     "kind": "country"
   },
@@ -1978,7 +1978,7 @@
     "cca3": "IRN",
     "cca2": "IR",
     "ccn3": "364",
-    "name": "Iran",
+    "name": "Irán",
     "continent": "Asia",
     "subregion": "Southern Asia",
     "latlng": [

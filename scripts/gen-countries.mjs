@@ -121,6 +121,8 @@ const NAME_FIX = {
   HMD: 'Islas Heard y McDonald',
   ATF: 'Tierras Australes Francesas',
   TCA: 'Islas Turcas y Caicos',
+  IRN: 'Irán',
+  BHR: 'Baréin',
 }
 
 /**

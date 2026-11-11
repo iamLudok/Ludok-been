@@ -15,6 +15,11 @@ export interface MapShape {
   main: [number, number, number, number]
   /** Dónde va su marcador (centro del trozo principal). */
   anchor: [number, number] | null
+  /**
+   * Dónde va su nombre: [x, y, ancho libre en horizontal, distancia al
+   * borde]. Es el punto de dentro más alejado del borde (ver gen-map.mjs).
+   */
+  label: [number, number, number, number]
 }
 
 interface MapData {
@@ -42,6 +47,8 @@ export interface MapSite {
   size: number
   /** Caja para encuadrar la cámara al seleccionarlo. */
   frame: [number, number, number, number]
+  /** Solo los que tienen forma: dónde va el nombre (ver `MapShape.label`). */
+  label?: [number, number, number, number]
 }
 
 export const MAP_SITES: MapSite[] = [
@@ -52,6 +59,7 @@ export const MAP_SITES: MapSite[] = [
       anchor: s.anchor,
       size: Math.max(s.main[2] - s.main[0], s.main[3] - s.main[1]),
       frame: s.main,
+      label: s.label,
     })),
   ...data.points.map((p) => ({
     code: p.code,

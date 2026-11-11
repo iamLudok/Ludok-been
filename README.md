@@ -64,6 +64,7 @@ entirely on your phone**.
 
 - 🗺️ **Interactive world map**: tap a country to mark it, drag to move around (with inertia), and zoom with the + and − buttons. The map wraps horizontally, so you can keep scrolling past the Pacific. It's drawn with Skia, so it stays sharp up to 60× zoom.
 - 📍 **Tiny countries are tappable**: countries too small to hit with a finger (Vatican City, Monaco, Tuvalu…) get a dot on the map.
+- 🏷️ **Country names when you zoom in**: names appear as soon as they fit inside their country, placed at the point farthest from its borders, and never overlap. Zoomed in further, tiny countries and territories get their name next to their dot.
 - 🎯 **Selected country stands out**: tapping a country frames it above its card, with a highlighted outline, and the map stays usable underneath.
 - ✅ **Two states per place**: **Visited** or **Want to go**, with an optional year.
 - 🚆 **How you got around**: mark the transport you used in each country (plane, train, car, bus, boat, motorbike, bike, on foot) or type your own.
