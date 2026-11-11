@@ -19,6 +19,7 @@ import { WORLD_TOTAL, sovereignByContinent, COUNTRIES, TERRITORIES, getByCca3, t
 import { countByTransport } from '../src/lib/transports'
 import { exportAll, importAll, SCHEMA_VERSION } from '../src/lib/backupCore'
 import type { Visit } from '../src/types'
+import { rarityOf, pointsFromTourists, adventureOf, footprintOf, ranking, LEVELS, MANUAL_POINTS } from '../src/lib/rarity'
 
 let failures = 0
 function check(label: string, ok: boolean, detail = '') {
@@ -227,6 +228,65 @@ async function main() {
   )
   eq('línea de contexto de Gibraltar', contextOf(getByCca3('GIB')!), 'Dependencia de Reino Unido')
   eq('Nagorno Karabaj marcado como desaparecido', contextOf(getByCca3('x-nagorno-karabaj')!), 'Estado de facto · reclamado por Azerbaiyán · ya no existe')
+
+  console.log('\n=== 10. Rareza y puntos de aventura ===')
+  const been = (...codes: string[]): Visit[] => codes.map((code) => ({ code, status: 'been', addedAt: 0, updatedAt: 0 }))
+  check('todos los sitios tienen rareza', COUNTRIES.every((c) => rarityOf(c.cca3) !== undefined), COUNTRIES.filter((c) => !rarityOf(c.cca3)).map((c) => c.cca3).join(' '))
+  check('puntos entre 1 y 100', COUNTRIES.every((c) => { const p = rarityOf(c.cca3)!.points; return p >= 1 && p <= 100 }))
+  eq('Francia (el más visitado) vale 1', rarityOf('FRA')?.points, 1)
+  eq('Tuvalu vale 100', rarityOf('TUV')?.points, 100)
+  check('más turistas = menos puntos', pointsFromTourists(1_000_000) < pointsFromTourists(10_000))
+  check('Islandia es más rara que España', rarityOf('ISL')!.points > rarityOf('ESP')!.points)
+  check('Liechtenstein (de excursión) no es más raro que Islandia', rarityOf('LIE')!.points < rarityOf('ISL')!.points)
+  check('ni Mónaco', rarityOf('MCO')!.points < rarityOf('ISL')!.points)
+  check('los puntos a mano solo se usan para sitios que existen', Object.keys(MANUAL_POINTS).every((c) => !!getByCca3(c)))
+  eq('sin visitas: 0 puntos y primer nivel', adventureOf([]).points, 0)
+  eq('primer nivel', adventureOf([]).level.name, LEVELS[0].name)
+  {
+    const a = adventureOf(been('ESP', 'TUV'))
+    eq('España + Tuvalu = 6 + 100', a.points, rarityOf('ESP')!.points + 100)
+    eq('lo más raro primero', a.top[0].code, 'TUV')
+  }
+  {
+    // Escocia puntúa por sí misma Y da el Reino Unido; marcar además
+    // Inglaterra no vuelve a sumar el Reino Unido.
+    const a = adventureOf(been('SCT', 'ENG'))
+    eq('Escocia + Inglaterra = Reino Unido una vez + las dos naciones', a.points, rarityOf('GBR')!.points + rarityOf('SCT')!.points + rarityOf('ENG')!.points)
+  }
+  {
+    const a = adventureOf([{ code: 'TUV', status: 'want', addedAt: 0, updatedAt: 0 }])
+    eq('«quiero ir» no puntúa', a.points, 0)
+  }
+  {
+    const a = adventureOf(been(...COUNTRIES.map((c) => c.cca3)))
+    eq('con todo visitado, último nivel', a.level.name, LEVELS[LEVELS.length - 1].name)
+    eq('y la barra llena', a.progress, 1)
+  }
+
+  console.log('\n=== 11. Huella: superficie y población ===')
+  {
+    const all = footprintOf(been(...COUNTRIES.map((c) => c.cca3)))
+    eq('todo visitado = 100 % de la superficie', all.areaPct, 100)
+    eq('y 100 % de la población', all.populationPct, 100)
+    const none = footprintOf([])
+    eq('nada visitado = 0 %', none.areaPct, 0)
+    const ru = footprintOf(been('RUS'))
+    check('Rusia sola es más del 10 % de la superficie', ru.areaPct > 10, `${ru.areaPct}`)
+    const gib = footprintOf(been('GIB'))
+    eq('Gibraltar (dependencia) no suma superficie de país', gib.areaPct, 0)
+    const sct = footprintOf(been('SCT'))
+    eq('Escocia cuenta el Reino Unido entero', sct.areaPct, footprintOf(been('GBR')).areaPct)
+  }
+
+  console.log('\n=== 12. Rankings ===')
+  {
+    const r = ranking('rarity')
+    eq('el ranking de países tiene los 195', r.length, 195)
+    check('ordenado de más a menos', r.every((x, i) => i === 0 || r[i - 1].value >= x.value))
+    eq('el país más grande es Rusia', ranking('area')[0].country.cca3, 'RUS')
+    check('el más poblado es India o China', ['IND', 'CHN'].includes(ranking('population')[0].country.cca3))
+    check('con territorios, el ranking de rareza es más largo', ranking('rarity', true).length > 195)
+  }
 
   console.log(
     failures === 0

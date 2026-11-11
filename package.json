@@ -55,6 +55,7 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p verify",
     "build:apk": "bash scripts/build-apk.sh",
     "verify:map": "tsx verify/map.ts",
-    "gen:map": "node scripts/gen-map.mjs"
+    "gen:map": "node scripts/gen-map.mjs",
+    "gen:indicators": "node scripts/gen-indicators.mjs"
   }
 }

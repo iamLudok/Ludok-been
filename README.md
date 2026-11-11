@@ -69,6 +69,9 @@ entirely on your phone**.
 - 🚆 **How you got around**: mark the transport you used in each country (plane, train, car, bus, boat, motorbike, bike, on foot) or type your own.
 - 📋 **List**: countries grouped by continent and territories grouped by type, with search.
 - 📊 **Stats**: countries visited out of 195, territories visited, % of the world, continents visited, a breakdown by continent and by transport.
+- 🏔️ **Adventure points**: every place has a rarity score from 1 (France, the most visited country) to 100 (Tuvalu), based on international tourist arrivals on a log scale. Your total gives you a level, from *Turista* to *Leyenda*, and Stats shows the rarest places you've been.
+- 👣 **Your footprint**: the % of the 195 countries' land area you've set foot in, and the % of humanity that lives where you've been.
+- 🏆 **Ranking**: countries sorted by rarity, area or population, filtered by visited or still missing.
 - 🌍 **Countries and territories, kept apart**: the **195 countries** are the 193 UN members plus its two observers (Vatican City and Palestine), and they're the only thing your world % counts. Everything else worth marking is a **territory**, with its own counter: de facto states (Transnistria, Abkhazia, Somaliland…), the UK nations, singular regions (Basque Country, Canary Islands, Tibet, Galápagos…), dependencies (Gibraltar, Faroe Islands, Isle of Man…), overseas departments and remote islands.
 - 🧭 **Clear rule for what counts**: a territory adds its country only if it's part of it. Scotland counts towards the UK and the Canary Islands towards Spain, but Gibraltar doesn't count towards the UK and Martinique doesn't count towards France.
 - 🌗 **Dark and light theme**, selectable in *Ajustes → Tema*.
@@ -248,6 +251,7 @@ coordinates, so the app ships neither d3 nor the atlas and hit-testing is plain 
 ## Data Sources & Credits
 
 - **Country metadata** (names, codes, continents) comes from [mledoze/countries](https://github.com/mledoze/countries) (`world-countries`), licensed under the [Open Database License (ODbL) 1.0](https://opendatacommons.org/licenses/odbl/1-0/). The derived file [`src/data/countries.json`](src/data/countries.json) is distributed under the same license.
+- **Tourist arrivals and population** come from the [World Bank's World Development Indicators](https://datacatalog.worldbank.org/search/dataset/0037712/World-Development-Indicators) (`ST.INT.ARVL`, sourced from UN Tourism, and `SP.POP.TOTL`), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Arrivals use the latest year up to 2019, since 2020 is distorted by COVID, and are stored rounded in [`src/data/indicators.json`](src/data/indicators.json) (`npm run gen:indicators`). Countries with no data and most territories get a hand-set rarity, listed in [`src/lib/rarity.ts`](src/lib/rarity.ts).
 - **Map geometry** comes from [Natural Earth](https://www.naturalearthdata.com/) 1:50m (public domain), through [world-atlas](https://github.com/topojson/world-atlas). The UK nation shapes in [`src/data/uk-nations.json`](src/data/uk-nations.json) are cut from Natural Earth's 1:50m map subunits.
 - The geometry is projected at build time with [d3-geo](https://github.com/d3/d3-geo) and [topojson-client](https://github.com/topojson/topojson-client), and drawn on the phone with [React Native Skia](https://github.com/Shopify/react-native-skia).
 

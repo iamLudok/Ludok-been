@@ -6,6 +6,7 @@ import { Txt } from '../ui/Text'
 import { Button } from '../ui/Button'
 import { TransportIcon } from '../ui/TransportIcon'
 import { nameOf, getByCca3, contextOf, territoriesOf } from '../lib/countries'
+import { rarityLine } from '../lib/rarity'
 import { setStatus, clearStatus, setTransports } from '../lib/library'
 import {
   TRANSPORTS,
@@ -134,6 +135,11 @@ export default function CountrySheet({ code, current, onClose, inline, onHeight,
                 {meta.parent && onOpen ? '  ›' : ''}
               </Txt>
             </Pressable>
+          )}
+          {rarityLine(code) && (
+            <Txt variant="small" tone="faint">
+              {rarityLine(code)}
+            </Txt>
           )}
         </View>
 

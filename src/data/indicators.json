@@ -1,0 +1,1397 @@
+{
+ "sources": {
+  "tourists": "Banco Mundial (WDI, ST.INT.ARVL, datos de ONU Turismo), último año hasta 2019. CC BY 4.0",
+  "population": "Banco Mundial (WDI, SP.POP.TOTL). CC BY 4.0",
+  "area": "world-countries (ODbL)"
+ },
+ "bySite": {
+  "AFG": {
+   "tourists": 20000,
+   "touristsEstimated": true,
+   "population": 43844111,
+   "area": 652230
+  },
+  "ALA": {
+   "area": 1580
+  },
+  "ALB": {
+   "tourists": 6400000,
+   "touristsYear": 2019,
+   "population": 2349580,
+   "area": 28748
+  },
+  "DEU": {
+   "tourists": 40000000,
+   "touristsYear": 2019,
+   "population": 83491249,
+   "area": 357114
+  },
+  "AND": {
+   "tourists": 8200000,
+   "touristsYear": 2019,
+   "population": 82904,
+   "area": 468
+  },
+  "AGO": {
+   "tourists": 220000,
+   "touristsYear": 2019,
+   "population": 39040039,
+   "area": 1246700
+  },
+  "AIA": {
+   "area": 91
+  },
+  "ATA": {
+   "area": 14000000
+  },
+  "ATG": {
+   "tourists": 1000000,
+   "touristsYear": 2019,
+   "population": 94209,
+   "area": 442
+  },
+  "SAU": {
+   "tourists": 20000000,
+   "touristsYear": 2019,
+   "population": 36973555,
+   "area": 2149690
+  },
+  "DZA": {
+   "tourists": 2400000,
+   "touristsYear": 2019,
+   "population": 47435312,
+   "area": 2381741
+  },
+  "ARG": {
+   "tourists": 7400000,
+   "touristsYear": 2019,
+   "population": 45851378,
+   "area": 2780400
+  },
+  "ARM": {
+   "tourists": 1900000,
+   "touristsYear": 2019,
+   "population": 3086700,
+   "area": 29743
+  },
+  "ABW": {
+   "tourists": 2000000,
+   "touristsYear": 2019,
+   "population": 108785,
+   "area": 180
+  },
+  "AUS": {
+   "tourists": 9500000,
+   "touristsYear": 2019,
+   "population": 27614411,
+   "area": 7692024
+  },
+  "AUT": {
+   "tourists": 32000000,
+   "touristsYear": 2019,
+   "population": 9208163,
+   "area": 83871
+  },
+  "AZE": {
+   "tourists": 3200000,
+   "touristsYear": 2019,
+   "population": 10246996,
+   "area": 86600
+  },
+  "BHS": {
+   "tourists": 7300000,
+   "touristsYear": 2019,
+   "population": 403033,
+   "area": 13943
+  },
+  "BHR": {
+   "tourists": 11000000,
+   "touristsYear": 2019,
+   "population": 1600366,
+   "area": 765
+  },
+  "BGD": {
+   "tourists": 320000,
+   "touristsYear": 2019,
+   "population": 175686899,
+   "area": 147570
+  },
+  "BRB": {
+   "tourists": 970000,
+   "touristsYear": 2019,
+   "population": 282623,
+   "area": 430
+  },
+  "BEL": {
+   "tourists": 9300000,
+   "touristsYear": 2019,
+   "population": 11941781,
+   "area": 30528
+  },
+  "BLZ": {
+   "tourists": 1700000,
+   "touristsYear": 2019,
+   "population": 422924,
+   "area": 22966
+  },
+  "BEN": {
+   "tourists": 340000,
+   "touristsYear": 2019,
+   "population": 14814460,
+   "area": 112622
+  },
+  "BMU": {
+   "tourists": 810000,
+   "touristsYear": 2019,
+   "population": 64555,
+   "area": 54
+  },
+  "BLR": {
+   "tourists": 12000000,
+   "touristsYear": 2019,
+   "population": 9085991,
+   "area": 207600
+  },
+  "BOL": {
+   "tourists": 1200000,
+   "touristsYear": 2019,
+   "population": 12581843,
+   "area": 1098581
+  },
+  "BIH": {
+   "tourists": 1200000,
+   "touristsYear": 2019,
+   "population": 3140095,
+   "area": 51209
+  },
+  "BWA": {
+   "tourists": 1800000,
+   "touristsYear": 2018,
+   "population": 2562122,
+   "area": 582000
+  },
+  "BRA": {
+   "tourists": 6400000,
+   "touristsYear": 2019,
+   "population": 212812405,
+   "area": 8515767
+  },
+  "BRN": {
+   "tourists": 4400000,
+   "touristsYear": 2019,
+   "population": 466330,
+   "area": 5765
+  },
+  "BGR": {
+   "tourists": 13000000,
+   "touristsYear": 2019,
+   "population": 6433302,
+   "area": 110879
+  },
+  "BFA": {
+   "tourists": 140000,
+   "touristsYear": 2019,
+   "population": 24074580,
+   "area": 272967
+  },
+  "BDI": {
+   "tourists": 300000,
+   "touristsYear": 2017,
+   "population": 14390003,
+   "area": 27834
+  },
+  "BTN": {
+   "tourists": 320000,
+   "touristsYear": 2019,
+   "population": 796682,
+   "area": 38394
+  },
+  "CPV": {
+   "tourists": 760000,
+   "touristsYear": 2019,
+   "population": 527326,
+   "area": 4033
+  },
+  "KHM": {
+   "tourists": 6600000,
+   "touristsYear": 2019,
+   "population": 17847982,
+   "area": 181035
+  },
+  "CMR": {
+   "tourists": 1000000,
+   "touristsYear": 2019,
+   "population": 29879337,
+   "area": 475442
+  },
+  "CAN": {
+   "tourists": 32000000,
+   "touristsYear": 2019,
+   "population": 41651653,
+   "area": 9984670
+  },
+  "BES": {
+   "area": 328
+  },
+  "QAT": {
+   "tourists": 2100000,
+   "touristsYear": 2019,
+   "population": 2972215,
+   "area": 11586
+  },
+  "TCD": {
+   "tourists": 81000,
+   "touristsYear": 2019,
+   "population": 21003705,
+   "area": 1284000
+  },
+  "CZE": {
+   "tourists": 37000000,
+   "touristsYear": 2019,
+   "population": 10886878,
+   "area": 78865
+  },
+  "CHL": {
+   "tourists": 5400000,
+   "touristsYear": 2019,
+   "population": 19859921,
+   "area": 756102
+  },
+  "CHN": {
+   "tourists": 160000000,
+   "touristsYear": 2019,
+   "population": 1406585000,
+   "area": 9706961
+  },
+  "CYP": {
+   "tourists": 4100000,
+   "touristsYear": 2019,
+   "population": 1370754,
+   "area": 9251
+  },
+  "VAT": {
+   "tourists": 6000000,
+   "touristsEstimated": true,
+   "population": 800,
+   "area": 0.44
+  },
+  "COL": {
+   "tourists": 4500000,
+   "touristsYear": 2019,
+   "population": 53425635,
+   "area": 1141748
+  },
+  "COM": {
+   "tourists": 45000,
+   "touristsYear": 2019,
+   "population": 882847,
+   "area": 1862
+  },
+  "COG": {
+   "tourists": 160000,
+   "touristsYear": 2018,
+   "population": 6484437,
+   "area": 342000
+  },
+  "COD": {
+   "tourists": 350000,
+   "touristsYear": 2016,
+   "population": 112832473,
+   "area": 2344858
+  },
+  "PRK": {
+   "tourists": 100000,
+   "touristsEstimated": true,
+   "population": 26571036,
+   "area": 120538
+  },
+  "KOR": {
+   "tourists": 18000000,
+   "touristsYear": 2019,
+   "population": 51684564,
+   "area": 100210
+  },
+  "CIV": {
+   "tourists": 2100000,
+   "touristsYear": 2019,
+   "population": 32711547,
+   "area": 322463
+  },
+  "CRI": {
+   "tourists": 3400000,
+   "touristsYear": 2019,
+   "population": 5152950,
+   "area": 51100
+  },
+  "HRV": {
+   "tourists": 60000000,
+   "touristsYear": 2019,
+   "population": 3876200,
+   "area": 56594
+  },
+  "CUB": {
+   "tourists": 4300000,
+   "touristsYear": 2019,
+   "population": 10937203,
+   "area": 109884
+  },
+  "CUW": {
+   "tourists": 1300000,
+   "touristsYear": 2019,
+   "population": 156263,
+   "area": 444
+  },
+  "DNK": {
+   "tourists": 33000000,
+   "touristsYear": 2019,
+   "population": 6009169,
+   "area": 43094
+  },
+  "DJI": {
+   "tourists": 63000,
+   "touristsYear": 2013,
+   "population": 1184076,
+   "area": 23200
+  },
+  "DMA": {
+   "tourists": 320000,
+   "touristsYear": 2019,
+   "population": 65871,
+   "area": 751
+  },
+  "ECU": {
+   "tourists": 2100000,
+   "touristsYear": 2019,
+   "population": 18289896,
+   "area": 276841
+  },
+  "EGY": {
+   "tourists": 13000000,
+   "touristsYear": 2019,
+   "population": 118365995,
+   "area": 1002450
+  },
+  "SLV": {
+   "tourists": 2600000,
+   "touristsYear": 2019,
+   "population": 6365503,
+   "area": 21041
+  },
+  "ARE": {
+   "tourists": 25000000,
+   "touristsYear": 2019,
+   "population": 11513149,
+   "area": 83600
+  },
+  "ERI": {
+   "tourists": 140000,
+   "touristsYear": 2016,
+   "population": 3607003,
+   "area": 117600
+  },
+  "SVK": {
+   "tourists": 15000000,
+   "touristsYear": 2018,
+   "population": 5413813,
+   "area": 49037
+  },
+  "SVN": {
+   "tourists": 4700000,
+   "touristsYear": 2019,
+   "population": 2130986,
+   "area": 20273
+  },
+  "ESP": {
+   "tourists": 130000000,
+   "touristsYear": 2019,
+   "population": 49355143,
+   "area": 505992
+  },
+  "USA": {
+   "tourists": 170000000,
+   "touristsYear": 2019,
+   "population": 341784857,
+   "area": 9372610
+  },
+  "EST": {
+   "tourists": 6100000,
+   "touristsYear": 2019,
+   "population": 1366475,
+   "area": 45227
+  },
+  "ETH": {
+   "tourists": 810000,
+   "touristsYear": 2019,
+   "population": 135472051,
+   "area": 1104300
+  },
+  "PHL": {
+   "tourists": 8300000,
+   "touristsYear": 2019,
+   "population": 116786962,
+   "area": 342353
+  },
+  "FIN": {
+   "tourists": 3300000,
+   "touristsYear": 2019,
+   "population": 5646436,
+   "area": 338424
+  },
+  "FJI": {
+   "tourists": 970000,
+   "touristsYear": 2019,
+   "population": 933154,
+   "area": 18272
+  },
+  "FRA": {
+   "tourists": 220000000,
+   "touristsYear": 2019,
+   "population": 68720337,
+   "area": 551695
+  },
+  "GAB": {
+   "tourists": 150000,
+   "touristsEstimated": true,
+   "population": 2593130,
+   "area": 267668
+  },
+  "GMB": {
+   "tourists": 620000,
+   "touristsYear": 2019,
+   "population": 2822093,
+   "area": 10689
+  },
+  "GEO": {
+   "tourists": 7700000,
+   "touristsYear": 2019,
+   "population": 3935766,
+   "area": 69700
+  },
+  "SGS": {
+   "area": 3903
+  },
+  "GHA": {
+   "tourists": 900000,
+   "touristsYear": 2015,
+   "population": 35064272,
+   "area": 238533
+  },
+  "GIB": {
+   "population": 40126,
+   "area": 6
+  },
+  "GRC": {
+   "tourists": 34000000,
+   "touristsYear": 2019,
+   "population": 10413962,
+   "area": 131990
+  },
+  "GRD": {
+   "tourists": 530000,
+   "touristsYear": 2019,
+   "population": 117303,
+   "area": 344
+  },
+  "GRL": {
+   "population": 56831,
+   "area": 2166086
+  },
+  "GLP": {
+   "area": 1628
+  },
+  "GUM": {
+   "tourists": 1700000,
+   "touristsYear": 2019,
+   "population": 168999,
+   "area": 549
+  },
+  "GTM": {
+   "tourists": 2600000,
+   "touristsYear": 2019,
+   "population": 18687881,
+   "area": 108889
+  },
+  "GUF": {
+   "area": 83534
+  },
+  "GGY": {
+   "area": 78
+  },
+  "GIN": {
+   "tourists": 99000,
+   "touristsYear": 2017,
+   "population": 15099727,
+   "area": 245857
+  },
+  "GNQ": {
+   "tourists": 50000,
+   "touristsEstimated": true,
+   "population": 1938431,
+   "area": 28051
+  },
+  "GNB": {
+   "tourists": 52000,
+   "touristsYear": 2019,
+   "population": 2249515,
+   "area": 36125
+  },
+  "GUY": {
+   "tourists": 320000,
+   "touristsYear": 2019,
+   "population": 835986,
+   "area": 214969
+  },
+  "HTI": {
+   "tourists": 940000,
+   "touristsYear": 2019,
+   "population": 11906095,
+   "area": 27750
+  },
+  "HND": {
+   "tourists": 2300000,
+   "touristsYear": 2019,
+   "population": 11005850,
+   "area": 112492
+  },
+  "HKG": {
+   "tourists": 56000000,
+   "touristsYear": 2019,
+   "population": 7498900,
+   "area": 1104
+  },
+  "HUN": {
+   "tourists": 61000000,
+   "touristsYear": 2019,
+   "population": 9514251,
+   "area": 93028
+  },
+  "IND": {
+   "tourists": 18000000,
+   "touristsYear": 2019,
+   "population": 1463865525,
+   "area": 3287590
+  },
+  "IDN": {
+   "tourists": 16000000,
+   "touristsYear": 2019,
+   "population": 285721236,
+   "area": 1904569
+  },
+  "IRQ": {
+   "tourists": 890000,
+   "touristsYear": 2013,
+   "population": 47020774,
+   "area": 438317
+  },
+  "IRN": {
+   "tourists": 9100000,
+   "touristsYear": 2019,
+   "population": 92417681,
+   "area": 1648195
+  },
+  "IRL": {
+   "tourists": 11000000,
+   "touristsYear": 2019,
+   "population": 5484367,
+   "area": 70273
+  },
+  "BVT": {
+   "area": 49
+  },
+  "IMN": {
+   "population": 84118,
+   "area": 572
+  },
+  "CXR": {
+   "area": 135
+  },
+  "NFK": {
+   "area": 36
+  },
+  "ISL": {
+   "tourists": 2200000,
+   "touristsYear": 2019,
+   "population": 392404,
+   "area": 103000
+  },
+  "CYM": {
+   "tourists": 2300000,
+   "touristsYear": 2019,
+   "population": 75844,
+   "area": 264
+  },
+  "CCK": {
+   "area": 14
+  },
+  "COK": {
+   "area": 236
+  },
+  "FRO": {
+   "population": 54900,
+   "area": 1393
+  },
+  "HMD": {
+   "area": 412
+  },
+  "FLK": {
+   "area": 12173
+  },
+  "MNP": {
+   "tourists": 490000,
+   "touristsYear": 2019,
+   "population": 43541,
+   "area": 464
+  },
+  "MHL": {
+   "tourists": 6100,
+   "touristsYear": 2019,
+   "population": 36282,
+   "area": 181
+  },
+  "UMI": {
+   "area": 34
+  },
+  "SLB": {
+   "tourists": 29000,
+   "touristsYear": 2019,
+   "population": 838645,
+   "area": 28896
+  },
+  "TCA": {
+   "tourists": 1600000,
+   "touristsYear": 2019,
+   "population": 46855,
+   "area": 948
+  },
+  "VGB": {
+   "tourists": 300000,
+   "touristsYear": 2019,
+   "population": 39732,
+   "area": 151
+  },
+  "VIR": {
+   "tourists": 2100000,
+   "touristsYear": 2019,
+   "population": 103792,
+   "area": 347
+  },
+  "ISR": {
+   "tourists": 4900000,
+   "touristsYear": 2019,
+   "population": 10122800,
+   "area": 20770
+  },
+  "ITA": {
+   "tourists": 95000000,
+   "touristsYear": 2019,
+   "population": 58915656,
+   "area": 301336
+  },
+  "JAM": {
+   "tourists": 4200000,
+   "touristsYear": 2019,
+   "population": 2837077,
+   "area": 10991
+  },
+  "JPN": {
+   "tourists": 32000000,
+   "touristsYear": 2019,
+   "population": 123366734,
+   "area": 377930
+  },
+  "JEY": {
+   "area": 116
+  },
+  "JOR": {
+   "tourists": 5400000,
+   "touristsYear": 2019,
+   "population": 11520684,
+   "area": 89342
+  },
+  "KAZ": {
+   "tourists": 8500000,
+   "touristsYear": 2019,
+   "population": 20843754,
+   "area": 2724900
+  },
+  "KEN": {
+   "tourists": 2000000,
+   "touristsYear": 2019,
+   "population": 57532493,
+   "area": 580367
+  },
+  "KGZ": {
+   "tourists": 8500000,
+   "touristsYear": 2019,
+   "population": 7343064,
+   "area": 199951
+  },
+  "KIR": {
+   "tourists": 12000,
+   "touristsYear": 2019,
+   "population": 136488,
+   "area": 811
+  },
+  "UNK": {
+   "area": 10908
+  },
+  "KWT": {
+   "tourists": 8600000,
+   "touristsYear": 2019,
+   "population": 4865298,
+   "area": 17818
+  },
+  "LAO": {
+   "tourists": 4800000,
+   "touristsYear": 2019,
+   "population": 7873046,
+   "area": 236800
+  },
+  "LSO": {
+   "tourists": 1100000,
+   "touristsYear": 2019,
+   "population": 2363325,
+   "area": 30355
+  },
+  "LVA": {
+   "tourists": 8300000,
+   "touristsYear": 2019,
+   "population": 1847785,
+   "area": 64559
+  },
+  "LBN": {
+   "tourists": 1900000,
+   "touristsYear": 2019,
+   "population": 5849421,
+   "area": 10452
+  },
+  "LBR": {
+   "tourists": 30000,
+   "touristsEstimated": true,
+   "population": 5731206,
+   "area": 111369
+  },
+  "LBY": {
+   "tourists": 50000,
+   "touristsEstimated": true,
+   "population": 7458555,
+   "area": 1759540
+  },
+  "LIE": {
+   "tourists": 98000,
+   "touristsYear": 2019,
+   "population": 41024,
+   "area": 160
+  },
+  "LTU": {
+   "tourists": 6200000,
+   "touristsYear": 2019,
+   "population": 2888774,
+   "area": 65300
+  },
+  "LUX": {
+   "tourists": 1000000,
+   "touristsYear": 2019,
+   "population": 686970,
+   "area": 2586
+  },
+  "MAC": {
+   "tourists": 39000000,
+   "touristsYear": 2019,
+   "population": 685900,
+   "area": 30
+  },
+  "MKD": {
+   "tourists": 760000,
+   "touristsYear": 2019,
+   "population": 1820909,
+   "area": 25713
+  },
+  "MDG": {
+   "tourists": 490000,
+   "touristsYear": 2019,
+   "population": 32740678,
+   "area": 587041
+  },
+  "MYS": {
+   "tourists": 26000000,
+   "touristsYear": 2019,
+   "population": 35977838,
+   "area": 330803
+  },
+  "MWI": {
+   "tourists": 870000,
+   "touristsYear": 2018,
+   "population": 22216120,
+   "area": 118484
+  },
+  "MDV": {
+   "tourists": 1700000,
+   "touristsYear": 2019,
+   "population": 529676,
+   "area": 300
+  },
+  "MLI": {
+   "tourists": 220000,
+   "touristsYear": 2019,
+   "population": 25198821,
+   "area": 1240192
+  },
+  "MLT": {
+   "tourists": 3500000,
+   "touristsYear": 2019,
+   "population": 579704,
+   "area": 316
+  },
+  "MAR": {
+   "tourists": 13000000,
+   "touristsYear": 2019,
+   "population": 38430770,
+   "area": 446550
+  },
+  "MTQ": {
+   "area": 1128
+  },
+  "MUS": {
+   "tourists": 1400000,
+   "touristsYear": 2019,
+   "population": 1243741,
+   "area": 2040
+  },
+  "MRT": {
+   "tourists": 50000,
+   "touristsEstimated": true,
+   "population": 5315065,
+   "area": 1030700
+  },
+  "MYT": {
+   "area": 374
+  },
+  "MEX": {
+   "tourists": 97000000,
+   "touristsYear": 2019,
+   "population": 131946900,
+   "area": 1964375
+  },
+  "FSM": {
+   "tourists": 18000,
+   "touristsYear": 2019,
+   "population": 113683,
+   "area": 702
+  },
+  "MDA": {
+   "tourists": 170000,
+   "touristsYear": 2019,
+   "population": 2360527,
+   "area": 33846
+  },
+  "MCO": {
+   "tourists": 360000,
+   "touristsYear": 2019,
+   "population": 38341,
+   "area": 2.02
+  },
+  "MNG": {
+   "tourists": 640000,
+   "touristsYear": 2019,
+   "population": 3568978,
+   "area": 1564110
+  },
+  "MNE": {
+   "tourists": 2500000,
+   "touristsYear": 2019,
+   "population": 623129,
+   "area": 13812
+  },
+  "MSR": {
+   "area": 102
+  },
+  "MOZ": {
+   "tourists": 2000000,
+   "touristsYear": 2019,
+   "population": 35631653,
+   "area": 801590
+  },
+  "MMR": {
+   "tourists": 4400000,
+   "touristsYear": 2019,
+   "population": 54850648,
+   "area": 676578
+  },
+  "NAM": {
+   "tourists": 1700000,
+   "touristsYear": 2019,
+   "population": 3092816,
+   "area": 825615
+  },
+  "NRU": {
+   "tourists": 2000,
+   "touristsEstimated": true,
+   "population": 12025,
+   "area": 21
+  },
+  "NPL": {
+   "tourists": 1200000,
+   "touristsYear": 2019,
+   "population": 29618118,
+   "area": 147181
+  },
+  "NIC": {
+   "tourists": 1500000,
+   "touristsYear": 2019,
+   "population": 7007502,
+   "area": 130373
+  },
+  "NER": {
+   "tourists": 190000,
+   "touristsYear": 2019,
+   "population": 27917831,
+   "area": 1267000
+  },
+  "NGA": {
+   "tourists": 5300000,
+   "touristsYear": 2016,
+   "population": 237527782,
+   "area": 923768
+  },
+  "NIU": {
+   "area": 260
+  },
+  "NOR": {
+   "tourists": 5900000,
+   "touristsYear": 2019,
+   "population": 5610870,
+   "area": 323802
+  },
+  "NCL": {
+   "tourists": 130000,
+   "touristsYear": 2019,
+   "population": 295333,
+   "area": 18575
+  },
+  "NZL": {
+   "tourists": 3900000,
+   "touristsYear": 2019,
+   "population": 5324700,
+   "area": 270467
+  },
+  "OMN": {
+   "tourists": 3500000,
+   "touristsYear": 2019,
+   "population": 5494691,
+   "area": 309500
+  },
+  "NLD": {
+   "tourists": 20000000,
+   "touristsYear": 2019,
+   "population": 18087633,
+   "area": 41850
+  },
+  "PAK": {
+   "tourists": 970000,
+   "touristsYear": 2012,
+   "population": 255219554,
+   "area": 881912
+  },
+  "PLW": {
+   "tourists": 94000,
+   "touristsYear": 2019,
+   "population": 17663,
+   "area": 459
+  },
+  "PSE": {
+   "tourists": 690000,
+   "touristsYear": 2019,
+   "population": 5413596,
+   "area": 6220
+  },
+  "PAN": {
+   "tourists": 2500000,
+   "touristsYear": 2019,
+   "population": 4571189,
+   "area": 75417
+  },
+  "PNG": {
+   "tourists": 210000,
+   "touristsYear": 2019,
+   "population": 10762817,
+   "area": 462840
+  },
+  "PRY": {
+   "tourists": 4400000,
+   "touristsYear": 2019,
+   "population": 7013078,
+   "area": 406752
+  },
+  "PER": {
+   "tourists": 5300000,
+   "touristsYear": 2019,
+   "population": 34576665,
+   "area": 1285216
+  },
+  "PCN": {
+   "area": 47
+  },
+  "PYF": {
+   "tourists": 300000,
+   "touristsYear": 2019,
+   "population": 282465,
+   "area": 4167
+  },
+  "POL": {
+   "tourists": 89000000,
+   "touristsYear": 2019,
+   "population": 36435861,
+   "area": 312679
+  },
+  "PRT": {
+   "tourists": 17000000,
+   "touristsYear": 2019,
+   "population": 10804871,
+   "area": 92090
+  },
+  "PRI": {
+   "tourists": 4900000,
+   "touristsYear": 2019,
+   "population": 3184835,
+   "area": 8870
+  },
+  "GBR": {
+   "tourists": 41000000,
+   "touristsYear": 2019,
+   "population": 69487000,
+   "area": 242900
+  },
+  "CAF": {
+   "tourists": 87000,
+   "touristsYear": 2019,
+   "population": 5513282,
+   "area": 622984
+  },
+  "DOM": {
+   "tourists": 7600000,
+   "touristsYear": 2019,
+   "population": 11520487,
+   "area": 48671
+  },
+  "REU": {
+   "area": 2511
+  },
+  "RWA": {
+   "tourists": 1600000,
+   "touristsYear": 2019,
+   "population": 14569341,
+   "area": 26338
+  },
+  "ROU": {
+   "tourists": 13000000,
+   "touristsYear": 2019,
+   "population": 19020271,
+   "area": 238391
+  },
+  "RUS": {
+   "tourists": 24000000,
+   "touristsYear": 2019,
+   "population": 143513328,
+   "area": 17098242
+  },
+  "ESH": {
+   "area": 266000
+  },
+  "WSM": {
+   "tourists": 180000,
+   "touristsYear": 2019,
+   "population": 219306,
+   "area": 2842
+  },
+  "ASM": {
+   "tourists": 19000,
+   "touristsYear": 2019,
+   "population": 46029,
+   "area": 199
+  },
+  "BLM": {
+   "area": 21
+  },
+  "KNA": {
+   "tourists": 1100000,
+   "touristsYear": 2019,
+   "population": 46922,
+   "area": 261
+  },
+  "SMR": {
+   "tourists": 1900000,
+   "touristsYear": 2019,
+   "population": 34109,
+   "area": 61
+  },
+  "MAF": {
+   "population": 24941,
+   "area": 53
+  },
+  "SPM": {
+   "area": 242
+  },
+  "VCT": {
+   "tourists": 390000,
+   "touristsYear": 2019,
+   "population": 99924,
+   "area": 389
+  },
+  "SHN": {
+   "area": 394
+  },
+  "LCA": {
+   "tourists": 1200000,
+   "touristsYear": 2019,
+   "population": 180149,
+   "area": 616
+  },
+  "STP": {
+   "tourists": 33000,
+   "touristsYear": 2018,
+   "population": 240254,
+   "area": 964
+  },
+  "SEN": {
+   "tourists": 1400000,
+   "touristsYear": 2017,
+   "population": 18931966,
+   "area": 196722
+  },
+  "SRB": {
+   "tourists": 1800000,
+   "touristsYear": 2019,
+   "population": 6549143,
+   "area": 88361
+  },
+  "SYC": {
+   "tourists": 430000,
+   "touristsYear": 2019,
+   "population": 122730,
+   "area": 452
+  },
+  "SLE": {
+   "tourists": 71000,
+   "touristsYear": 2019,
+   "population": 8819794,
+   "area": 71740
+  },
+  "SGP": {
+   "tourists": 19000000,
+   "touristsYear": 2019,
+   "population": 6111175,
+   "area": 710
+  },
+  "SXM": {
+   "tourists": 2000000,
+   "touristsYear": 2019,
+   "population": 43923,
+   "area": 34
+  },
+  "SYR": {
+   "tourists": 2400000,
+   "touristsYear": 2019,
+   "population": 25620427,
+   "area": 185180
+  },
+  "SOM": {
+   "tourists": 30000,
+   "touristsEstimated": true,
+   "population": 19654739,
+   "area": 637657
+  },
+  "LKA": {
+   "tourists": 2000000,
+   "touristsYear": 2019,
+   "population": 21756000,
+   "area": 65610
+  },
+  "SWZ": {
+   "tourists": 1200000,
+   "touristsYear": 2019,
+   "population": 1256174,
+   "area": 17364
+  },
+  "ZAF": {
+   "tourists": 15000000,
+   "touristsYear": 2019,
+   "population": 64747319,
+   "area": 1221037
+  },
+  "SDN": {
+   "tourists": 840000,
+   "touristsYear": 2018,
+   "population": 51662147,
+   "area": 1886068
+  },
+  "SSD": {
+   "tourists": 10000,
+   "touristsEstimated": true,
+   "population": 12188788,
+   "area": 619745
+  },
+  "SWE": {
+   "tourists": 7600000,
+   "touristsYear": 2019,
+   "population": 10596620,
+   "area": 450295
+  },
+  "CHE": {
+   "tourists": 12000000,
+   "touristsYear": 2019,
+   "population": 9092436,
+   "area": 41284
+  },
+  "SUR": {
+   "tourists": 280000,
+   "touristsYear": 2017,
+   "population": 639850,
+   "area": 163820
+  },
+  "SJM": {
+   "area": -1
+  },
+  "THA": {
+   "tourists": 40000000,
+   "touristsYear": 2019,
+   "population": 71619863,
+   "area": 513120
+  },
+  "TWN": {
+   "area": 36193
+  },
+  "TZA": {
+   "tourists": 1500000,
+   "touristsYear": 2019,
+   "population": 70545865,
+   "area": 945087
+  },
+  "TJK": {
+   "tourists": 1000000,
+   "touristsYear": 2018,
+   "population": 10786734,
+   "area": 143100
+  },
+  "IOT": {
+   "area": 60
+  },
+  "ATF": {
+   "area": 7747
+  },
+  "TLS": {
+   "tourists": 75000,
+   "touristsYear": 2019,
+   "population": 1418517,
+   "area": 14874
+  },
+  "TGO": {
+   "tourists": 880000,
+   "touristsYear": 2019,
+   "population": 8591626,
+   "area": 56785
+  },
+  "TKL": {
+   "area": 12
+  },
+  "TON": {
+   "tourists": 94000,
+   "touristsYear": 2019,
+   "population": 103742,
+   "area": 747
+  },
+  "TTO": {
+   "tourists": 480000,
+   "touristsYear": 2019,
+   "population": 1367764,
+   "area": 5130
+  },
+  "TUN": {
+   "tourists": 9400000,
+   "touristsYear": 2019,
+   "population": 12348573,
+   "area": 163610
+  },
+  "TKM": {
+   "tourists": 10000,
+   "touristsEstimated": true,
+   "population": 7618847,
+   "area": 488100
+  },
+  "TUR": {
+   "tourists": 52000000,
+   "touristsYear": 2019,
+   "population": 85878556,
+   "area": 783562
+  },
+  "TUV": {
+   "tourists": 3600,
+   "touristsYear": 2019,
+   "population": 9492,
+   "area": 26
+  },
+  "UKR": {
+   "tourists": 14000000,
+   "touristsYear": 2019,
+   "population": 38980376,
+   "area": 603500
+  },
+  "UGA": {
+   "tourists": 1500000,
+   "touristsYear": 2019,
+   "population": 51384894,
+   "area": 241550
+  },
+  "URY": {
+   "tourists": 3500000,
+   "touristsYear": 2019,
+   "population": 3384688,
+   "area": 181034
+  },
+  "UZB": {
+   "tourists": 6700000,
+   "touristsYear": 2019,
+   "population": 37053428,
+   "area": 447400
+  },
+  "VUT": {
+   "tourists": 260000,
+   "touristsYear": 2019,
+   "population": 335169,
+   "area": 12189
+  },
+  "VEN": {
+   "tourists": 430000,
+   "touristsYear": 2017,
+   "population": 28516896,
+   "area": 916445
+  },
+  "VNM": {
+   "tourists": 18000000,
+   "touristsYear": 2019,
+   "population": 101598527,
+   "area": 331212
+  },
+  "WLF": {
+   "area": 142
+  },
+  "YEM": {
+   "tourists": 400000,
+   "touristsYear": 2015,
+   "population": 41773878,
+   "area": 527968
+  },
+  "ZMB": {
+   "tourists": 1300000,
+   "touristsYear": 2019,
+   "population": 21913874,
+   "area": 752612
+  },
+  "ZWE": {
+   "tourists": 2300000,
+   "touristsYear": 2019,
+   "population": 16950795,
+   "area": 390757
+  }
+ }
+}
